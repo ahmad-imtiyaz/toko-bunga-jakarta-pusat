@@ -22,7 +22,7 @@ $cat_icons = ['🌸','🕊️','💍','💐','🌿','🎊','🎁','🌼'];
 require __DIR__ . '/../includes/header.php';
 ?>
 <!-- ============================================================
-     HERO SECTION — Toko Bunga Tangerang
+     HERO SECTION — Toko Bunga Jakarta Pusat
      Redesign: Elegan & Mewah | Teks Kanan | Palet Pink-Putih-Krem
 ============================================================ -->
 
@@ -505,7 +505,7 @@ require __DIR__ . '/../includes/header.php';
       <!-- Overline -->
       <div class="hero-overline">
         <span class="hero-overline-dot"></span>
-        Florist Terpercaya Tangerang
+        Florist Terpercaya Jakarta Pusat
       </div>
 
       <!-- Headline -->
@@ -1031,7 +1031,7 @@ foreach ($sub_cats as $sc) {
         Layanan <em>Spesial</em><br>untuk Setiap Momen
       </h2>
       <p class="layanan-subtitle">
-        Kami menyediakan berbagai rangkaian bunga segar berkualitas tinggi, dirancang khusus untuk setiap momen spesial Anda di Tangerang.
+        Kami menyediakan berbagai rangkaian bunga segar berkualitas tinggi, dirancang khusus untuk setiap momen spesial Anda di Jakarta Pusat.
       </p>
       <div class="section-ornament">
         <div class="ornament-line"></div>
@@ -1092,7 +1092,7 @@ foreach ($sub_cats as $sc) {
         <p class="layanan-desc"><?= e($cat['description']) ?></p>
         <?php else: ?>
         <p class="layanan-desc">
-          Rangkaian <?= e($cat['name']) ?> kami dirancang dengan penuh perhatian menggunakan bunga-bunga segar pilihan, siap diantar ke seluruh wilayah Tangerang.
+          Rangkaian <?= e($cat['name']) ?> kami dirancang dengan penuh perhatian menggunakan bunga-bunga segar pilihan, siap diantar ke seluruh wilayah Jakarta Pusat.
         </p>
         <?php endif; ?>
 
@@ -2151,7 +2151,7 @@ function filterProduk(catId, btn, parentId) {
 </div>
         <div class="ku-point-body">
           <div class="ku-point-title">Rating 4.9 Bintang</div>
-          <div class="ku-point-desc">Dipercaya lebih dari 500 pelanggan setia dalam 10 tahun melayani Tangerang.</div>
+          <div class="ku-point-desc">Dipercaya lebih dari 500 pelanggan setia dalam 10 tahun melayani Jakarta Pusat.</div>
         </div>
       </div>
     </div>
@@ -2199,7 +2199,7 @@ function filterProduk(catId, btn, parentId) {
 </div>
         <div class="ku-point-body">
           <div class="ku-point-title">Kirim 2–4 Jam</div>
-          <div class="ku-point-desc">Armada siap antar ke seluruh 12 kecamatan Tangerang, hari yang sama.</div>
+          <div class="ku-point-desc">Armada siap antar ke seluruh 12 kecamatan Jakarta Pusat, hari yang sama.</div>
         </div>
       </div>
       <div class="ku-point">
@@ -2244,7 +2244,7 @@ function filterProduk(catId, btn, parentId) {
         <span class="ku-sb-icon">
   <img src="<?= BASE_URL ?>/assets/svg/location.svg" alt="Location Icon">
 </span>
-      <div class="ku-sb-num">Tangerang</div>
+      <div class="ku-sb-num">Jakarta Pusat</div>
       <span class="ku-sb-lbl">Area Layanan</span>
     </div>
     <div class="ku-sb-item">
@@ -2497,7 +2497,7 @@ function filterProduk(catId, btn, parentId) {
       Jangkauan Layanan
     </div>
     <h2 class="area-title">
-      Kami Hadir di <em>Seluruh Tangerang</em>
+      Kami Hadir di <em>Seluruh Jakarta Pusat</em>
     </h2>
     <p class="mt-3 max-w-md mx-auto" style="font:400 14px/1.7 'Jost',sans-serif; color:var(--muted);">
       Pengiriman bunga ke seluruh wilayah — cepat, aman, dan tepat waktu.
@@ -3961,7 +3961,7 @@ function filterProduk(catId, btn, parentId) {
         </h2>
 
         <p class="text-[15px] leading-relaxed mb-7 max-w-xs lg:ml-auto" style="color: var(--muted);">
-          Rangkaian bunga segar terbaik, dikirim tepat waktu ke seluruh wilayah Tangerang.
+          Rangkaian bunga segar terbaik, dikirim tepat waktu ke seluruh wilayah Jakarta Pusat.
         </p>
 
         <!-- Buttons -->
@@ -4006,7 +4006,7 @@ function filterProduk(catId, btn, parentId) {
           <span style="font-size:18px;">⚡</span>
           <div>
             <div class="font-bold text-[12px]" style="color:var(--dark);">Kirim 2–4 Jam</div>
-            <div class="text-[10px]" style="color:var(--muted);">Se-Tangerang</div>
+            <div class="text-[10px]" style="color:var(--muted);">Se-Jakarta Pusat</div>
           </div>
         </div>
 
@@ -4052,7 +4052,7 @@ function filterProduk(catId, btn, parentId) {
            style="background:#fff; border:1.5px solid rgba(212,137,154,.2); box-shadow:0 4px 20px rgba(212,137,154,.12);">
         <span class="text-lg">🌺</span>
         <span class="text-[13px] font-semibold" style="color:var(--dark);">
-          Terpercaya melayani Tangerang sejak 10+ tahun
+          Terpercaya melayani Jakarta Pusat sejak 10+ tahun
         </span>
         <span class="text-lg">🌸</span>
       </div>

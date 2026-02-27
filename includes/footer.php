@@ -1,6 +1,6 @@
 <?php
 $wa_url  = setting('whatsapp_url');
-$wa_msg  = urlencode('Halo, saya ingin memesan bunga dari Toko Bunga Tangerang. Mohon info lebih lanjut.');
+$wa_msg  = urlencode('Halo, saya ingin memesan bunga dari Toko Bunga Jakarta Pusat. Mohon info lebih lanjut.');
 $wa_full = $wa_url . '?text=' . $wa_msg;
 $cats    = db()->query("SELECT name, slug FROM categories WHERE status='active' ORDER BY id LIMIT 10")->fetchAll();
 $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' ORDER BY id")->fetchAll();
@@ -292,7 +292,7 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
       <p>© <?= date('Y') ?> <?= e(setting('site_name')) ?>. Hak cipta dilindungi.</p>
       <div class="flex items-center gap-2">
         <span>🌸</span>
-        <p>Website Florist Tangerang Terpercaya | Pengiriman 24 Jam</p>
+        <p>Website Florist Jakarta Pusat Terpercaya | Pengiriman 24 Jam</p>
         <span>🌸</span>
       </div>
     </div>

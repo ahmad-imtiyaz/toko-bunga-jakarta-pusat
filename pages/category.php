@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 
-$meta_title    = $category['meta_title']    ?: 'Toko Bunga Tangerang - ' . $category['name'];
+$meta_title    = $category['meta_title']    ?: 'Toko Bunga Jakarta Pusat - ' . $category['name'];
 $meta_desc     = $category['meta_description'] ?: '';
-$meta_keywords = $category['name'] . ', toko bunga Tangerang, florist Tangerang';
+$meta_keywords = $category['name'] . ', toko bunga Jakarta Pusat, florist Jakarta Pusat';
 
 $stmt = db()->prepare("SELECT p.*, c.name as cat_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.category_id = ? AND p.status='active' ORDER BY p.id");
 $stmt->execute([$category['id']]);
@@ -280,14 +280,14 @@ require __DIR__ . '/../includes/header.php';
            style="background:rgba(242,196,206,.25); border:1px solid rgba(212,137,154,.3); color:var(--cp-dusty);">
         <span class="w-1.5 h-1.5 rounded-full animate-pulse inline-block"
               style="background:var(--cp-rose);"></span>
-        Florist Terpercaya Tangerang
+        Florist Terpercaya Jakarta Pusat
       </div>
 
       <!-- Judul -->
       <h1 class="reveal reveal-2 leading-tight mb-5"
           style="font:300 clamp(2.4rem,5vw,3.8rem)/1.1 'Cormorant Garamond',serif; color:var(--cp-dark);">
         <?= e($category['name']) ?><br>
-        <em style="font-style:italic; color:var(--cp-dusty);">di Tangerang</em>
+        <em style="font-style:italic; color:var(--cp-dusty);">di Jakarta Pusat</em>
       </h1>
 
       <!-- Deskripsi -->
@@ -295,7 +295,7 @@ require __DIR__ . '/../includes/header.php';
          style="font:400 15px/1.8 'Jost',sans-serif; color:var(--cp-warm);">
         <?= !empty($category['meta_description'])
             ? e($category['meta_description'])
-            : 'Toko bunga Tangerang menyediakan ' . e(strtolower($category['name'])) . ' berkualitas tinggi dengan bunga segar pilihan. Pesan sekarang, kirim cepat ke seluruh Tangerang.' ?>
+            : 'Toko bunga Jakarta Pusat menyediakan ' . e(strtolower($category['name'])) . ' berkualitas tinggi dengan bunga segar pilihan. Pesan sekarang, kirim cepat ke seluruh Jakarta Pusat.' ?>
       </p>
 
       <!-- Stats row -->
@@ -323,7 +323,7 @@ require __DIR__ . '/../includes/header.php';
 
       <!-- CTA -->
       <div class="reveal reveal-4 flex flex-wrap gap-3">
-        <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan ' . $category['name'] . ' di Tangerang.') ?>"
+        <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan ' . $category['name'] . ' di Jakarta Pusat.') ?>"
            target="_blank"
            class="inline-flex items-center gap-2.5 font-bold px-7 py-3.5 rounded-full no-underline transition hover:-translate-y-1"
            style="background:linear-gradient(135deg,var(--cp-blush),var(--cp-dusty)); color:#fff;
@@ -411,7 +411,7 @@ require __DIR__ . '/../includes/header.php';
            style="background:#fff; border:1px solid rgba(212,137,154,.12);">
         <div class="relative overflow-hidden aspect-[3/4]">
           <img src="<?= e($img) ?>"
-               alt="<?= e($prod['name']) ?> Tangerang"
+               alt="<?= e($prod['name']) ?> Jakarta Pusat"
                class="cat-prod-img w-full h-full object-cover" loading="lazy">
 
           <!-- Gradient bawah lembut selalu ada -->
@@ -512,7 +512,7 @@ require __DIR__ . '/../includes/header.php';
           Tentang Layanan
         </div>
         <h2 class="text-2xl md:text-3xl font-black mb-5 leading-tight">
-          <?= e($category['name']) ?> Terbaik<br>di Tangerang
+          <?= e($category['name']) ?> Terbaik<br>di Jakarta Pusat
         </h2>
 
         <?php if (!empty($category['content'])): ?>
@@ -522,7 +522,7 @@ require __DIR__ . '/../includes/header.php';
         <?php endif; ?>
 
         <p class="text-[15px] leading-relaxed mb-8" style="color:var(--cp-muted);">
-          Kami sebagai <strong>florist Tangerang</strong> terpercaya menyediakan
+          Kami sebagai <strong>florist Jakarta Pusat</strong> terpercaya menyediakan
           <?= e(strtolower($category['name'])) ?> berkualitas tinggi dengan harga terjangkau.
           Setiap rangkaian bunga dibuat oleh tim florist profesional menggunakan bunga segar pilihan.
         </p>
@@ -532,7 +532,7 @@ require __DIR__ . '/../includes/header.php';
           <?php
           $keunggulan = [
             'Bunga 100% segar berkualitas premium',
-            'Pengiriman cepat 2–4 jam ke seluruh Tangerang',
+            'Pengiriman cepat 2–4 jam ke seluruh Jakarta Pusat',
             'Harga transparan mulai ' . rupiah($min_price),
             'Desain custom sesuai keinginan Anda',
             'Melayani pesanan mendadak 24 jam',
@@ -568,7 +568,7 @@ require __DIR__ . '/../includes/header.php';
           </div>
           <p class="text-[13px] mb-4 leading-relaxed" style="color:var(--cp-muted);">
             Kami melayani pengiriman <?= e(strtolower($category['name'])) ?>
-            ke seluruh kecamatan di Tangerang:
+            ke seluruh kecamatan di Jakarta Pusat:
           </p>
           <div class="flex flex-wrap gap-2">
             <?php foreach ($locations as $l): ?>
