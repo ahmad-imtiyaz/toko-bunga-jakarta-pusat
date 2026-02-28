@@ -53,7 +53,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
 /* ═══════════════════════════════════════
    FAQ — CORE VARIABLES
 ═══════════════════════════════════════ */
-#faq-makimono {
+#faq {
   --matcha:    #7A8C6E;
   --matcha-dk: #5A6E52;
   --matcha-lt: #A8BF9A;
@@ -84,7 +84,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
 /* ═══════════════════════════════════════
    SECTION WRAPPER
 ═══════════════════════════════════════ */
-#faq-makimono {
+#faq {
   position: relative;
   overflow: hidden;
   background: linear-gradient(
@@ -100,7 +100,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
 }
 
 /* Tatami grid subtle */
-#faq-makimono::before {
+#faq::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -112,7 +112,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
 }
 
 /* Washi noise */
-#faq-makimono::after {
+#faq::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -740,7 +740,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
 <!-- ═══════════════════════════════════════
      FAQ SECTION
 ═══════════════════════════════════════ -->
-<section id="faq-makimono" role="region" aria-label="Pertanyaan yang Sering Ditanyakan">
+<section id="faq" role="region" aria-label="Pertanyaan yang Sering Ditanyakan">
 
   <!-- Kanji floating dekoratif -->
   <div class="faq-float-kanji" style="font-size:180px;left:1%;top:5%;animation-delay:-3s;">問<br>答</div>
