@@ -751,6 +751,13 @@ require __DIR__ . '/../includes/header.php';
   bottom: 0; left: 0;
   width: 200%; height: 100%;
 }
+/* tambahan patal */
+.petal {
+  position: absolute;
+  top: -20px;
+  opacity: 0.5;
+  border-radius: 50%;
+}
 
 /* Responsive */
 @media (max-width: 1023px) {
@@ -778,17 +785,17 @@ require __DIR__ . '/../includes/header.php';
     $col   = $petal_colors[array_rand($petal_colors)];
     $rot   = rand(-30, 30);
   ?>
-  <div class="petal" style="
-    left:<?= $left ?>%;
-    top:-20px;
-    width:<?= $size ?>px;
-    height:<?= round($size*1.4) ?>px;
-    background:<?= $col ?>;
-    opacity:.5;
-    animation-delay:<?= $delay ?>s;
-    animation-duration:<?= $dur ?>s;
-    transform:rotate(<?= $rot ?>deg);
-  "></div>
+  <div class="petal"
+     style="
+       left: <?= $left ?>%;
+       width: <?= $size ?>px;
+       height: <?= round($size*1.4) ?>px;
+       background: <?= $col ?>;
+       animation-delay: <?= $delay ?>s;
+       animation-duration: <?= $dur ?>s;
+       transform: rotate(<?= $rot ?>deg);
+     ">
+</div>
   <?php endfor; ?>
 </div>
 

@@ -35,557 +35,1377 @@ $min_price = !empty($all_prices) ? min($all_prices) : 300000;
 require __DIR__ . '/../includes/header.php';
 ?>
 
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
 <style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TSUKIMI-EN 月見園 — MOONLIT ONSEN
+   Navy · Lavender · Silver Moonlight
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 :root {
-  --blush: #F2C4CE; --rose: #D4899A; --dusty: #C8778A;
-  --cream: #FAF5EE; --ivory: #FDF9F4; --soft: #F7EEF0;
-  --dark:  #2C1A1E; --muted: rgba(44,26,30,.45);
+  --navy:    #0D1B2A;
+  --navy2:   #112236;
+  --navy3:   #162C45;
+  --indigo:  #1E3A5F;
+  --lav:     #C4B5D4;
+  --lav2:    #D8CCE8;
+  --lav3:    #EDE6F5;
+  --silver:  #E8E0F0;
+  --moon:    #F5F0FF;
+  --gold:    #C9A84C;
+  --gold2:   #E2C46A;
+  --sakura:  #FFB7C5;
+  --misty:   rgba(196,181,212,0.15);
+  --moonray: rgba(245,240,255,0.08);
+  --ink:     rgba(13,27,42,0.85);
+  --tsuki:   #F0E8FF; /* moonlight white */
 }
 
-/* Ticker */
-@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.loc-ticker-inner { animation:ticker 22s linear infinite; display:flex; white-space:nowrap; }
+* { box-sizing: border-box; }
 
-/* Shimmer */
-@keyframes shimmer-x { 0%{background-position:-200% center} 100%{background-position:200% center} }
-.rose-line {
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--rose),var(--blush),var(--rose),transparent);
-  background-size:200% auto; animation:shimmer-x 3s linear infinite;
+body { font-family: 'Zen Kaku Gothic New', sans-serif; background: var(--navy); }
+
+/* ══ FIREFLY ANIMATION ══ */
+@keyframes firefly-rise {
+  0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  15%  { opacity: 1; }
+  50%  { transform: translateY(-40vh) translateX(var(--fx,20px)) scale(1); opacity: 0.9; }
+  85%  { opacity: 0.4; }
+  100% { transform: translateY(-80vh) translateX(var(--fx2,−10px)) scale(0.4); opacity: 0; }
 }
-
-/* Reveal */
-@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-.reveal{animation:fadeUp .6s ease both}
-.reveal-1{animation-delay:.1s} .reveal-2{animation-delay:.2s}
-.reveal-3{animation-delay:.3s} .reveal-4{animation-delay:.45s}
-
-/* Petals */
-@keyframes floatPetal {
-  0%,100%{transform:translateY(0) rotate(0deg);opacity:.35}
-  33%{transform:translateY(-28px) rotate(12deg);opacity:.55}
-  66%{transform:translateY(-12px) rotate(-8deg);opacity:.4}
+@keyframes firefly-glow {
+  0%,100% { box-shadow: 0 0 4px 2px rgba(196,181,212,0.5); }
+  50%      { box-shadow: 0 0 12px 5px rgba(245,240,255,0.9), 0 0 24px 10px rgba(196,181,212,0.3); }
 }
-.float-petal { position:absolute; pointer-events:none; user-select:none; font-size:16px; animation:floatPetal var(--dur,7s) ease-in-out var(--del,0s) infinite; opacity:.35; }
-
-.stat-num { font-family:'Playfair Display',serif; background:linear-gradient(135deg,var(--dusty),var(--rose),var(--blush)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-@keyframes pin-pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,137,154,.5)}50%{box-shadow:0 0 0 8px rgba(212,137,154,0)}}
-.pin-dot{animation:pin-pulse 2s ease infinite}
-
-/* ━━━ PINTEREST MASONRY LAYANAN (UPDATED) ━━━ */
-.pin-grid {
-  columns: 2;
-  column-gap: 10px;
-}
-@media(min-width: 640px) { .pin-grid { columns: 3; column-gap: 12px; } }
-@media(min-width: 1024px) { .pin-grid { columns: 4; column-gap: 14px; } }
-
-.pin-item {
-  break-inside: avoid;
-  margin-bottom: 12px;
-  display: block;
-  position: relative;
-}
-
-/* ── Card shell ── */
-.pin-card {
-  position: relative;
-  border-radius: 22px;
-  overflow: hidden;
-  cursor: pointer;
-  display: block;
-  text-decoration: none;
-  --card-h: 220px;
-  height: var(--card-h);
-  transform: translateZ(0);
-  transition: transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .45s ease;
-  will-change: transform, box-shadow;
-  box-shadow: 0 4px 20px rgba(44,26,30,.1);
-}
-.pin-card:hover {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 20px 60px rgba(200,119,138,.38), 0 4px 16px rgba(44,26,30,.12);
-}
-
-/* ── Background layers ── */
-.pin-bg {
+.firefly {
   position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform .7s cubic-bezier(.4,0,.2,1), filter .5s ease;
-}
-.pin-card:hover .pin-bg {
-  transform: scale(1.1);
-  filter: brightness(.85) saturate(1.1);
-}
-
-/* Fallback gradient bg */
-.pin-bg-grad {
-  position: absolute;
-  inset: 0;
-  transition: transform .7s cubic-bezier(.4,0,.2,1);
-}
-.pin-card:hover .pin-bg-grad {
-  transform: scale(1.06);
-}
-
-/* ── Overlay layers ── */
-.pin-ov-base {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(44,26,30,.92) 0%, rgba(44,26,30,.5) 40%, rgba(44,26,30,.08) 75%, transparent 100%);
-  transition: background .4s ease;
-}
-.pin-card:hover .pin-ov-base {
-  background: linear-gradient(to top, rgba(44,26,30,.97) 0%, rgba(44,26,30,.75) 45%, rgba(200,119,138,.15) 72%, transparent 100%);
-}
-
-/* Blush shimmer on hover */
-.pin-ov-shimmer {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 70% 20%, rgba(242,196,206,.22) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-.pin-card:hover .pin-ov-shimmer { opacity: 1; }
-
-/* ── Top badges ── */
-.pin-eyebrow {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 6;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 9px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  color: rgba(253,249,244,.85);
-  background: rgba(44,26,30,.45);
-  backdrop-filter: blur(10px);
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
-  transition: background .25s ease, color .25s ease;
-}
-.pin-card:hover .pin-eyebrow {
-  background: linear-gradient(135deg, var(--dusty), var(--rose));
-  color: #fff;
-  border-color: transparent;
-}
-
-.pin-sub-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 6;
-  font-size: 9px;
-  font-weight: 800;
-  color: rgba(242,196,206,.7);
-  opacity: 0;
-  transform: translateX(4px);
-  transition: opacity .3s ease .1s, transform .3s ease .1s;
-}
-.pin-card:hover .pin-sub-badge { opacity: 1; transform: translateX(0); }
-
-/* ── Bottom content ── */
-.pin-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 16px 16px;
-  z-index: 5;
-}
-
-.pin-accent-line {
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--blush), var(--rose));
-  border-radius: 2px;
-  margin-bottom: 8px;
-  transition: width .4s cubic-bezier(.4,0,.2,1) .05s;
-}
-.pin-card:hover .pin-accent-line { width: 32px; }
-
-.pin-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.2;
-  margin-bottom: 6px;
-  transition: color .2s ease;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  line-clamp: 2; /* tambahkan ini */
-  overflow: hidden;
-}
-.pin-card:hover .pin-name { color: var(--blush); }
-
-/* ── Sub-categories reveal ── */
-.pin-subs {
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    max-height .5s cubic-bezier(.4,0,.2,1),
-    opacity .35s ease .06s,
-    transform .35s ease .06s;
-}
-.pin-card:hover .pin-subs {
-  max-height: 160px;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.pin-sub-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10.5px;
-  font-weight: 600;
-  color: rgba(255,255,255,.55);
-  padding: 2.5px 0;
-  text-decoration: none;
-  transition: color .15s ease, gap .2s ease;
-}
-.pin-sub-item:hover { color: var(--blush); gap: 9px; }
-.pin-sub-item::before {
-  content: '';
-  width: 4px;
-  height: 4px;
+  width: 4px; height: 4px;
   border-radius: 50%;
-  background: rgba(242,196,206,.35);
-  flex-shrink: 0;
-  transition: background .15s ease, width .2s ease, height .2s ease;
-}
-.pin-sub-item:hover::before { background: var(--blush); width: 5px; height: 5px; }
-
-/* ── No-sub CTA ── */
-.pin-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 9.5px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  color: #fff;
-  background: linear-gradient(135deg, var(--dusty), var(--rose));
-  border-radius: 999px;
-  padding: 5px 13px;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity .3s ease .08s, transform .3s ease .08s;
-  text-decoration: none;
-}
-.pin-card:hover .pin-cta { opacity: 1; transform: translateY(0); }
-
-/* ── Decorative large number ── */
-.pin-bignum {
-  position: absolute;
-  bottom: -8px;
-  right: 10px;
-  font-family: 'Playfair Display', serif;
-  font-size: 72px;
-  font-weight: 900;
-  line-height: 1;
-  color: rgba(242,196,206,.05);
-  user-select: none;
+  background: var(--tsuki);
   pointer-events: none;
   z-index: 1;
-  transition: color .35s ease, font-size .35s ease;
+  animation:
+    firefly-rise var(--dur,8s) ease-in var(--del,0s) infinite,
+    firefly-glow 2s ease-in-out var(--del,0s) infinite;
 }
-.pin-card:hover .pin-bignum {
-  color: rgba(242,196,206,.12);
-  font-size: 80px;
+/* Wrapper untuk fireflies agar tidak meledakkan height section */
+.firefly-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ── Icon center for no-image cards ── */
-.pin-icon {
+/* ══ UKIYO-E LAYERS ══ */
+@keyframes float-layer {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes moon-pulse {
+  0%,100% { box-shadow: 0 0 60px 20px rgba(245,240,255,0.25), 0 0 120px 60px rgba(196,181,212,0.1); }
+  50%      { box-shadow: 0 0 80px 30px rgba(245,240,255,0.4), 0 0 160px 80px rgba(196,181,212,0.2); }
+}
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes ink-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+@keyframes fade-up {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.fade-up-1 { animation: fade-up 0.8s ease both 0.1s; }
+.fade-up-2 { animation: fade-up 0.8s ease both 0.3s; }
+.fade-up-3 { animation: fade-up 0.8s ease both 0.5s; }
+.fade-up-4 { animation: fade-up 0.8s ease both 0.7s; }
+
+/* ══ SEIGAIHA PATTERN ══ */
+.seigaiha-bg {
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(ellipse 30px 20px at 30px 20px, transparent 19px, rgba(196,181,212,0.06) 19px, rgba(196,181,212,0.06) 20px, transparent 20px),
+    radial-gradient(ellipse 30px 20px at 0px 20px, transparent 19px, rgba(196,181,212,0.06) 19px, rgba(196,181,212,0.06) 20px, transparent 20px);
+  background-size: 30px 20px;
+}
+
+/* ══ SHIMMER LINE ══ */
+@keyframes shim { 0%{background-position:-200% center}100%{background-position:200% center} }
+.moon-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lav), var(--tsuki), var(--lav), transparent);
+  background-size: 200% auto;
+  animation: shim 4s linear infinite;
+}
+
+/* ═══════════════════════════════════
+   HERO — UKIYO-E LAYERED
+═══════════════════════════════════ */
+.hero-tsukimi {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--navy);
+  padding-top: 80px;
+  display: flex;
+  align-items: center;
+}
+
+/* Sky gradient */
+.hero-sky {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    #060D18 0%,
+    #0D1B2A 30%,
+    #112236 60%,
+    #1a2a45 80%,
+    #1E2D4A 100%);
+}
+
+/* Stars */
+.star-field {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 28% 8%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 5%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 22%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 28%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82% 42%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 38%, rgba(196,181,212,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 30%, rgba(255,255,255,0.6) 0%, transparent 100%);
+}
+
+/* Moon */
+.ukiyo-moon {
+  position: absolute;
+  top: 12%;
+  right: 14%;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, var(--tsuki) 0%, var(--lav3) 50%, var(--lav2) 100%);
+  animation: moon-pulse 5s ease-in-out infinite;
+  z-index: 2;
+}
+.ukiyo-moon::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,232,255,0.15) 0%, transparent 70%);
+}
+
+/* Mountain layers */
+.ukiyo-mtn-far {
+  position: absolute;
+  bottom: 28%;
+  left: 0; right: 0;
+  height: 220px;
+  background: linear-gradient(180deg, transparent 0%, #1a2d50 40%, #162540 100%);
+  clip-path: polygon(0 100%, 8% 40%, 18% 60%, 28% 20%, 40% 55%, 52% 15%, 64% 50%, 75% 25%, 85% 55%, 95% 35%, 100% 50%, 100% 100%);
+  z-index: 3;
+  animation: float-layer 12s ease-in-out infinite;
+}
+.ukiyo-mtn-near {
+  position: absolute;
+  bottom: 18%;
+  left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(180deg, #112036 0%, #0D1B2A 100%);
+  clip-path: polygon(0 100%, 0 70%, 15% 30%, 30% 65%, 45% 20%, 60% 55%, 72% 28%, 85% 58%, 100% 35%, 100% 100%);
+  z-index: 4;
+  animation: float-layer 18s ease-in-out infinite reverse;
+}
+
+/* Cloud strips */
+.ukiyo-clouds {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 200%;
+  z-index: 3;
+  display: flex;
+  gap: 0;
+  animation: cloud-drift 40s linear infinite;
+  pointer-events: none;
+}
+.ukiyo-cloud-strip {
+  flex-shrink: 0;
+  width: 50%;
+  height: 60px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(196,181,212,0.06) 15%,
+    rgba(220,210,235,0.12) 35%,
+    rgba(196,181,212,0.08) 55%,
+    rgba(196,181,212,0.04) 70%,
+    transparent 85%,
+    rgba(196,181,212,0.07) 100%);
+  filter: blur(8px);
+}
+
+/* Sakura tree silhouette — pure CSS */
+.ukiyo-tree {
+  position: absolute;
+  bottom: 15%;
+  right: 8%;
+  z-index: 5;
+  pointer-events: none;
+}
+.tree-trunk {
+  width: 8px; height: 100px;
+  background: linear-gradient(180deg, #2a1a3a, #1a0e28);
+  margin: 0 auto;
+  border-radius: 4px;
+}
+.tree-branch {
+  position: absolute;
+  background: #2a1a3a;
+  border-radius: 2px;
+  transform-origin: bottom left;
+}
+.tree-blossom {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,183,197,0.6), rgba(255,183,197,0.2));
+  filter: blur(8px);
+}
+
+/* Foreground water ripple */
+.ukiyo-water {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 22%;
+  background: linear-gradient(180deg, transparent 0%, rgba(13,27,42,0.8) 40%, #080F1A 100%);
+  z-index: 6;
+}
+.water-line {
+  position: absolute;
+  left: 5%; right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.25), rgba(245,240,255,0.4), rgba(196,181,212,0.25), transparent);
+}
+
+/* Bamboo silhouettes */
+.ukiyo-bamboo {
+  position: absolute;
+  bottom: 16%;
+  left: 4%;
+  z-index: 5;
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.bamboo-stalk {
+  width: 5px;
+  background: linear-gradient(180deg, rgba(13,40,20,0.6), rgba(8,25,12,0.8));
+  border-radius: 3px;
+  position: relative;
+}
+.bamboo-stalk::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  height: 1px;
+}
+@keyframes bamboo-sway {
+  0%,100% { transform: rotate(0deg); transform-origin: bottom center; }
+  33%      { transform: rotate(1.5deg); transform-origin: bottom center; }
+  66%      { transform: rotate(-1deg); transform-origin: bottom center; }
+}
+.bamboo-stalk { animation: bamboo-sway var(--bs,6s) ease-in-out infinite; }
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: 0 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Kanji watermark */
+.kanji-watermark {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Shippori Mincho', serif;
+  font-size: clamp(120px, 18vw, 220px);
+  font-weight: 800;
+  color: rgba(196,181,212,0.04);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════
+   TICKER — MOONLIT STYLE
+═══════════════════════════════════ */
+@keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.tsuki-ticker {
+  background: linear-gradient(90deg, var(--navy2), var(--indigo), var(--navy2));
+  border-top: 1px solid rgba(196,181,212,0.15);
+  border-bottom: 1px solid rgba(196,181,212,0.15);
+  overflow: hidden;
+  padding: 10px 0;
+}
+.tsuki-ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker-scroll 28s linear infinite;
+}
+.tsuki-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 28px;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(196,181,212,0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.tsuki-ticker-item.active { color: var(--lav2); }
+.tsuki-ticker-sep {
+  display: inline-block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(196,181,212,0.25);
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════
+   BYOBU FOLDING SCREEN — LAYANAN
+═══════════════════════════════════ */
+.byobu-section {
+  background: var(--navy2);
+  position: relative;
+  overflow: hidden;
+}
+.byobu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+@media(min-width: 768px) { .byobu-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width: 1100px) { .byobu-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.byobu-panel {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  border-right: 1px solid rgba(196,181,212,0.08);
+  border-bottom: 1px solid rgba(196,181,212,0.08);
+  cursor: pointer;
+  transition: flex 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Alternating panel tilt — folding screen effect */
+.byobu-panel:nth-child(even) {
+  background: linear-gradient(170deg, var(--navy3) 0%, var(--navy2) 100%);
+}
+.byobu-panel:nth-child(odd) {
+  background: linear-gradient(190deg, var(--navy2) 0%, #0e2035 100%);
+}
+
+/* Fold shadow line on right edge */
+.byobu-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg,
+    transparent,
+    rgba(196,181,212,0.12) 30%,
+    rgba(245,240,255,0.2) 50%,
+    rgba(196,181,212,0.12) 70%,
+    transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Gold top strip */
+.byobu-panel::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+}
+.byobu-panel:hover::after { opacity: 1; }
+
+/* Panel image bg */
+.byobu-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
+  filter: brightness(0.35) saturate(0.7);
+}
+.byobu-panel:hover .byobu-bg {
+  transform: scale(1.08);
+  filter: brightness(0.55) saturate(1.1);
+}
+
+/* Gradient fallbacks */
+.byobu-grad-0 { background: linear-gradient(160deg, #1a1535, #2a2050, #1a1a35); }
+.byobu-grad-1 { background: linear-gradient(160deg, #0f1a30, #1a2840, #0f2030); }
+.byobu-grad-2 { background: linear-gradient(160deg, #1a1030, #251540, #1a1030); }
+.byobu-grad-3 { background: linear-gradient(160deg, #0d2035, #152a45, #0d2035); }
+.byobu-grad-4 { background: linear-gradient(160deg, #1a1238, #221848, #1a1238); }
+.byobu-grad-5 { background: linear-gradient(160deg, #0f2230, #182d40, #0f2230); }
+
+/* Seigaiha overlay on panels */
+.byobu-seigaiha {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 20px 14px at 20px 14px, transparent 12px, rgba(196,181,212,0.04) 12px, rgba(196,181,212,0.04) 13px, transparent 13px),
+    radial-gradient(ellipse 20px 14px at 0 14px, transparent 12px, rgba(196,181,212,0.04) 12px, rgba(196,181,212,0.04) 13px, transparent 13px);
+  background-size: 20px 14px;
+  opacity: 0.5;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+.byobu-panel:hover .byobu-seigaiha { opacity: 0; }
+
+/* Panel content */
+.byobu-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,12,22,0.97) 0%, rgba(13,27,42,0.7) 45%, transparent 100%);
+  z-index: 2;
+  transition: background 0.4s ease;
+}
+.byobu-panel:hover .byobu-overlay {
+  background: linear-gradient(to top, rgba(6,12,22,0.99) 0%, rgba(13,27,42,0.82) 55%, rgba(196,181,212,0.05) 100%);
+}
+
+.byobu-body {
+  position: relative;
+  z-index: 3;
+  padding: 20px 22px 24px;
+}
+
+/* Vertical kanji number */
+.byobu-kanji-num {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 11px;
+  font-weight: 600;
+  writing-mode: vertical-rl;
+  color: rgba(196,181,212,0.25);
+  letter-spacing: 0.12em;
+  transition: color 0.3s ease;
+}
+.byobu-panel:hover .byobu-kanji-num { color: rgba(196,181,212,0.55); }
+
+.byobu-icon {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  font-size: 36px;
-  filter: drop-shadow(0 2px 12px rgba(0,0,0,.25));
+  transform: translate(-50%, -60%);
+  font-size: 40px;
+  opacity: 0.2;
   z-index: 2;
-  opacity: .35;
-  transition: opacity .35s ease, transform .4s cubic-bezier(.34,1.56,.64,1);
   pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.4s ease;
 }
-.pin-card:hover .pin-icon {
+.byobu-panel:hover .byobu-icon {
   opacity: 0;
-  transform: translate(-50%, -60%) scale(.6);
+  transform: translate(-50%, -80%);
 }
 
-/* ── Sparkle corner ── */
-.pin-sparkle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 80px;
-  height: 80px;
-  background: conic-gradient(from 200deg, rgba(242,196,206,.2) 0deg, transparent 60deg);
-  border-radius: 0 22px 0 100%;
-  transition: width .4s ease, height .4s ease, opacity .4s ease;
-  opacity: .6;
-  pointer-events: none;
+/* Gold accent line */
+.byobu-goldline {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--lav));
+  margin-bottom: 10px;
+  transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
 }
-.pin-card:hover .pin-sparkle { width: 120px; height: 120px; opacity: 1; }
+.byobu-panel:hover .byobu-goldline { width: 36px; }
 
-/* ── Card border glow ── */
-.pin-card::after {
+.byobu-panel-name {
+  font-family: 'Shippori Mincho', serif;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-weight: 700;
+  color: var(--silver);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  transition: color 0.25s ease;
+}
+.byobu-panel:hover .byobu-panel-name { color: var(--lav2); }
+
+.byobu-count-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(196,181,212,0.5);
+  margin-bottom: 10px;
+}
+.byobu-count-chip::before {
+  content: '';
+  display: inline-block;
+  width: 12px; height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+/* Sub reveals */
+.byobu-subs {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, transform 0.35s ease;
+}
+.byobu-panel:hover .byobu-subs { max-height: 200px; opacity: 1; transform: translateY(0); }
+
+.byobu-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: rgba(196,181,212,0.5);
+  padding: 3px 0;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+.byobu-sub-item:hover { color: var(--lav2); }
+.byobu-sub-item::before {
+  content: '·';
+  color: var(--gold);
+  opacity: 0.5;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.byobu-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  border-radius: 2px;
+  padding: 6px 14px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.byobu-panel:hover .byobu-cta { opacity: 1; transform: translateY(0); }
+
+/* Divider ornament */
+.byobu-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+}
+.byobu-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.2), transparent);
+}
+.byobu-divider-kanji {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 18px;
+  color: rgba(196,181,212,0.2);
+}
+
+/* ═══════════════════════════════════
+   TANZAKU SCROLL — PRODUK CARDS
+═══════════════════════════════════ */
+.tanzaku-section {
+  background: linear-gradient(180deg, var(--navy) 0%, #080E1A 100%);
+  position: relative;
+  overflow: visible;
+}
+
+/* Per-category scroll row */
+.tanzaku-row { margin-bottom: 48px; }
+.tanzaku-row-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 0 2px;
+}
+.tanzaku-row-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  color: var(--silver);
+}
+.tanzaku-row-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(196,181,212,0.2), transparent);
+}
+.tanzaku-row-count {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(196,181,212,0.35);
+  text-transform: uppercase;
+}
+
+/* Horizontal scroll container */
+.tanzaku-scroll-wrap {
+  position: relative;
+}
+.tanzaku-scroll-wrap::before,
+.tanzaku-scroll-wrap::after {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 22px;
-  border: 1.5px solid transparent;
-  transition: border-color .35s ease;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 4;
   pointer-events: none;
+}
+.tanzaku-scroll-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--navy), transparent);
+}
+.tanzaku-scroll-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, #080E1A, transparent);
+}
+
+.tanzaku-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+.tanzaku-scroll::-webkit-scrollbar { display: none; }
+
+/* THE TANZAKU CARD — vertical scroll/poem paper */
+.tanzaku-card {
+  flex: 0 0 165px;
+  height: 310px;
+  border-radius: 6px 6px 40px 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+  /* Tanzaku paper texture */
+  background: linear-gradient(180deg,
+    #1a1430 0%,
+    #14102a 40%,
+    #0f0c22 100%);
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(196,181,212,0.1),
+    inset 1px 0 0 rgba(196,181,212,0.05),
+    inset -1px 0 0 rgba(196,181,212,0.05);
+}
+.tanzaku-card:hover {
+  transform: translateY(-10px) rotate(-1deg);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,0.6),
+    0 8px 24px rgba(196,181,212,0.15),
+    inset 0 1px 0 rgba(196,181,212,0.15);
+}
+
+/* String at top (like real tanzaku hanging from bamboo) */
+.tanzaku-string {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: 22px;
+  background: linear-gradient(180deg, transparent, rgba(196,181,212,0.4));
   z-index: 10;
 }
-.pin-card:hover::after { border-color: rgba(212,137,154,.45); }
 
-/* ── Gradient fallbacks ── */
-.pg-0 { background: linear-gradient(145deg, #fde8ef, #f2c4ce, #e8a8b8); }
-.pg-1 { background: linear-gradient(145deg, #f5dce0, #edb5c0, #d4899a); }
-.pg-2 { background: linear-gradient(145deg, #fdf0f2, #f7e0e5, #f2c4ce); }
-.pg-3 { background: linear-gradient(145deg, #f0d4da, #d4899a, #c8778a); }
-.pg-4 { background: linear-gradient(145deg, #fce4eb, #f2c4ce, #eaaebb); }
-.pg-5 { background: linear-gradient(145deg, #f9e8ed, #e8b8c5, #d4899a); }
-
-/* ━━━ ZIGZAG PINTEREST PRODUK ━━━ */
-.zzrow{display:grid;grid-template-columns:320px 1fr;gap:0;align-items:stretch}
-.zzrow.rev{grid-template-columns:1fr 320px}
-.zzrow.rev .zz-cat{order:2}
-.zzrow.rev .zz-rail{order:1}
-@media(max-width:860px){
-  .zzrow,.zzrow.rev{grid-template-columns:1fr}
-  .zzrow.rev .zz-cat,.zzrow .zz-cat{order:1}
-  .zzrow.rev .zz-rail,.zzrow .zz-rail{order:2}
+/* Top hole */
+.tanzaku-hole {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(196,181,212,0.2);
+  background: rgba(0,0,0,0.4);
+  z-index: 6;
 }
 
-.zz-cat{
-  position:relative;overflow:hidden;min-height:300px;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  text-decoration:none;cursor:pointer;
-  border-radius:var(--cbr,28px 6px 6px 28px);
-  transition:box-shadow .4s ease;
+/* Gold border frame */
+.tanzaku-frame {
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 3px 3px 36px 36px;
+  z-index: 2;
+  pointer-events: none;
+  transition: border-color 0.3s ease;
 }
-.zzrow.rev .zz-cat{--cbr:6px 28px 28px 6px}
-.zz-cat:hover{box-shadow:0 28px 72px rgba(200,119,138,.42)}
-
-.zz-cat-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .75s cubic-bezier(.4,0,.2,1)}
-.zz-cat:hover .zz-cat-bg{transform:scale(1.07)}
-
-.zz-cat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,26,30,.97) 0%,rgba(44,26,30,.65) 38%,rgba(44,26,30,.18) 65%,transparent 100%);transition:background .4s ease}
-.zz-cat:hover .zz-cat-ov{background:linear-gradient(to top,rgba(44,26,30,.98) 0%,rgba(44,26,30,.78) 40%,rgba(200,119,138,.12) 68%,transparent 100%)}
-
-.zz-cat-stripe{position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:conic-gradient(from 130deg,rgba(242,196,206,.2) 0deg,transparent 85deg);transition:transform .45s ease;pointer-events:none}
-.zz-cat:hover .zz-cat-stripe{transform:scale(1.35) rotate(18deg)}
-
-.zz-cat-num{position:absolute;bottom:-14px;right:14px;z-index:1;font-family:'Playfair Display',serif;font-size:88px;font-weight:900;line-height:1;color:rgba(242,196,206,.06);user-select:none;pointer-events:none;transition:color .35s ease}
-.zz-cat:hover .zz-cat-num{color:rgba(242,196,206,.13)}
-
-.zz-cat-chip{position:absolute;top:16px;left:0;z-index:4;display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.11em;color:var(--dusty);background:rgba(253,249,244,.93);padding:5px 14px 5px 10px;border-radius:0 999px 999px 0;backdrop-filter:blur(8px);transition:background .2s ease}
-.zzrow.rev .zz-cat .zz-cat-chip{left:auto;right:0;padding:5px 10px 5px 14px;border-radius:999px 0 0 999px}
-.zz-cat:hover .zz-cat-chip{background:rgba(242,196,206,.95)}
-
-.zz-cat-petal{position:absolute;top:18px;right:18px;font-size:26px;opacity:.2;pointer-events:none;transition:opacity .35s ease,transform .45s ease}
-.zzrow.rev .zz-cat .zz-cat-petal{right:auto;left:18px}
-.zz-cat:hover .zz-cat-petal{opacity:.55;transform:rotate(22deg) scale(1.25)}
-
-.zz-cat-body{position:relative;z-index:2;padding:22px 22px 24px}
-.zz-cat-growline{width:0;height:2px;margin-bottom:10px;background:linear-gradient(90deg,var(--blush),var(--rose));border-radius:2px;transition:width .45s cubic-bezier(.4,0,.2,1) .05s}
-.zz-cat:hover .zz-cat-growline{width:44px}
-.zz-cat-eyebrow{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:rgba(242,196,206,.5);margin-bottom:5px}
-.zz-cat-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px;transition:color .25s ease}
-.zz-cat:hover .zz-cat-name{color:var(--blush)}
-.zz-cat-desc{
-  font-size:11px;
-  line-height:1.55;
-  color:rgba(255,255,255,.42);
-
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-
-  line-clamp:2; /* tambahkan ini */
-
-  overflow:hidden;
-  margin-bottom:14px;
-
-  max-height:0;
-  opacity:0;
-  transition:max-height .4s ease .05s,opacity .3s ease .05s
+.tanzaku-card:hover .tanzaku-frame {
+  border-color: rgba(201,168,76,0.5);
 }
-.zz-cat:hover .zz-cat-desc{max-height:50px;opacity:1}
-.zz-cat-cta{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#fff;background:linear-gradient(135deg,var(--dusty),var(--rose));border-radius:999px;padding:7px 18px;text-decoration:none;opacity:0;transform:translateY(7px);transition:opacity .3s ease .1s,transform .3s ease .1s}
-.zz-cat:hover .zz-cat-cta{opacity:1;transform:translateY(0)}
 
-/* Rail */
-.zz-rail{background:var(--soft);border-radius:var(--rbr,6px 28px 28px 6px);position:relative;overflow:hidden;display:flex;flex-direction:column;padding:18px 0 12px}
-.zzrow.rev .zz-rail{--rbr:28px 6px 6px 28px}
-.zz-rail-lbl{padding:0 22px 10px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.14em;color:var(--rose);display:flex;align-items:center;gap:8px}
-.zz-rail-lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(212,137,154,.3),transparent)}
-.zz-rail::before,.zz-rail::after{content:'';position:absolute;top:0;bottom:0;width:44px;z-index:4;pointer-events:none}
-.zz-rail::before{left:0;background:linear-gradient(90deg,var(--soft),transparent)}
-.zz-rail::after{right:0;background:linear-gradient(-90deg,var(--soft),transparent)}
-
-.zz-scroll{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;padding:4px 22px 8px;scroll-behavior:smooth;scrollbar-width:none;flex:1}
-.zz-scroll::-webkit-scrollbar{display:none}
-
-.zz-progwrap{padding:0 22px 2px}
-.zz-progtrack{height:3px;background:rgba(212,137,154,.15);border-radius:2px;overflow:hidden}
-.zz-progbar{height:100%;background:linear-gradient(90deg,var(--dusty),var(--blush));border-radius:2px;width:15%;transition:width .15s ease}
-
-.zz-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid rgba(212,137,154,.25);color:var(--dusty);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(212,137,154,.2);transition:all .2s ease}
-.zz-nav:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
-.zz-nav.l{left:8px}
-.zz-nav.r{right:8px}
-.zz-nav.hide{opacity:0;pointer-events:none}
-
-/* Product card */
-.zz-pcard{flex:0 0 165px;border-radius:18px;overflow:hidden;background:#fff;border:1px solid rgba(212,137,154,.12);text-decoration:none;display:block;transition:box-shadow .3s ease,transform .3s ease;position:relative}
-.zz-pcard:hover{box-shadow:0 14px 40px rgba(212,137,154,.35);transform:translateY(-5px)}
-.zz-pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--dusty),var(--blush));opacity:0;transition:opacity .25s ease;z-index:3}
-.zz-pcard:hover::before{opacity:1}
-.zz-pimg-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--cream)}
-.zz-pimg{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.4,0,.2,1)}
-.zz-pcard:hover .zz-pimg{transform:scale(1.07)}
-.zz-pimg-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,26,30,.55) 0%,transparent 50%);opacity:0;transition:opacity .35s ease}
-.zz-pcard:hover .zz-pimg-ov{opacity:1}
-.zz-ppill{position:absolute;bottom:8px;left:8px;right:8px;z-index:2;background:rgba(253,249,244,.93);backdrop-filter:blur(8px);border-radius:10px;padding:5px 8px;font-size:11px;font-weight:800;color:var(--dusty);text-align:center;opacity:0;transform:translateY(4px);transition:opacity .3s ease .05s,transform .3s ease .05s}
-.zz-pcard:hover .zz-ppill{opacity:1;transform:translateY(0)}
-.zz-pcat{position:absolute;top:8px;left:8px;z-index:2;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--dusty);background:rgba(253,249,244,.93);padding:3px 8px;border-radius:999px;backdrop-filter:blur(6px)}
-.zz-pbody{padding:10px 12px 12px}
-.zz-pname{
-  font-family:'Playfair Display',serif;
-  font-size:12.5px;
-  font-weight:700;
-  color:var(--dark);
-  line-height:1.35;
-  margin-bottom:4px;
-
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-
-  line-clamp:2; /* tambahkan ini */
-
-  overflow:hidden
+/* Product image */
+.tanzaku-img-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
-.zz-pprice{font-size:11px;font-weight:800;color:var(--rose);margin-bottom:8px}
-.zz-pwa{display:flex;align-items:center;justify-content:center;gap:5px;font-size:9.5px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;color:#fff;background:linear-gradient(135deg,var(--dusty),var(--rose));border-radius:999px;padding:6px 10px;text-decoration:none;transition:opacity .2s ease}
-.zz-pwa:hover{opacity:.85}
+.tanzaku-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
+  filter: brightness(0.75) saturate(0.85);
+}
+.tanzaku-card:hover .tanzaku-img {
+  transform: scale(1.08);
+  filter: brightness(0.9) saturate(1.1);
+}
+.tanzaku-img-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(10,8,28,0.8) 100%);
+}
 
-.zz-sep{display:flex;align-items:center;gap:14px;padding:6px 0}
-.zz-sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(212,137,154,.25),transparent)}
-.zz-sep-icon{font-size:16px;opacity:.5}
+/* Category badge */
+.tanzaku-badge {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold2);
+  white-space: nowrap;
+  background: rgba(10,8,28,0.8);
+  padding: 3px 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(201,168,76,0.25);
+  backdrop-filter: blur(4px);
+}
 
-/* ━━━ FAQ ━━━ */
-.faq-new-card{position:relative;border-radius:1rem;padding:1.25rem 1.25rem 1.25rem 1.5rem;background:rgba(242,196,206,.06);border:1px solid rgba(212,137,154,.12);transition:border-color .25s ease,background .25s ease;cursor:pointer}
-.faq-new-card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:0 4px 4px 0;background:rgba(212,137,154,.2);transition:background .25s ease,top .25s ease,bottom .25s ease}
-.faq-new-card.open::before{background:var(--rose);top:0;bottom:0}
-.faq-new-card:hover{background:rgba(242,196,206,.1);border-color:rgba(212,137,154,.25)}
-.faq-new-card.open{background:rgba(212,137,154,.07);border-color:rgba(212,137,154,.3)}
-.faq-new-card.open .faq-new-icon{background:var(--rose);color:#fff}
-.faq-new-body{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s ease}
-.faq-new-body.open{max-height:300px;opacity:1}
-.faq-new-icon{width:28px;height:28px;border-radius:8px;background:rgba(212,137,154,.12);color:var(--rose);font-size:11px;font-weight:900;font-family:'Playfair Display',serif;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s ease,color .2s ease}
-.faq-new-chevron{transition:transform .3s cubic-bezier(.4,0,.2,1);flex-shrink:0}
-.faq-new-card.open .faq-new-chevron{transform:rotate(180deg)}
-.area-pill{transition:all .2s ease}
-.area-pill:hover,.area-pill.active{background:rgba(212,137,154,.15)!important;border-color:rgba(212,137,154,.4)!important;color:var(--dusty)!important}
-.sidebar-acc-content{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.sidebar-acc-content.open{max-height:600px}
-.sidebar-acc-btn.open .acc-chevron{transform:rotate(180deg)}
+/* Content area */
+.tanzaku-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px 14px;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+/* Vertical line ornament */
+.tanzaku-body::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(201,168,76,0.2), transparent);
+  pointer-events: none;
+}
+
+.tanzaku-name {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lav2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 2; /* Chrome, Safari, Edge */
+  line-clamp: 2;         /* Standard property */
+
+  overflow: hidden;
+
+  transition: color 0.25s ease;
+}
+.tanzaku-card:hover .tanzaku-name { color: var(--tsuki); }
+
+.tanzaku-price {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--gold2);
+  margin-bottom: 10px;
+}
+
+/* Shimmer on hover */
+.tanzaku-shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(196,181,212,0.04) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.tanzaku-card:hover .tanzaku-shimmer { opacity: 1; }
+
+.tanzaku-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  border-radius: 2px;
+  padding: 5px 12px;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.tanzaku-card:hover .tanzaku-btn { opacity: 1; transform: translateY(0); }
+
+/* Nav buttons */
+.tzk-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(196,181,212,0.2);
+  background: rgba(13,27,42,0.85);
+  backdrop-filter: blur(8px);
+  color: var(--lav);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+.tzk-nav:hover { background: rgba(196,181,212,0.15); border-color: rgba(196,181,212,0.4); }
+.tzk-nav.l { left: 8px; }
+.tzk-nav.r { right: 8px; }
+.tzk-nav.hide { opacity:0; pointer-events:none; }
+
+/* Progress bar */
+.tzk-progress-track {
+  height: 2px;
+  background: rgba(196,181,212,0.1);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.tzk-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--lav));
+  border-radius: 2px;
+  width: 15%;
+  transition: width 0.15s ease;
+}
+
+/* Section separator — washi tape style */
+.washi-sep {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 36px;
+}
+.washi-sep-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.15), transparent);
+}
+.washi-sep-moon { font-size: 14px; opacity: 0.4; }
+
+/* ═══════════════════════════════════
+   FAQ & SIDEBAR
+═══════════════════════════════════ */
+.tsuki-faq-section {
+  background: linear-gradient(180deg, #080E1A 0%, var(--navy) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* FAQ accordion */
+.tsuki-faq-card {
+  border: 1px solid rgba(196,181,212,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: rgba(13,27,42,0.5);
+  transition: border-color 0.25s ease;
+}
+.tsuki-faq-card.open {
+  border-color: rgba(196,181,212,0.25);
+  background: rgba(30,58,95,0.3);
+}
+.tsuki-faq-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.tsuki-faq-num {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+.tsuki-faq-card.open .tsuki-faq-num { opacity: 1; }
+.tsuki-faq-q {
+  flex: 1;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--silver);
+  line-height: 1.4;
+}
+.tsuki-faq-chevron {
+  flex-shrink: 0;
+  color: rgba(196,181,212,0.4);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s;
+}
+.tsuki-faq-card.open .tsuki-faq-chevron {
+  transform: rotate(180deg);
+  color: var(--lav);
+}
+.tsuki-faq-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+}
+.tsuki-faq-body.open { max-height: 300px; opacity: 1; }
+.tsuki-faq-answer {
+  padding: 0 18px 16px 46px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(196,181,212,0.6);
+  border-top: 1px solid rgba(196,181,212,0.06);
+  padding-top: 12px;
+  margin-top: 0;
+}
+
+/* Sidebar panels */
+.tsuki-sidebar-panel {
+  background: rgba(13,27,42,0.6);
+  border: 1px solid rgba(196,181,212,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+.tsuki-panel-header {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid rgba(196,181,212,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tsuki-panel-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--silver);
+}
+.tsuki-panel-icon { font-size: 16px; opacity: 0.6; }
+
+/* Area pills */
+.tsuki-area-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(196,181,212,0.12);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(196,181,212,0.5);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.tsuki-area-pill:hover, .tsuki-area-pill.active {
+  border-color: rgba(196,181,212,0.35);
+  color: var(--lav2);
+  background: rgba(196,181,212,0.07);
+}
+.tsuki-area-pill.active {
+  border-color: var(--gold);
+  color: var(--gold2);
+}
+
+/* CTA box */
+.tsuki-cta-box {
+  background: linear-gradient(135deg, rgba(30,58,95,0.6), rgba(13,27,42,0.8));
+  border: 1px solid rgba(196,181,212,0.15);
+  border-radius: 12px;
+  text-align: center;
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.tsuki-cta-box::before {
+  content: '月';
+  position: absolute;
+  right: -10px;
+  top: -20px;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 100px;
+  font-weight: 800;
+  color: rgba(196,181,212,0.04);
+  pointer-events: none;
+}
+
+/* Sidebar accordion */
+.tsuki-acc-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.tsuki-acc-content.open { max-height: 600px; }
+.tsuki-acc-btn.open .tsuki-acc-chev { transform: rotate(180deg); }
+.tsuki-acc-chev { transition: transform 0.25s ease; }
+
+/* Section labels */
+.tsuki-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(196,181,212,0.5);
+  margin-bottom: 20px;
+}
+.tsuki-section-label::before, .tsuki-section-label::after {
+  content: '';
+  width: 20px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.5;
+}
+
+/* Utility */
+.text-tsuki { color: var(--tsuki); }
+.text-lav { color: var(--lav); }
+.text-lav2 { color: var(--lav2); }
+.text-gold { color: var(--gold); }
+.text-gold2 { color: var(--gold2); }
+.text-silver { color: var(--silver); }
+.text-muted { color: rgba(196,181,212,0.45); }
+
+.stat-moon {
+  font-family: 'Shippori Mincho', serif;
+  background: linear-gradient(135deg, var(--gold2), var(--lav2), var(--tsuki));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Info card */
+.hero-info-card {
+  background: rgba(13,27,42,0.7);
+  border: 1px solid rgba(196,181,212,0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.hero-info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(196,181,212,0.06);
+}
+.hero-info-row:last-child { border-bottom: none; }
+.hero-info-icon { font-size: 18px; flex-shrink: 0; }
+.hero-info-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(196,181,212,0.4); font-weight: 700; }
+.hero-info-val { font-size: 14px; font-weight: 600; color: var(--silver); margin-top: 2px; }
+
+/* WA button */
+.btn-wa-moon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: var(--navy);
+  box-shadow: 0 8px 28px rgba(201,168,76,0.35);
+}
+.btn-wa-moon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(201,168,76,0.5);
+}
+.btn-outline-moon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  padding: 13px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid rgba(196,181,212,0.3);
+  color: var(--lav2);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+.btn-outline-moon:hover {
+  background: rgba(196,181,212,0.08);
+  border-color: rgba(196,181,212,0.5);
+}
+
+/* About section */
+.tsuki-about {
+  background: rgba(30,58,95,0.25);
+  border: 1px solid rgba(196,181,212,0.1);
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.tsuki-about::after {
+  content: '花';
+  position: absolute;
+  right: -8px; bottom: -24px;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 100px;
+  font-weight: 800;
+  color: rgba(196,181,212,0.04);
+  pointer-events: none;
+}
+
+/* Scrollbar for rail */
+@media (max-width: 767px) {
+  .byobu-grid { grid-template-columns: repeat(2, 1fr); }
+  .tanzaku-card { flex: 0 0 148px; height: 280px; }
+  .tanzaku-img-wrap { height: 155px; }
+}
 </style>
 
 <?php
-function renderPetals(int $n, string $emojis='🌸🌺🌷🌼'): string {
-    $out=''; $arr=mb_str_split($emojis);
-    for($i=0;$i<$n;$i++){
-        $e=$arr[$i%count($arr)];$top=rand(0,95);$left=rand(0,95);$dur=rand(6,14);$del=rand(0,8);
-        $out.="<span class=\"float-petal\" style=\"top:{$top}%;left:{$left}%;--dur:{$dur}s;--del:{$del}s;\">{$e}</span>";
+/* ── Helper: render fireflies ── */
+function renderFireflies(int $n = 18): string {
+    $inner = '';
+    for ($i = 0; $i < $n; $i++) {
+        $left = rand(3, 97);
+        $top  = rand(10, 85);
+        $dur  = rand(6, 14);
+        $del  = rand(0, 10);
+        $fx   = rand(-40, 40) . 'px';
+        $fx2  = rand(-30, 30) . 'px';
+        $inner .= "<div class=\"firefly\" style=\"left:{$left}%;top:{$top}%;--dur:{$dur}s;--del:{$del}s;--fx:{$fx};--fx2:{$fx2};\"></div>";
     }
-    return $out;
+    return "<div class=\"firefly-container\">{$inner}</div>";
 }
 ?>
 
 
-<!-- ════ HERO ════ -->
-<section class="relative overflow-hidden" style="min-height:580px;padding-top:100px;background:var(--ivory);">
-  <?= renderPetals(14) ?>
-  <div class="absolute top-0 right-0 pointer-events-none" style="width:520px;height:520px;background:radial-gradient(circle,rgba(242,196,206,.45),transparent 65%);filter:blur(60px);"></div>
-  <div class="absolute bottom-0 left-0 pointer-events-none" style="width:400px;height:400px;background:radial-gradient(circle,rgba(200,119,138,.15),transparent 65%);filter:blur(80px);"></div>
-  <div class="absolute bottom-0 left-0 right-0 rose-line" style="z-index:5;"></div>
+<!-- ════════════════════════════════════════
+     HERO — UKIYO-E LAYERED MOONLIT SCENE
+════════════════════════════════════════ -->
+<section class="hero-tsukimi">
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4 pt-4 mb-10 reveal reveal-1">
-    <nav class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest">
-      <a href="<?= BASE_URL ?>/" style="color:var(--muted);" class="hover:text-[var(--dusty)] transition">Beranda</a>
-      <span style="color:rgba(44,26,30,.2);">—</span>
-      <a href="<?= BASE_URL ?>/#area" style="color:var(--muted);" class="hover:text-[var(--dusty)] transition">Area Kirim</a>
-      <span style="color:rgba(44,26,30,.2);">—</span>
-      <span style="color:var(--dusty);"><?= e($location['name']) ?></span>
-    </nav>
+  <!-- Sky & atmosphere -->
+  <div class="hero-sky"></div>
+  <div class="star-field"></div>
+
+  <!-- Moon -->
+  <div class="ukiyo-moon"></div>
+
+  <!-- Drifting clouds -->
+  <div class="ukiyo-clouds">
+    <div class="ukiyo-cloud-strip"></div>
+    <div class="ukiyo-cloud-strip"></div>
   </div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4 pb-20">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+  <!-- Mountain silhouettes -->
+  <div class="ukiyo-mtn-far"></div>
+  <div class="ukiyo-mtn-near"></div>
+
+  <!-- Bamboo left -->
+  <div class="ukiyo-bamboo">
+    <div class="bamboo-stalk" style="height:180px;--bs:7s;"></div>
+    <div class="bamboo-stalk" style="height:130px;--bs:9s;animation-delay:1s;"></div>
+    <div class="bamboo-stalk" style="height:210px;--bs:6s;animation-delay:2s;"></div>
+    <div class="bamboo-stalk" style="height:100px;--bs:11s;animation-delay:0.5s;"></div>
+  </div>
+
+  <!-- Sakura tree right -->
+  <div class="ukiyo-tree">
+    <div style="position:relative;width:120px;height:180px;">
+      <div class="tree-trunk" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);"></div>
+      <!-- Blossom clouds -->
+      <div class="tree-blossom" style="width:90px;height:70px;top:10px;left:10px;"></div>
+      <div class="tree-blossom" style="width:70px;height:55px;top:0;left:30px;background:radial-gradient(circle,rgba(255,183,197,0.4),rgba(220,160,180,0.15));"></div>
+      <div class="tree-blossom" style="width:55px;height:45px;top:20px;left:5px;"></div>
+      <div class="tree-blossom" style="width:45px;height:38px;top:30px;left:55px;"></div>
+    </div>
+  </div>
+
+  <!-- Water foreground -->
+  <div class="ukiyo-water">
+    <div class="water-line" style="bottom:55%;opacity:0.5;"></div>
+    <div class="water-line" style="bottom:40%;opacity:0.35;"></div>
+    <div class="water-line" style="bottom:25%;opacity:0.2;"></div>
+  </div>
+
+  <!-- Fireflies -->
+  <?= renderFireflies(20) ?>
+
+  <!-- Kanji watermark -->
+  <div class="kanji-watermark">月見花</div>
+
+  <!-- CONTENT -->
+  <div class="hero-content">
+    <!-- Breadcrumb -->
+    <div class="fade-up-1 flex items-center gap-2 mb-10" style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;">
+      <a href="<?= BASE_URL ?>/" style="color:rgba(196,181,212,0.4);" class="hover:text-[var(--lav)] transition">Beranda</a>
+      <span style="color:rgba(196,181,212,0.2);">—</span>
+      <a href="<?= BASE_URL ?>/#area" style="color:rgba(196,181,212,0.4);" class="hover:text-[var(--lav)] transition">Area</a>
+      <span style="color:rgba(196,181,212,0.2);">—</span>
+      <span style="color:var(--gold);"><?= e($location['name']) ?></span>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-14 items-center">
+      <!-- Left: copy -->
       <div>
-        <div class="reveal reveal-1 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest uppercase mb-6" style="background:rgba(212,137,154,.12);border:1px solid rgba(212,137,154,.3);color:var(--dusty);">
-          <span class="pin-dot w-2 h-2 rounded-full flex-shrink-0 inline-block" style="background:var(--rose);"></span>
+        <!-- Eyebrow badge -->
+        <div class="fade-up-1 inline-flex items-center gap-2 mb-7" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:5px 14px;border-radius:2px;background:rgba(201,168,76,0.07);">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;animation:moon-pulse 3s infinite;"></span>
           📍 <?= e($location['name']) ?>, Grogol
         </div>
-        <h1 class="reveal reveal-2 font-serif font-black leading-tight mb-5" style="font-size:clamp(2.2rem,5vw,3.6rem);color:var(--dark);">
-          Toko Bunga<br>
-          <span style="background:linear-gradient(135deg,var(--dusty),var(--rose),var(--blush));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><?= e($location['name']) ?></span>
+
+        <!-- Headline -->
+        <h1 class="fade-up-2" style="font-family:'Shippori Mincho',serif;font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:800;color:var(--tsuki);line-height:1.15;margin-bottom:6px;">
+          Toko Bunga
         </h1>
-        <p class="reveal reveal-3 text-base md:text-lg leading-relaxed mb-8 max-w-md" style="color:var(--muted);">
-          <?= !empty($location['meta_description']) ? e($location['meta_description']) : 'Florist '.e($location['name']).' terpercaya — karangan bunga papan, hand bouquet, wedding, duka cita. Pengiriman cepat 2–4 jam ke seluruh '.e($location['name']).'.' ?>
+        <h1 class="fade-up-2" style="font-family:'Shippori Mincho',serif;font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:800;line-height:1.15;margin-bottom:24px;background:linear-gradient(135deg,var(--gold2),var(--lav2),var(--tsuki));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          <?= e($location['name']) ?>
+        </h1>
+
+        <!-- Desc -->
+        <p class="fade-up-3" style="font-size:16px;line-height:1.75;color:rgba(196,181,212,0.65);margin-bottom:28px;max-width:420px;">
+          <?= !empty($location['meta_description']) ? e($location['meta_description']) : 'Florist ' . e($location['name']) . ' terpercaya — karangan bunga papan, hand bouquet, wedding & duka cita. Pengiriman cepat 2–4 jam ke seluruh ' . e($location['name']) . '.' ?>
         </p>
-        <div class="reveal reveal-3 flex flex-wrap items-center gap-6 mb-8">
-          <div><div class="stat-num text-3xl font-black">10+</div><div class="text-[10px] font-bold uppercase tracking-widest mt-0.5" style="color:var(--muted);">Tahun Berpengalaman</div></div>
-          <div class="w-px h-10" style="background:rgba(212,137,154,.2);"></div>
-          <div><div class="stat-num text-3xl font-black">2–4<span class="text-lg">Jam</span></div><div class="text-[10px] font-bold uppercase tracking-widest mt-0.5" style="color:var(--muted);">Pengiriman</div></div>
-          <div class="w-px h-10" style="background:rgba(212,137,154,.2);"></div>
-          <div><div class="stat-num text-2xl font-black"><?= 'Rp '.number_format($min_price/1000,0,',','.').'rb' ?></div><div class="text-[10px] font-bold uppercase tracking-widest mt-0.5" style="color:var(--muted);">Mulai dari</div></div>
+
+        <!-- Stats -->
+        <div class="fade-up-3 flex items-center gap-7 mb-10">
+          <div>
+            <div class="stat-moon" style="font-size:2.2rem;font-weight:800;line-height:1;">10+</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Tahun</div>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(196,181,212,0.15);"></div>
+          <div>
+            <div class="stat-moon" style="font-size:2.2rem;font-weight:800;line-height:1;">2–4<span style="font-size:1rem;">Jam</span></div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Pengiriman</div>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(196,181,212,0.15);"></div>
+          <div>
+            <div class="stat-moon" style="font-size:1.5rem;font-weight:800;line-height:1;"><?= 'Rp '.number_format($min_price/1000,0,',','.').'rb' ?></div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Mulai dari</div>
+          </div>
         </div>
-        <div class="reveal reveal-4 flex flex-wrap gap-3">
-          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di '.$location['name'].', Grogol.') ?>" target="_blank"
-             class="inline-flex items-center gap-2.5 font-bold px-7 py-3.5 rounded-full no-underline transition hover:-translate-y-1"
-             style="background:linear-gradient(135deg,var(--dusty),var(--rose));color:#fff;box-shadow:0 8px 24px rgba(200,119,138,.35);">
+
+        <!-- CTAs -->
+        <div class="fade-up-4 flex flex-wrap gap-3">
+          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di ' . $location['name'] . ', Grogol.') ?>"
+             target="_blank" class="btn-wa-moon">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
             Pesan Sekarang
           </a>
-          <a href="tel:<?= e(setting('whatsapp_number')) ?>"
-             class="inline-flex items-center gap-2 font-semibold px-7 py-3.5 rounded-full no-underline transition hover:bg-[rgba(212,137,154,.1)]"
-             style="border:1.5px solid rgba(212,137,154,.3);color:var(--dark);">
+          <a href="tel:<?= e(setting('whatsapp_number')) ?>" class="btn-outline-moon">
             📞 <?= e(setting('phone_display')) ?>
           </a>
         </div>
       </div>
-      <div class="reveal reveal-4 hidden md:block">
-        <div class="rounded-3xl p-6 relative overflow-hidden" style="background:#fff;border:1px solid rgba(212,137,154,.2);box-shadow:0 16px 48px rgba(212,137,154,.2);">
-          <div class="absolute top-0 right-0 w-28 h-28" style="background:linear-gradient(225deg,rgba(242,196,206,.4),transparent 65%);"></div>
-          <p class="text-[11px] font-bold uppercase tracking-widest mb-4" style="color:var(--rose);">Info Pengiriman</p>
-          <div class="space-y-3 mb-5">
-            <div class="flex items-center gap-3 py-2.5 border-b" style="border-color:rgba(212,137,154,.1);"><span class="text-xl flex-shrink-0">📍</span><div><p class="text-[10px] uppercase tracking-wider" style="color:var(--muted);">Lokasi</p><p class="text-sm font-semibold" style="color:var(--dark);"><?= e($location['name']) ?>, Grogol</p></div></div>
-            <div class="flex items-center gap-3 py-2.5 border-b" style="border-color:rgba(212,137,154,.1);"><span class="text-xl flex-shrink-0">⚡</span><div><p class="text-[10px] uppercase tracking-wider" style="color:var(--muted);">Estimasi Pengiriman</p><p class="text-sm font-semibold" style="color:var(--dark);">2–4 Jam</p></div></div>
-            <div class="flex items-center gap-3 py-2.5 border-b" style="border-color:rgba(212,137,154,.1);"><span class="text-xl flex-shrink-0">⏰</span><div><p class="text-[10px] uppercase tracking-wider" style="color:var(--muted);">Jam Operasional</p><p class="text-sm font-semibold" style="color:var(--dark);"><?= e(setting('jam_buka')) ?></p></div></div>
-            <div class="flex items-center gap-3 py-2.5"><span class="text-xl flex-shrink-0">💐</span><div><p class="text-[10px] uppercase tracking-wider" style="color:var(--muted);">Harga Mulai</p><p class="text-sm font-black font-serif" style="color:var(--dusty);"><?= rupiah($min_price) ?></p></div></div>
+
+      <!-- Right: info card -->
+      <div class="fade-up-4 hidden md:block">
+        <div class="hero-info-card">
+          <div style="padding:16px 18px 12px;border-bottom:1px solid rgba(196,181,212,0.08);">
+            <p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--gold);opacity:0.7;">Info Pengiriman 月見</p>
+            <p style="font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;color:var(--silver);margin-top:3px;"><?= e($location['name']) ?></p>
           </div>
-          <a href="<?= e($wa_url) ?>" target="_blank" class="flex items-center justify-center gap-2 font-bold py-3 rounded-2xl no-underline transition hover:opacity-90" style="background:linear-gradient(135deg,var(--dusty),var(--rose));color:#fff;">Chat WhatsApp</a>
+          <div class="hero-info-row">
+            <span class="hero-info-icon">📍</span>
+            <div><div class="hero-info-label">Lokasi</div><div class="hero-info-val"><?= e($location['name']) ?>, Grogol</div></div>
+          </div>
+          <div class="hero-info-row">
+            <span class="hero-info-icon">⚡</span>
+            <div><div class="hero-info-label">Estimasi</div><div class="hero-info-val">2–4 Jam</div></div>
+          </div>
+          <div class="hero-info-row">
+            <span class="hero-info-icon">⏰</span>
+            <div><div class="hero-info-label">Operasional</div><div class="hero-info-val"><?= e(setting('jam_buka')) ?></div></div>
+          </div>
+          <div class="hero-info-row">
+            <span class="hero-info-icon">💐</span>
+            <div><div class="hero-info-label">Mulai dari</div><div style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:var(--gold2);margin-top:2px;"><?= rupiah($min_price) ?></div></div>
+          </div>
+          <div style="padding:16px 18px;">
+            <a href="<?= e($wa_url) ?>" target="_blank" class="btn-wa-moon" style="width:100%;justify-content:center;">
+              Chat WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -594,260 +1414,201 @@ function renderPetals(int $n, string $emojis='🌸🌺🌷🌼'): string {
 
 
 <!-- ════ TICKER ════ -->
-<div class="overflow-hidden py-3" style="background:linear-gradient(135deg,var(--dusty),var(--rose));">
-  <div class="loc-ticker-inner">
-    <?php for($r=0;$r<2;$r++): foreach($locations as $l): ?>
-    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
-       class="inline-flex items-center gap-3 mx-6 font-bold text-[11px] uppercase tracking-widest no-underline hover:opacity-70 transition flex-shrink-0"
-       style="color:rgba(255,255,255,<?= $l['id']==$location['id']?'1':'.7' ?>);">
-      <span style="opacity:.5;">📍</span><?= e($l['name']) ?>
+<div class="tsuki-ticker">
+  <div class="tsuki-ticker-inner">
+    <?php for ($r = 0; $r < 2; $r++): foreach ($locations as $l): ?>
+    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="tsuki-ticker-item <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
+      <span class="tsuki-ticker-sep"></span>
+      <?= e($l['name']) ?>
     </a>
     <?php endforeach; endfor; ?>
   </div>
 </div>
 
 
-<!-- ════ LAYANAN MASONRY — PINTEREST STYLE (UPDATED) ════ -->
-<section class="py-20 relative overflow-hidden" style="background:var(--cream);">
-  <div class="absolute top-0 left-0 w-full h-px rose-line"></div>
-  <?= renderPetals(10,'🌸🌷🌺🌼') ?>
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(242,196,206,.35),transparent 65%);filter:blur(80px);"></div>
+<!-- ════════════════════════════════════════
+     BYOBU FOLDING SCREEN — LAYANAN
+════════════════════════════════════════ -->
+<section class="byobu-section py-20">
+  <div class="moon-line"></div>
+  <?= renderFireflies(10) ?>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4">
-    <div class="text-center mb-12">
-      <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest uppercase mb-5" style="background:rgba(212,137,154,.1);border:1px solid rgba(212,137,154,.25);color:var(--dusty);">
-        <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:var(--rose);"></span>Tersedia di <?= e($location['name']) ?>
-      </div>
-      <h2 class="font-serif font-black" style="font-size:clamp(1.8rem,4vw,2.6rem);color:var(--dark);">
-        Layanan Bunga di<br>
-        <span style="background:linear-gradient(135deg,var(--dusty),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Toko Bunga Grogol <?= e($location['name']) ?></span>
-      </h2>
-      <p class="mt-3 max-w-lg mx-auto text-[15px]" style="color:var(--muted);">Semua kebutuhan bunga Anda tersedia dan siap dikirim ke <?= e($location['name']) ?></p>
-    </div>
-
-    <div class="pin-grid">
-      <?php
-      /* Pinterest-style random heights — creates organic flow */
-      $pin_heights = [
-        'h-sm'  => 200,
-        'h-md'  => 265,
-        'h-lg'  => 330,
-        'h-xl'  => 395,
-        'h-xxl' => 460,
-      ];
-      $height_sequence = ['h-xl','h-md','h-lg','h-sm','h-xxl','h-md','h-lg','h-xl','h-sm','h-lg','h-xxl','h-md','h-xl','h-sm','h-lg','h-md'];
-      $pg_classes = ['pg-0','pg-1','pg-2','pg-3','pg-4','pg-5'];
-
-      foreach ($all_cats as $i => $cat):
-        $subs       = $all_cats_subs[$cat['id']] ?? [];
-        $has_sub    = !empty($subs);
-        $has_img    = !empty($cat['image']);
-        $hkey       = $height_sequence[$i % count($height_sequence)];
-        $h_px       = $pin_heights[$hkey];
-        $pg         = $pg_classes[$i % count($pg_classes)];
-        $num        = str_pad($i + 1, 2, '0', STR_PAD_LEFT);
-        $cat_url    = BASE_URL . '/' . e($cat['slug']) . '/';
-        $name_size  = in_array($hkey, ['h-lg','h-xl','h-xxl']) ? 'text-xl' : 'text-base';
-
-        $tag   = $has_sub ? 'div' : 'a';
-        $href  = $has_sub ? '' : 'href="' . $cat_url . '"';
-        $extra = $has_sub ? 'role="button" tabindex="0"' : '';
-      ?>
-      <div class="pin-item">
-        <<?= $tag ?> <?= $href ?> <?= $extra ?> class="pin-card" style="--card-h:<?= $h_px ?>px;">
-
-          <!-- Background -->
-          <?php if ($has_img): ?>
-          <div class="pin-bg" style="background-image:url('<?= e(imgUrl($cat['image'], 'category')) ?>');"></div>
-          <?php else: ?>
-          <div class="pin-bg-grad <?= $pg ?>"></div>
-          <?php if (!empty($cat['icon'])): ?>
-          <div class="pin-icon"><?= e($cat['icon']) ?></div>
-          <?php endif; ?>
-          <?php endif; ?>
-
-          <!-- Overlays -->
-          <div class="pin-ov-base"></div>
-          <div class="pin-ov-shimmer"></div>
-          <div class="pin-sparkle"></div>
-          <div class="pin-bignum"><?= $num ?></div>
-
-          <!-- Top badges -->
-          <div class="pin-eyebrow">
-            <?php if ($has_sub): ?>
-            <span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;opacity:.6;flex-shrink:0;"></span>
-            <?= count($subs) ?> layanan
-            <?php else: ?>
-            <svg width="9" height="9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-            Lihat
-            <?php endif; ?>
-          </div>
-          <?php if ($has_sub): ?>
-          <div class="pin-sub-badge"><?= count($subs) ?> sub</div>
-          <?php endif; ?>
-
-          <!-- Footer content -->
-          <div class="pin-footer">
-            <div class="pin-accent-line"></div>
-            <div class="pin-name <?= $name_size ?>"><?= e($cat['name']) ?></div>
-
-            <?php if ($has_sub): ?>
-            <!-- Sub-categories reveal -->
-            <div class="pin-subs">
-              <a href="<?= $cat_url ?>" class="pin-sub-item" style="color:rgba(242,196,206,.55);font-weight:800;" onclick="event.stopPropagation()">
-                Semua <?= e($cat['name']) ?> →
-              </a>
-              <?php foreach (array_slice($subs, 0, 5) as $sub): ?>
-              <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" class="pin-sub-item" onclick="event.stopPropagation()">
-                <?= e($sub['name']) ?>
-              </a>
-              <?php endforeach; ?>
-              <?php if (count($subs) > 5): ?>
-              <span class="pin-sub-item" style="color:rgba(212,137,154,.35);font-style:italic;">
-                +<?= count($subs) - 5 ?> lainnya
-              </span>
-              <?php endif; ?>
-            </div>
-            <?php elseif (!empty($cat['description'])): ?>
-            <!-- Short desc + CTA for leaf categories -->
-            <div class="pin-subs">
-              <p style="
-  font-size:11.5px;
-  line-height:1.5;
-  color:rgba(255,255,255,.45);
-  margin-bottom:10px;
-
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-
-  line-clamp:2;
-
-  overflow:hidden;
-">
-                <?= e($cat['description']) ?>
-              </p>
-              <a href="<?= $cat_url ?>" class="pin-cta" onclick="event.stopPropagation()">
-                <svg width="9" height="9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                Lihat Produk
-              </a>
-            </div>
-            <?php else: ?>
-            <div class="pin-subs">
-              <a href="<?= $cat_url ?>" class="pin-cta" onclick="event.stopPropagation()">
-                <svg width="9" height="9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                Lihat Produk
-              </a>
-            </div>
-            <?php endif; ?>
-          </div>
-
-        </<?= $tag ?>>
-      </div>
-      <?php endforeach; ?>
-    </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 mb-12">
+    <div class="tsuki-section-label">Layanan di <?= e($location['name']) ?></div>
+    <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--tsuki);line-height:1.2;margin-bottom:10px;">
+      Layanan Bunga<br>
+      <span style="background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">屏風 — Byobu Florist</span>
+    </h2>
+    <p style="font-size:15px;color:rgba(196,181,212,0.5);max-width:500px;">Semua kebutuhan bunga tersedia dan siap dikirim ke <?= e($location['name']) ?></p>
   </div>
+
+  <!-- Byobu Grid -->
+  <div class="byobu-grid" style="max-width:1400px;margin:0 auto;">
+    <?php
+    $byobu_grads = ['byobu-grad-0','byobu-grad-1','byobu-grad-2','byobu-grad-3','byobu-grad-4','byobu-grad-5'];
+    $jp_nums = ['一','二','三','四','五','六','七','八','九','十','十一','十二'];
+    foreach ($all_cats as $i => $cat):
+      $subs    = $all_cats_subs[$cat['id']] ?? [];
+      $has_sub = !empty($subs);
+      $has_img = !empty($cat['image']);
+      $grad    = $byobu_grads[$i % count($byobu_grads)];
+      $jpnum   = $jp_nums[$i % count($jp_nums)];
+      $cat_url = BASE_URL . '/' . e($cat['slug']) . '/';
+      $tag     = $has_sub ? 'div' : 'a';
+      $href    = $has_sub ? '' : 'href="' . $cat_url . '"';
+    ?>
+    <<?= $tag ?> <?= $href ?> class="byobu-panel">
+      <!-- Background -->
+      <?php if ($has_img): ?>
+      <div class="byobu-bg" style="background-image:url('<?= e(imgUrl($cat['image'], 'category')) ?>');"></div>
+      <?php else: ?>
+      <div class="byobu-bg <?= $grad ?>"></div>
+      <?php endif; ?>
+      <div class="byobu-seigaiha"></div>
+      <div class="byobu-overlay"></div>
+
+      <!-- Vertical kanji number -->
+      <div class="byobu-kanji-num"><?= $jpnum ?></div>
+
+      <!-- Icon for no-image -->
+      <?php if (!$has_img && !empty($cat['icon'])): ?>
+      <div class="byobu-icon"><?= e($cat['icon']) ?></div>
+      <?php endif; ?>
+
+      <!-- Content -->
+      <div class="byobu-body">
+        <div class="byobu-goldline"></div>
+        <div class="byobu-count-chip">
+          <?php if ($has_sub): ?>
+          <?= count($subs) ?> Sub Layanan
+          <?php else: ?>
+          Lihat Produk
+          <?php endif; ?>
+        </div>
+        <div class="byobu-panel-name"><?= e($cat['name']) ?></div>
+
+        <?php if ($has_sub): ?>
+        <div class="byobu-subs">
+          <a href="<?= $cat_url ?>" class="byobu-sub-item" style="color:rgba(226,196,106,0.5);font-weight:700;" onclick="event.stopPropagation()">
+            Semua <?= e($cat['name']) ?> →
+          </a>
+          <?php foreach (array_slice($subs, 0, 4) as $sub): ?>
+          <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" class="byobu-sub-item" onclick="event.stopPropagation()">
+            <?= e($sub['name']) ?>
+          </a>
+          <?php endforeach; ?>
+          <?php if (count($subs) > 4): ?>
+          <span class="byobu-sub-item" style="color:rgba(196,181,212,0.25);font-style:italic;">+<?= count($subs) - 4 ?> lainnya</span>
+          <?php endif; ?>
+        </div>
+        <?php else: ?>
+        <div class="byobu-subs">
+          <?php if (!empty($cat['description'])): ?>
+          <p style="font-size:11.5px;line-height:1.5;color:rgba(196,181,212,0.35);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;"><?= e($cat['description']) ?></p>
+          <?php endif; ?>
+          <a href="<?= $cat_url ?>" class="byobu-cta" onclick="event.stopPropagation()">
+            Lihat Produk →
+          </a>
+        </div>
+        <?php endif; ?>
+      </div>
+    </<?= $tag ?>>
+    <?php endforeach; ?>
+  </div>
+
+  <div class="moon-line mt-0"></div>
 </section>
 
 
-<!-- ════ PRODUK ZIGZAG — PINTEREST STYLE ════ -->
-<section id="produk" class="py-20 relative overflow-hidden" style="background:var(--ivory);">
-  <div class="absolute top-0 left-0 w-full rose-line"></div>
-  <?= renderPetals(8,'🌸🌷🌺') ?>
-  <div style="position:absolute;top:5%;right:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(242,196,206,.28),transparent 65%);filter:blur(80px);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:5%;left:-60px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(200,119,138,.14),transparent 65%);filter:blur(80px);pointer-events:none;"></div>
+<!-- ════════════════════════════════════════
+     TANZAKU SCROLL — PRODUK PER KATEGORI
+════════════════════════════════════════ -->
+<section id="produk" class="tanzaku-section" style="padding:60px 0 100px;overflow:hidden;">
+  <?= renderFireflies(14) ?>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4">
+    <!-- Section heading -->
     <div class="text-center mb-16">
-      <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest uppercase mb-5" style="background:rgba(212,137,154,.1);border:1px solid rgba(212,137,154,.25);color:var(--dusty);">
-        <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:var(--rose);"></span>Semua Produk
-      </div>
-      <h2 class="font-serif font-black" style="font-size:clamp(1.8rem,4vw,2.6rem);color:var(--dark);">
-        Koleksi Bunga
-        <em style="font-style:italic;background:linear-gradient(135deg,var(--dusty),var(--rose),var(--blush));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><?= e($location['name']) ?></em>
+      <div class="tsuki-section-label" style="justify-content:center;">短冊 Koleksi Bunga</div>
+      <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--tsuki);margin-bottom:10px;">
+        Koleksi <em style="font-style:italic;background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><?= e($location['name']) ?></em>
       </h2>
-      <p class="mt-3 max-w-md mx-auto text-[15px]" style="color:var(--muted);">Tersusun per kategori — geser kanan kiri untuk melihat lebih banyak pilihan</p>
+      <p style="font-size:15px;color:rgba(196,181,212,0.45);max-width:420px;margin:0 auto;">Gulir kanan untuk melihat lebih banyak pilihan bunga indah</p>
     </div>
 
     <?php
-    $ptl=['🌸','🌺','🌷','🌼'];
-    $gfl=['linear-gradient(135deg,#f7e0e5,#f2c4ce)','linear-gradient(135deg,#fde8ef,#edb5c0)','linear-gradient(135deg,#fdf0f2,#e8a8b8)','linear-gradient(135deg,#f5d5dc,#d4899a)'];
-    foreach($cats_with_products as $ri=>$row):
-      $cat=$row['cat'];$prods=$row['products'];
-      $isRev=($ri%2!==0);$sid='zzs-'.$cat['id'];
-      $catUrl=BASE_URL.'/'.e($cat['slug']).'/';
-      $num=str_pad($ri+1,2,'0',STR_PAD_LEFT);
-      $petal=$ptl[$ri%4];$gfall=$gfl[$ri%4];
+    $moon_sep = ['🌙','✦','🌸','·','月','✧'];
+    foreach ($cats_with_products as $ri => $row):
+      $cat   = $row['cat'];
+      $prods = $row['products'];
+      $sid   = 'tzk-' . $cat['id'];
+      $catUrl = BASE_URL . '/' . e($cat['slug']) . '/';
+      $msep  = $moon_sep[$ri % count($moon_sep)];
     ?>
+    <div class="tanzaku-row">
+      <!-- Row header -->
+      <div class="tanzaku-row-header">
+        <h3 class="tanzaku-row-title"><?= e($cat['name']) ?></h3>
+        <div class="tanzaku-row-line"></div>
+        <span class="tanzaku-row-count"><?= count($prods) ?> produk</span>
+        <a href="<?= $catUrl ?>" style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;flex-shrink:0;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+          Lihat Semua →
+        </a>
+      </div>
 
-    <div class="zzrow <?= $isRev?'rev':'' ?>">
-
-      <!-- Category card -->
-      <a href="<?= $catUrl ?>" class="zz-cat">
-        <?php if(!empty($cat['image'])): ?>
-        <div class="zz-cat-bg" style="background-image:url('<?= e(imgUrl($cat['image'],'category')) ?>');"></div>
-        <?php else: ?>
-        <div class="zz-cat-bg" style="background:<?= $gfall ?>;"></div>
-        <?php endif; ?>
-        <div class="zz-cat-ov"></div>
-        <div class="zz-cat-stripe"></div>
-        <div class="zz-cat-num"><?= $num ?></div>
-        <div class="zz-cat-chip">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block;flex-shrink:0;"></span>
-          <?= count($prods) ?> Produk
-        </div>
-        <div class="zz-cat-petal"><?= $petal ?></div>
-        <div class="zz-cat-body">
-          <div class="zz-cat-growline"></div>
-          <div class="zz-cat-eyebrow">Kategori <?= $num ?></div>
-          <div class="zz-cat-name"><?= e($cat['name']) ?></div>
-          <?php if(!empty($cat['description'])): ?><div class="zz-cat-desc"><?= e($cat['description']) ?></div><?php endif; ?>
-          <span class="zz-cat-cta">
-            <svg width="11" height="11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-            Lihat Semua
-          </span>
-        </div>
-      </a>
-
-      <!-- Rail + products -->
-      <div class="zz-rail">
-        <div class="zz-rail-lbl"><?= e($cat['name']) ?> &nbsp;·&nbsp; <?= count($prods) ?> produk</div>
-        <button class="zz-nav l hide" onclick="zzNav('<?= $sid ?>',this,-1)">
+      <!-- Scroll rail -->
+      <div class="tanzaku-scroll-wrap" style="position:relative;">
+        <button class="tzk-nav l hide" onclick="tzkNav('<?= $sid ?>',this,-1)">
           <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <button class="zz-nav r" onclick="zzNav('<?= $sid ?>',this,1)">
+        <button class="tzk-nav r" onclick="tzkNav('<?= $sid ?>',this,1)">
           <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div id="<?= $sid ?>" class="zz-scroll" onscroll="zzScrollEvt(this,'<?= $sid ?>-bar')">
-          <?php foreach($prods as $prod):
-            $img=imgUrl($prod['image'],'product');
-            $wamsg=urlencode("Halo, saya tertarik memesan *{$prod['name']}* untuk dikirim ke {$location['name']}. Apakah tersedia?");
+
+        <div id="<?= $sid ?>" class="tanzaku-scroll" onscroll="tzkScrollEvt(this,'<?= $sid ?>-bar')">
+          <?php foreach ($prods as $prod):
+            $img   = imgUrl($prod['image'], 'product');
+            $wamsg = urlencode("Halo, saya tertarik memesan *{$prod['name']}* untuk dikirim ke {$location['name']}. Apakah tersedia?");
           ?>
-          <a href="<?= e($wa_url) ?>?text=<?= $wamsg ?>" target="_blank" class="zz-pcard">
-            <div class="zz-pimg-wrap">
-              <img src="<?= e($img) ?>" alt="<?= e($prod['name']) ?>" class="zz-pimg" loading="lazy">
-              <div class="zz-pimg-ov"></div>
-              <span class="zz-pcat"><?= e($cat['name']) ?></span>
-              <div class="zz-ppill"><?= rupiah($prod['price']) ?></div>
+          <a href="<?= e($wa_url) ?>?text=<?= $wamsg ?>" target="_blank" class="tanzaku-card">
+            <!-- String ornament -->
+            <div class="tanzaku-string"></div>
+            <div class="tanzaku-hole"></div>
+            <div class="tanzaku-frame"></div>
+            <div class="tanzaku-shimmer"></div>
+
+            <!-- Image -->
+            <div class="tanzaku-img-wrap">
+              <img src="<?= e($img) ?>" alt="<?= e($prod['name']) ?>" class="tanzaku-img" loading="lazy">
+              <div class="tanzaku-img-ov"></div>
+              <div class="tanzaku-badge"><?= e($cat['name']) ?></div>
             </div>
-            <div class="zz-pbody">
-              <div class="zz-pname"><?= e($prod['name']) ?></div>
-              <div class="zz-pprice"><?= rupiah($prod['price']) ?></div>
-              <div class="zz-pwa">
-                <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
+
+            <!-- Body -->
+            <div class="tanzaku-body">
+              <div class="tanzaku-name"><?= e($prod['name']) ?></div>
+              <div class="tanzaku-price"><?= rupiah($prod['price']) ?></div>
+              <div class="tanzaku-btn">
+                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
                 Pesan WA
               </div>
             </div>
           </a>
           <?php endforeach; ?>
         </div>
-        <div class="zz-progwrap"><div class="zz-progtrack"><div id="<?= $sid ?>-bar" class="zz-progbar"></div></div></div>
+
+        <div class="tzk-progress-track">
+          <div id="<?= $sid ?>-bar" class="tzk-progress-bar"></div>
+        </div>
       </div>
+    </div>
 
-    </div><!-- /zzrow -->
-
-    <?php if($ri < count($cats_with_products)-1): ?>
-    <div class="zz-sep"><div class="zz-sep-line"></div><span class="zz-sep-icon"><?= $petal ?></span><div class="zz-sep-line"></div></div>
+    <?php if ($ri < count($cats_with_products) - 1): ?>
+    <div class="washi-sep">
+      <div class="washi-sep-line"></div>
+      <span class="washi-sep-moon"><?= $msep ?></span>
+      <div class="washi-sep-line"></div>
+    </div>
     <?php endif; ?>
 
     <?php endforeach; ?>
@@ -855,151 +1616,195 @@ function renderPetals(int $n, string $emojis='🌸🌺🌷🌼'): string {
 </section>
 
 
-<!-- ════ SEO + FAQ + SIDEBAR ════ -->
-<section class="py-20 relative overflow-hidden" style="background:var(--cream);">
-  <div class="absolute top-0 left-0 w-full h-px rose-line"></div>
-  <?= renderPetals(8,'🌷🌸🌺🌼') ?>
+<!-- ════════════════════════════════════════
+     FAQ + SIDEBAR — TSUKIMI STYLE
+════════════════════════════════════════ -->
+<section class="tsuki-faq-section" style="padding:120px 0 80px;">
+  <?= renderFireflies(8) ?>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4">
-    <div class="grid md:grid-cols-2 gap-16 items-start">
+    <div class="grid md:grid-cols-5 gap-12">
 
-      <div class="space-y-6">
+      <!-- Left: About + FAQ (3 cols) -->
+      <div class="md:col-span-3 space-y-8">
+
+        <!-- About -->
         <div>
-          <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest uppercase mb-6" style="background:rgba(212,137,154,.1);border:1px solid rgba(212,137,154,.25);color:var(--dusty);">
-            <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:var(--rose);"></span>Tentang Kami
-          </div>
-          <h2 class="font-serif font-black leading-tight mb-5" style="font-size:clamp(1.5rem,3vw,2rem);color:var(--dark);">
+          <div class="tsuki-section-label">Tentang Kami</div>
+          <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--tsuki);line-height:1.25;margin-bottom:16px;">
             Toko Bunga <?= e($location['name']) ?><br>
-            <span style="background:linear-gradient(135deg,var(--dusty),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Terpercaya & Berpengalaman</span>
+            <span style="background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Terpercaya & Berpengalaman</span>
           </h2>
-          <?php if(!empty($location['content'])): ?><div class="leading-relaxed text-[15px] mb-5" style="color:var(--muted);"><?= $location['content'] ?></div><?php endif; ?>
-          <p class="text-[15px] leading-relaxed mb-6" style="color:var(--muted);">Sebagai <strong style="color:var(--dark);">toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani pelanggan lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam.</p>
-          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di '.$location['name'].'. Mohon info harga dan ketersediaannya.') ?>" target="_blank"
-             class="inline-flex items-center gap-2.5 font-bold px-7 py-3.5 rounded-full no-underline transition hover:-translate-y-1"
-             style="background:linear-gradient(135deg,var(--dusty),var(--rose));color:#fff;box-shadow:0 8px 24px rgba(200,119,138,.3);">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
-            Pesan via WhatsApp
+        </div>
+
+        <div class="tsuki-about">
+          <?php if (!empty($location['content'])): ?>
+          <div style="font-size:15px;line-height:1.75;color:rgba(196,181,212,0.6);margin-bottom:14px;"><?= $location['content'] ?></div>
+          <?php endif; ?>
+          <p style="font-size:15px;line-height:1.75;color:rgba(196,181,212,0.55);">
+            Sebagai <strong style="color:var(--lav2);">toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari.
+          </p>
+          <div style="margin-top:20px;">
+            <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di ' . $location['name'] . '.') ?>"
+               target="_blank" class="btn-wa-moon">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
+              Pesan via WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <?php if (!empty($faqs)): ?>
+        <div>
+          <div class="tsuki-section-label">よくある質問 — FAQ</div>
+          <?php foreach ($faqs as $i => $faq): ?>
+          <div class="tsuki-faq-card <?= $i === 0 ? 'open' : '' ?>" onclick="toggleTsukiFaq(this)">
+            <div class="tsuki-faq-trigger">
+              <span class="tsuki-faq-num"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></span>
+              <span class="tsuki-faq-q"><?= e($faq['question']) ?></span>
+              <svg class="tsuki-faq-chevron w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+            <div class="tsuki-faq-body <?= $i === 0 ? 'open' : '' ?>">
+              <p class="tsuki-faq-answer"><?= e($faq['answer']) ?></p>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+      </div>
+
+      <!-- Right: Sidebar (2 cols) -->
+      <div class="md:col-span-2 space-y-4">
+
+        <!-- CTA Box -->
+        <div class="tsuki-cta-box">
+          <div style="font-size:2.5rem;margin-bottom:10px;">🌙</div>
+          <p style="font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;color:var(--silver);margin-bottom:4px;">Siap Pesan Sekarang?</p>
+          <p style="font-size:13px;color:rgba(196,181,212,0.45);margin-bottom:18px;">Respon dalam hitungan menit — 24 jam</p>
+          <a href="<?= e($wa_url) ?>" target="_blank" class="btn-wa-moon" style="width:100%;justify-content:center;">
+            Chat WhatsApp
           </a>
         </div>
 
-        <div class="rounded-2xl p-5" style="background:#fff;border:1px solid rgba(212,137,154,.15);box-shadow:0 4px 20px rgba(212,137,154,.1);">
-          <div class="flex items-center gap-2 mb-4"><span style="color:var(--rose);">📍</span><h3 class="font-serif font-black" style="color:var(--dark);">Area Lainnya</h3></div>
-          <div class="flex flex-wrap gap-2">
-            <?php foreach($locations as $l): ?>
+        <!-- Info Card -->
+        <div class="tsuki-sidebar-panel">
+          <div class="tsuki-panel-header">
+            <span class="tsuki-panel-icon">📍</span>
+            <span class="tsuki-panel-title">Info Toko</span>
+          </div>
+          <div style="padding:12px 18px;font-size:13px;line-height:1.8;color:rgba(196,181,212,0.55);">
+            <div>📍 <?= e($location['name']) ?>, Grogol</div>
+            <div>⏰ <?= e(setting('jam_buka')) ?></div>
+            <div>📞 <?= e(setting('phone_display')) ?></div>
+            <div>💐 Mulai <?= rupiah($min_price) ?></div>
+          </div>
+        </div>
+
+        <!-- Area lainnya -->
+        <div class="tsuki-sidebar-panel">
+          <div class="tsuki-panel-header">
+            <span class="tsuki-panel-icon">🗾</span>
+            <span class="tsuki-panel-title">Area Lainnya</span>
+          </div>
+          <div style="padding:12px 16px 14px;display:flex;flex-wrap:wrap;gap:7px;">
+            <?php foreach ($locations as $l): ?>
             <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
-               class="area-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold no-underline transition"
-               style="background:rgba(212,137,154,.08);border:1px solid rgba(212,137,154,.15);color:<?= $l['id']==$location['id']?'var(--dusty)':'var(--muted)' ?>;<?= $l['id']==$location['id']?'background:rgba(212,137,154,.15);border-color:rgba(212,137,154,.4);':'' ?>">
-              <span class="w-1 h-1 rounded-full inline-block flex-shrink-0" style="background:<?= $l['id']==$location['id']?'var(--rose)':'rgba(44,26,30,.2)' ?>;"></span><?= e($l['name']) ?>
+               class="tsuki-area-pill <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
+              <span style="width:5px;height:5px;border-radius:50%;background:<?= $l['id'] == $location['id'] ? 'var(--gold)' : 'rgba(196,181,212,0.25)' ?>;display:inline-block;flex-shrink:0;"></span>
+              <?= e($l['name']) ?>
             </a>
             <?php endforeach; ?>
           </div>
         </div>
 
-        <div class="rounded-2xl p-6 text-center" style="background:linear-gradient(135deg,rgba(212,137,154,.12),rgba(242,196,206,.08));border:1px solid rgba(212,137,154,.2);">
-          <div class="text-4xl mb-3">💬</div>
-          <p class="font-serif font-bold text-lg mb-1" style="color:var(--dark);">Siap Pesan?</p>
-          <p class="text-sm mb-5" style="color:var(--muted);">Respon dalam hitungan menit, 24 jam</p>
-          <a href="<?= e($wa_url) ?>" target="_blank" class="inline-flex items-center justify-center gap-2 font-bold px-6 py-3 rounded-full w-full no-underline transition hover:opacity-90" style="background:linear-gradient(135deg,var(--dusty),var(--rose));color:#fff;">Chat WhatsApp Sekarang</a>
-        </div>
-      </div>
-
-      <div class="space-y-6">
-        <?php if(!empty($faqs)): ?>
-        <div class="rounded-2xl overflow-hidden" style="background:#fff;border:1px solid rgba(212,137,154,.15);box-shadow:0 4px 24px rgba(212,137,154,.1);">
-          <div class="px-6 pt-6 pb-4 flex items-center justify-between">
-            <div>
-              <p class="text-[10px] font-bold uppercase tracking-widest mb-1" style="color:rgba(212,137,154,.6);">Pertanyaan Umum</p>
-              <h3 class="font-serif font-black text-xl leading-tight" style="color:var(--dark);">FAQ — <span style="background:linear-gradient(135deg,var(--dusty),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><?= e($location['name']) ?></span></h3>
-            </div>
-            <span class="text-3xl opacity-40">❓</span>
+        <!-- Layanan accordion -->
+        <div class="tsuki-sidebar-panel">
+          <div class="tsuki-panel-header">
+            <span class="tsuki-panel-icon">🌸</span>
+            <span class="tsuki-panel-title">Layanan Kami</span>
           </div>
-          <div class="h-px mx-6 mb-5" style="background:linear-gradient(90deg,rgba(212,137,154,.35),transparent);"></div>
-          <div class="px-5 pb-5 space-y-2.5">
-            <?php foreach($faqs as $i=>$faq): ?>
-            <div class="faq-new-card <?= $i===0?'open':'' ?>" onclick="toggleFaqNew(this)">
-              <div class="flex items-start gap-3">
-                <div class="faq-new-icon"><?= str_pad($i+1,2,'0',STR_PAD_LEFT) ?></div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-2">
-                    <p class="text-[13px] font-semibold leading-snug pr-1" style="color:var(--dark);"><?= e($faq['question']) ?></p>
-                    <svg class="faq-new-chevron w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--muted);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
-                  </div>
-                  <div class="faq-new-body <?= $i===0?'open':'' ?>">
-                    <p class="text-[12.5px] leading-relaxed mt-3 pt-3 border-t" style="color:var(--muted);border-color:rgba(212,137,154,.12);"><?= e($faq['answer']) ?></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
-        <?php endif; ?>
-
-        <div class="rounded-2xl p-5" style="background:#fff;border:1px solid rgba(212,137,154,.15);box-shadow:0 4px 20px rgba(212,137,154,.08);">
-          <h3 class="font-serif font-black mb-4" style="color:var(--dark);">Layanan Kami</h3>
-          <div class="space-y-1">
-            <?php foreach($all_cats as $c):
-              $c_subs=$all_cats_subs[$c['id']]??[];$has_sub=!empty($c_subs);
+          <div style="padding:8px 10px 10px;">
+            <?php foreach ($all_cats as $c):
+              $c_subs  = $all_cats_subs[$c['id']] ?? [];
+              $has_sub = !empty($c_subs);
             ?>
-            <?php if($has_sub): ?>
-            <div>
-              <button onclick="toggleSidebarAcc(this)" class="sidebar-acc-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition" style="background:transparent;border:none;cursor:pointer;">
-                <span class="text-[13px] font-medium text-left" style="color:var(--muted);"><?= e($c['name']) ?></span>
-                <svg class="acc-chevron w-3.5 h-3.5 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(44,26,30,.2);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <?php if ($has_sub): ?>
+            <div style="margin-bottom:2px;">
+              <button onclick="toggleTsukiAcc(this)" class="tsuki-acc-btn w-full flex items-center justify-between px-3 py-2.5 rounded-lg" style="background:transparent;border:none;cursor:pointer;text-align:left;">
+                <span style="font-size:13px;font-weight:500;color:rgba(196,181,212,0.55);"><?= e($c['name']) ?></span>
+                <svg class="tsuki-acc-chev w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(196,181,212,0.25);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
               </button>
-              <div class="sidebar-acc-content pl-3 ml-4 mt-1" style="border-left:1.5px solid rgba(212,137,154,.2);">
-                <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" class="block px-3 py-1.5 text-[11px] font-bold no-underline transition" style="color:rgba(200,119,138,.6);">Lihat semua <?= e($c['name']) ?> →</a>
-                <?php foreach($c_subs as $sub): ?>
-                <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" class="flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] no-underline transition" style="color:var(--muted);">
-                  <span class="w-1 h-1 rounded-full flex-shrink-0 inline-block" style="background:rgba(212,137,154,.3);"></span><?= e($sub['name']) ?>
+              <div class="tsuki-acc-content pl-3 ml-3" style="border-left:1px solid rgba(201,168,76,0.2);">
+                <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" style="display:block;padding:5px 10px;font-size:11px;font-weight:700;color:rgba(201,168,76,0.5);text-decoration:none;">Lihat semua →</a>
+                <?php foreach ($c_subs as $sub): ?>
+                <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" style="display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:12px;color:rgba(196,181,212,0.4);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(196,181,212,0.75)'" onmouseout="this.style.color='rgba(196,181,212,0.4)'">
+                  <span style="width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,0.4);flex-shrink:0;display:inline-block;"></span>
+                  <?= e($sub['name']) ?>
                 </a>
                 <?php endforeach; ?>
               </div>
             </div>
             <?php else: ?>
-            <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" class="flex items-center justify-between px-3 py-2.5 rounded-xl no-underline transition" style="color:var(--muted);">
-              <span class="text-[13px] font-medium"><?= e($c['name']) ?></span>
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(44,26,30,.2);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;text-decoration:none;color:rgba(196,181,212,0.5);font-size:13px;font-weight:500;transition:color 0.15s,background 0.15s;" onmouseover="this.style.color='rgba(196,181,212,0.8)';this.style.background='rgba(196,181,212,0.05)'" onmouseout="this.style.color='rgba(196,181,212,0.5)';this.style.background='transparent'">
+              <span><?= e($c['name']) ?></span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(196,181,212,0.2);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </a>
             <?php endif; ?>
             <?php endforeach; ?>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
+  <div class="moon-line" style="margin-top:60px;"></div>
 </section>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
 
 <script>
-function toggleFaqNew(card) {
-  const body=card.querySelector('.faq-new-body'),isOpen=card.classList.contains('open');
-  document.querySelectorAll('.faq-new-card.open').forEach(c=>{c.classList.remove('open');c.querySelector('.faq-new-body').classList.remove('open')});
-  if(!isOpen){card.classList.add('open');body.classList.add('open')}
+/* ── FAQ toggle ── */
+function toggleTsukiFaq(card) {
+  const body = card.querySelector('.tsuki-faq-body');
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.tsuki-faq-card.open').forEach(c => {
+    c.classList.remove('open');
+    c.querySelector('.tsuki-faq-body').classList.remove('open');
+  });
+  if (!isOpen) { card.classList.add('open'); body.classList.add('open'); }
 }
-function toggleSidebarAcc(btn) {
-  const content=btn.nextElementSibling,isOpen=content.classList.contains('open');
-  document.querySelectorAll('.sidebar-acc-content.open').forEach(el=>el.classList.remove('open'));
-  document.querySelectorAll('.sidebar-acc-btn.open').forEach(el=>el.classList.remove('open'));
-  if(!isOpen){btn.classList.add('open');content.classList.add('open')}
+
+/* ── Sidebar accordion ── */
+function toggleTsukiAcc(btn) {
+  const content = btn.nextElementSibling;
+  const isOpen = content.classList.contains('open');
+  document.querySelectorAll('.tsuki-acc-content.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.tsuki-acc-btn.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) { btn.classList.add('open'); content.classList.add('open'); }
 }
-function zzNav(sid,btn,dir) {
-  const el=document.getElementById(sid);if(!el)return;
-  el.scrollBy({left:dir*600,behavior:'smooth'});
-  setTimeout(()=>zzScrollEvt(el,sid+'-bar'),350);
+
+/* ── Tanzaku scroll navigation ── */
+function tzkNav(sid, btn, dir) {
+  const el = document.getElementById(sid);
+  if (!el) return;
+  el.scrollBy({ left: dir * 560, behavior: 'smooth' });
+  setTimeout(() => tzkScrollEvt(el, sid + '-bar'), 350);
 }
-function zzScrollEvt(el,barId) {
-  const bar=document.getElementById(barId),maxS=el.scrollWidth-el.clientWidth;
-  const pct=maxS>0?(el.scrollLeft/maxS)*72+12:12;
-  if(bar)bar.style.width=pct+'%';
-  const rail=el.closest('.zz-rail');
-  const navL=rail.querySelector('.zz-nav.l'),navR=rail.querySelector('.zz-nav.r');
-  if(navL)navL.classList.toggle('hide',el.scrollLeft<20);
-  if(navR)navR.classList.toggle('hide',el.scrollLeft>=maxS-20);
+function tzkScrollEvt(el, barId) {
+  const bar  = document.getElementById(barId);
+  const maxS = el.scrollWidth - el.clientWidth;
+  const pct  = maxS > 0 ? (el.scrollLeft / maxS) * 72 + 12 : 12;
+  if (bar) bar.style.width = pct + '%';
+  const wrap = el.closest('.tanzaku-scroll-wrap');
+  if (!wrap) return;
+  const navL = wrap.querySelector('.tzk-nav.l');
+  const navR = wrap.querySelector('.tzk-nav.r');
+  if (navL) navL.classList.toggle('hide', el.scrollLeft < 20);
+  if (navR) navR.classList.toggle('hide', el.scrollLeft >= maxS - 20);
 }
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.zz-scroll').forEach(el=>zzScrollEvt(el,el.id+'-bar'));
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.tanzaku-scroll').forEach(el => tzkScrollEvt(el, el.id + '-bar'));
 });
 </script>
