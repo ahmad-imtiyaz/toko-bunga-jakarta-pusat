@@ -453,15 +453,22 @@ $tanzakuKanji = ['花咲','心縁','詩春','美夢','香彩','幸愛'];
   line-height: 1.9;
   color: #4a3828;
   text-align: center;
-  /* Tulis horizontal tapi ditampilkan dalam card vertikal */
+
+  /* Tetap horizontal */
   writing-mode: horizontal-tb;
+
   max-height: 120px;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-}
 
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+
+  /* WebKit (Chrome, Safari, Edge) */
+  -webkit-line-clamp: 6;
+
+  /* Standard property */
+  line-clamp: 6;
+}
 /* Nama author */
 .tanzaku-name {
   font-family: 'Noto Serif JP', serif;
