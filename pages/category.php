@@ -795,7 +795,9 @@ require __DIR__ . '/../includes/header.php';
        animation-duration: <?= $dur ?>s;
        transform: rotate(<?= $rot ?>deg);
      ">
+     
 </div>
+
   <?php endfor; ?>
 </div>
 
