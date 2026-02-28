@@ -699,9 +699,16 @@ $icon_list  = ['🌸','💐','🌺','🌹','🌷','🌼','🪷','🏵️'];
   color: rgba(245,240,232,.9);
   line-height: 1.35;
   letter-spacing: .03em;
+
   display: -webkit-box;
   -webkit-box-orient: vertical;
+
+  /* WebKit */
   -webkit-line-clamp: 2;
+
+  /* Standard */
+  line-clamp: 2;
+
   overflow: hidden;
 }
 
@@ -711,9 +718,16 @@ $icon_list  = ['🌸','💐','🌺','🌹','🌷','🌼','🪷','🏵️'];
   color: rgba(245,240,232,.3);
   font-weight: 300;
   margin-bottom: 12px;
+
   display: -webkit-box;
   -webkit-box-orient: vertical;
+
+  /* WebKit */
   -webkit-line-clamp: 2;
+
+  /* Standard */
+  line-clamp: 2;
+
   overflow: hidden;
   flex: 1;
 }
