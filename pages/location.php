@@ -1239,6 +1239,7 @@ body { font-family: 'Zen Kaku Gothic New', sans-serif; background: var(--navy); 
   .tanzaku-card { flex: 0 0 148px; height: 280px; }
   .tanzaku-img-wrap { height: 155px; }
 }
+
 </style>
 
 <?php
@@ -1454,9 +1455,8 @@ function renderFireflies(int $n = 18): string {
       $grad    = $byobu_grads[$i % count($byobu_grads)];
       $jpnum   = $jp_nums[$i % count($jp_nums)];
       $cat_url = BASE_URL . '/' . e($cat['slug']) . '/';
-      $tag     = $has_sub ? 'div' : 'a';
-      $href    = $has_sub ? '' : 'href="' . $cat_url . '"';
-    ?>
+     ?>
+    <div class="byobu-panel" <?= !$has_sub ? 'onclick="location.href=\'' . $cat_url . '\'"' : '' ?>>
     <<?= $tag ?> <?= $href ?> class="byobu-panel">
       <!-- Background -->
       <?php if ($has_img): ?>
@@ -1512,8 +1512,27 @@ function renderFireflies(int $n = 18): string {
         </div>
         <?php endif; ?>
       </div>
-    </<?= $tag ?>>
+</div>
     <?php endforeach; ?>
+
+    <?php
+    /* ── Phantom panels agar grid selalu penuh ── */
+    $total = count($all_cats);
+    $cols_desktop = 4;
+    $remainder = $total % $cols_desktop;
+    if ($remainder > 0):
+      $phantom_count = $cols_desktop - $remainder;
+      for ($ph = 0; $ph < $phantom_count; $ph++):
+    ?>
+    <div class="byobu-panel" style="
+      pointer-events: none;
+      visibility: hidden;
+      min-height: 340px;
+      border: none;
+      background: transparent;
+    "></div>
+    <?php endfor; endif; ?>
+
   </div>
 
   <div class="moon-line mt-0"></div>
