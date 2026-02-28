@@ -905,39 +905,7 @@ $sageAccents = ['#7A8C6E','#6B7D60','#8FA082','#5A6E52'];
   </div><!-- /faq-inner -->
 </section>
 
-<!-- ═══════════════════════════════════════
-     KUMO BAWAH — FAQ (matcha) → CTA
-═══════════════════════════════════════ -->
-<div class="faq-kumo-bottom" aria-hidden="true">
-  <svg viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,0 L1440,0 L1440,110 L0,110 Z" fill="#7A8C6E"/>
-    <!-- Kumo ke bawah (warna CTA) -->
-    <ellipse cx="60"   cy="5"  rx="100" ry="38" fill="#0f0d0a" opacity=".93"/>
-    <ellipse cx="40"   cy="8"  rx="65"  ry="27" fill="#0f0d0a" opacity=".88"/>
-    <ellipse cx="150"  cy="4"  rx="90"  ry="35" fill="#0f0d0a" opacity=".9"/>
-    <ellipse cx="240"  cy="6"  rx="80"  ry="32" fill="#0f0d0a" opacity=".86"/>
-    <ellipse cx="320"  cy="3"  rx="95"  ry="38" fill="#0f0d0a" opacity=".9"/>
-    <ellipse cx="420"  cy="6"  rx="88"  ry="34" fill="#0f0d0a" opacity=".85"/>
-    <ellipse cx="510"  cy="4"  rx="102" ry="40" fill="#0f0d0a" opacity=".92"/>
-    <ellipse cx="620"  cy="7"  rx="86"  ry="33" fill="#0f0d0a" opacity=".88"/>
-    <ellipse cx="720"  cy="3"  rx="100" ry="39" fill="#0f0d0a" opacity=".86"/>
-    <ellipse cx="820"  cy="6"  rx="92"  ry="36" fill="#0f0d0a" opacity=".9"/>
-    <ellipse cx="920"  cy="4"  rx="104" ry="40" fill="#0f0d0a" opacity=".88"/>
-    <ellipse cx="1020" cy="7"  rx="86"  ry="33" fill="#0f0d0a" opacity=".85"/>
-    <ellipse cx="1110" cy="3"  rx="98"  ry="38" fill="#0f0d0a" opacity=".9"/>
-    <ellipse cx="1200" cy="6"  rx="92"  ry="36" fill="#0f0d0a" opacity=".87"/>
-    <ellipse cx="1290" cy="4"  rx="86"  ry="34" fill="#0f0d0a" opacity=".9"/>
-    <ellipse cx="1380" cy="7"  rx="100" ry="39" fill="#0f0d0a" opacity=".86"/>
-    <ellipse cx="1440" cy="4"  rx="80"  ry="32" fill="#0f0d0a" opacity=".83"/>
-    <ellipse cx="80"   cy="2"  rx="66"  ry="26" fill="#7A8C6E" opacity=".55"/>
-    <ellipse cx="270"  cy="3"  rx="80"  ry="30" fill="#7A8C6E" opacity=".5"/>
-    <ellipse cx="470"  cy="2"  rx="72"  ry="28" fill="#7A8C6E" opacity=".55"/>
-    <ellipse cx="670"  cy="3"  rx="86"  ry="32" fill="#7A8C6E" opacity=".52"/>
-    <ellipse cx="870"  cy="2"  rx="78"  ry="30" fill="#7A8C6E" opacity=".55"/>
-    <ellipse cx="1070" cy="3"  rx="82"  ry="31" fill="#7A8C6E" opacity=".5"/>
-    <ellipse cx="1270" cy="2"  rx="76"  ry="29" fill="#7A8C6E" opacity=".52"/>
-  </svg>
-</div>
+
 
 <script>
 (function () {
