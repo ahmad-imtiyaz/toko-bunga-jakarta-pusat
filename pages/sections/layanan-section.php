@@ -31,7 +31,7 @@ $icon_list  = ['🌸','💐','🌺','🌹','🌷','🌼','🪷','🏵️'];
 ══════════════════════════════════════════════ */
 
 /* ── Seigaiha SVG pattern (background) ── */
-#layanan-zen {
+#layanan {
   position: relative;
   background-color: #F7F2EA;
   overflow: hidden;
@@ -39,7 +39,7 @@ $icon_list  = ['🌸','💐','🌺','🌹','🌷','🌼','🪷','🏵️'];
 }
 
 /* Seigaiha pattern overlay */
-#layanan-zen::before {
+#layanan::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -623,7 +623,7 @@ $icon_list  = ['🌸','💐','🌺','🌹','🌷','🌼','🪷','🏵️'];
 <!-- ══════════════════════════════════
      LAYANAN SECTION
 ══════════════════════════════════ -->
-<section id="layanan-zen">
+<section id="layanan">
   <div class="layanan-inner">
 
     <!-- Header -->
