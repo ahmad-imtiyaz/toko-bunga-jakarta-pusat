@@ -713,8 +713,14 @@ section[id] { scroll-margin-top: 88px; }
 ══════════════════════════════════════════ */
 .line-clamp-2 {
   display: -webkit-box;
+  display: box; /* future compatibility */
+
   -webkit-box-orient: vertical;
+  box-orient: vertical;
+
   -webkit-line-clamp: 2;
+  line-clamp: 2;
+
   overflow: hidden;
 }
 .prose p  { margin-bottom: 1rem; line-height: 1.75; }
