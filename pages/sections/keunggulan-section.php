@@ -530,22 +530,22 @@
     <div class="tentang-photo-grid">
 
       <div class="tpg-cell tpg-1">
-        <img src="<?= BASE_URL ?>/assets/images/h1.jpeg" alt="Bunga Segar" loading="lazy">
+        <img src="<?= BASE_URL ?>/assets/images/tengah.jpg" alt="Bunga Segar" loading="lazy">
         <span class="tpg-badge">Bunga Segar</span>
       </div>
 
       <div class="tpg-cell tpg-2">
-        <img src="<?= BASE_URL ?>/assets/images/h2.jpeg" alt="Hand Bouquet" loading="lazy">
+        <img src="<?= BASE_URL ?>/assets/images/kiri.jpg" alt="Bunga Indah" loading="lazy">
         <span class="tpg-badge">Hand Bouquet</span>
       </div>
 
       <div class="tpg-cell tpg-3">
-        <img src="<?= BASE_URL ?>/assets/images/h3.jpeg" alt="Bunga Papan" loading="lazy">
+        <img src="<?= BASE_URL ?>/assets/images/kanan.jpg" alt="Bunga Harum" loading="lazy">
         <span class="tpg-badge">Bunga Papan</span>
       </div>
 
       <div class="tpg-cell tpg-4">
-        <img src="<?= BASE_URL ?>/assets/images/h4.jpeg" alt="Standing Flower" loading="lazy">
+        <img src="<?= BASE_URL ?>/assets/images/panjang.jpg" alt="Flower" loading="lazy">
         <span class="tpg-badge">Standing Flower</span>
       </div>
 
