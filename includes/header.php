@@ -1,8 +1,6 @@
 <?php
 /* ============================================================
-   HEADER / NAVBAR — Shoji Screen | Zen Wabi-Sabi
-   Konsep: Panel shoji putih washi, hanko ring logo,
-           kanji sub-label menu, CTA matcha, 三 hamburger
+   HEADER / NAVBAR — Manila Florist · Kertas Cream Warm
 ============================================================ */
 $meta_title    = $meta_title    ?? setting('meta_title_home');
 $meta_desc     = $meta_desc     ?? setting('meta_desc_home');
@@ -27,39 +25,35 @@ $base_path    = trim(parse_url(BASE_URL, PHP_URL_PATH), '/');
 if ($base_path && str_starts_with($current_slug, $base_path))
     $current_slug = trim(substr($current_slug, strlen($base_path)), '/');
 
-/* Nav items dipecah 2 — Produk dropdown disisipkan di tengah */
 $nav_items_before = [
-    ['label'=>'Beranda',  'kanji'=>'家', 'href'=> BASE_URL . '/'],
-    ['label'=>'Tentang',  'kanji'=>'話', 'href'=> BASE_URL . '/#tentang'],
-    ['label'=>'Layanan',  'kanji'=>'花', 'href'=> BASE_URL . '/#layanan'],
+    ['label' => 'Beranda',   'href' => BASE_URL . '/'],
+    ['label' => 'Tentang',   'href' => BASE_URL . '/#tentang'],
+    ['label' => 'Layanan',   'href' => BASE_URL . '/#layanan'],
 ];
 $nav_items_after = [
-    ['label'=>'Area',     'kanji'=>'地', 'href'=> BASE_URL . '/#area'],
-    ['label'=>'Testimoni','kanji'=>'声', 'href'=> BASE_URL . '/#testimoni'],
-    ['label'=>'FAQ',      'kanji'=>'問', 'href'=> BASE_URL . '/#faq'],
+    ['label' => 'Area',      'href' => BASE_URL . '/#area'],
+    ['label' => 'Testimoni', 'href' => BASE_URL . '/#testimoni'],
+    ['label' => 'FAQ',       'href' => BASE_URL . '/#faq'],
 ];
-/* Gabungan untuk mobile */
-$nav_items = array_merge($nav_items_before, $nav_items_after);
 
-/* Produk tree */
 $desktop_tree = [];
 if (!empty($nav_parents)) {
     foreach ($nav_parents as $par)
-        $desktop_tree[] = ['name'=>$par['name'],'slug'=>$par['slug'],'children'=>$nav_children[$par['id']]??[]];
+        $desktop_tree[] = ['name' => $par['name'], 'slug' => $par['slug'], 'children' => $nav_children[$par['id']] ?? []];
 } else {
     $desktop_tree = [
-        ['name'=>'Bunga Papan','slug'=>'bunga-papan-jakarta-pusat','children'=>[
-            ['name'=>'Happy Wedding','slug'=>'bunga-papan-happy-wedding'],
-            ['name'=>'Duka Cita','slug'=>'bunga-papan-duka-cita'],
-            ['name'=>'Selamat & Sukses','slug'=>'bunga-papan-selamat'],
+        ['name' => 'Bunga Papan',      'slug' => 'bunga-papan-jakarta-pusat', 'children' => [
+            ['name' => 'Happy Wedding',    'slug' => 'bunga-papan-happy-wedding'],
+            ['name' => 'Duka Cita',        'slug' => 'bunga-papan-duka-cita'],
+            ['name' => 'Selamat & Sukses', 'slug' => 'bunga-papan-selamat'],
         ]],
-        ['name'=>'Hand Bouquet','slug'=>'hand-bouquet-jakarta-pusat','children'=>[
-            ['name'=>'Anniversary','slug'=>'hand-bouquet-anniversary'],
-            ['name'=>'Birthday','slug'=>'hand-bouquet-birthday'],
-            ['name'=>'Graduation','slug'=>'hand-bouquet-graduation'],
+        ['name' => 'Hand Bouquet',     'slug' => 'hand-bouquet-jakarta-pusat', 'children' => [
+            ['name' => 'Anniversary', 'slug' => 'hand-bouquet-anniversary'],
+            ['name' => 'Birthday',    'slug' => 'hand-bouquet-birthday'],
+            ['name' => 'Graduation',  'slug' => 'hand-bouquet-graduation'],
         ]],
-        ['name'=>'Bunga Meja','slug'=>'bunga-meja-jakarta-pusat','children'=>[]],
-        ['name'=>'Standing Flowers','slug'=>'standing-flowers-jakarta-pusat','children'=>[]],
+        ['name' => 'Bunga Meja',       'slug' => 'bunga-meja-jakarta-pusat',       'children' => []],
+        ['name' => 'Standing Flowers', 'slug' => 'standing-flowers-jakarta-pusat', 'children' => []],
     ];
 }
 ?>
@@ -79,9 +73,9 @@ if (!empty($nav_parents)) {
 <meta property="og:type"        content="website">
 <meta property="og:url"         content="<?= e(BASE_URL) ?>">
 
-<!-- ── Google Fonts ── -->
+<!-- Fonts: Cormorant (display) + Jost (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -89,21 +83,15 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        sumi:    '#1C1C1C',
-        washi:   '#F5F0E8',
-        matcha:  '#7A8C6E',
-        shiitake:'#8B6F5E',
-        bamboo:  '#C4A882',
-        sakura:  '#E8C4B8',
-        ink:     '#3D2B1F',
-        moss:    '#4A5E3A',
-        rice:    '#FDFAF5',
-      },
-      fontFamily: {
-        serif:  ['"Noto Serif JP"','Georgia','serif'],
-        sans:   ['"Zen Kaku Gothic New"','sans-serif'],
-        italic: ['"Cormorant Garamond"','Georgia','serif'],
-      },
+        manila:  '#F2E8D5',
+        paper:   '#FBF6EE',
+        ink:     '#2A1F14',
+        inkl:    '#5C4A35',
+        rose:    '#C07B60',
+        rosel:   '#DFA98C',
+        sage:    '#6B8C6A',
+        muted:   '#8A7560',
+      }
     }
   }
 }
@@ -113,538 +101,357 @@ tailwind.config = {
 
 <style>
 /* ══════════════════════════════════════════
-   CSS VARIABLES — Zen Wabi-Sabi
+   TOKENS
 ══════════════════════════════════════════ */
 :root {
-  --sumi:     #1C1C1C;
-  --washi:    #F5F0E8;
-  --matcha:   #7A8C6E;
-  --shiitake: #8B6F5E;
-  --bamboo:   #C4A882;
-  --sakura:   #E8C4B8;
-  --ink:      #3D2B1F;
-  --moss:     #4A5E3A;
-  --rice:     #FDFAF5;
-  --torii:    #8B2020;
+  --manila:    #F2E8D5;
+  --manila-d:  #E8D9BF;
+  --manila-dd: #D6C4A0;
+  --paper:     #FBF6EE;
+  --ink:       #2A1F14;
+  --ink-l:     #5C4A35;
+  --rose:      #C07B60;
+  --rose-l:    #DFA98C;
+  --sage:      #6B8C6A;
+  --muted:     #8A7560;
+  --border:    rgba(90,70,45,.13);
 }
 
-/* ── Base body ── */
 body {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  background: var(--rice);
-  color: var(--sumi);
+  font-family: 'Jost', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
 }
-h1,h2,h3 { font-family: 'Noto Serif JP', serif; }
-section[id] { scroll-margin-top: 88px; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+section[id] { scroll-margin-top: 80px; }
 
-/* ── Shared utilities ── */
-@keyframes softPulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:.35; transform:scale(1.5); }
-}
-@keyframes ropeSwing {
-  0%,100% { transform:translateY(0); }
-  50%      { transform:translateY(5px); }
-}
-@keyframes ddSlideIn {
-  from { opacity:0; transform:translateY(-8px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes shimmerGold {
-  0%   { background-position:-200% center; }
-  100% { background-position:200% center; }
+/* ── Dropdown fade ── */
+@keyframes ddFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ══════════════════════════════════════════
-   TOP BAR — sumi dark strip
+   TOP BAR
 ══════════════════════════════════════════ */
 #topbar {
-  background: var(--sumi);
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  background: var(--ink);
+  font-family: 'Jost', sans-serif;
   font-size: 10.5px;
   font-weight: 400;
-  letter-spacing: .06em;
-  color: rgba(245,240,232,.42);
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(196,168,130,.12);
+  letter-spacing: .1em;
+  color: rgba(251,246,238,.45);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
 }
 #topbar a {
-  color: rgba(196,168,130,.75);
+  color: var(--rose-l);
   text-decoration: none;
   transition: color .2s;
 }
-#topbar a:hover { color: var(--bamboo); }
-.topbar-sep { color: rgba(196,168,130,.2); margin: 0 10px; }
-.topbar-kanji {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 11px;
-  color: rgba(196,168,130,.3);
-  margin-right: 6px;
+#topbar a:hover { color: var(--manila); }
+.topbar-sep {
+  color: var(--rose);
+  opacity: .35;
+  margin: 0 14px;
+  font-size: 6px;
 }
 
 /* ══════════════════════════════════════════
-   NAVBAR — Shoji Screen
+   NAVBAR
 ══════════════════════════════════════════ */
 #navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(253,250,245,.96);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  transition: box-shadow .35s ease, background .35s ease;
-
-  /* Shoji border bawah — garis panel + motif */
-  border-bottom: 1px solid rgba(139,111,94,.18);
+  background: rgba(251,246,238,.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s ease;
 }
-
-/* Shoji panel lines — pseudo element */
-#navbar::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(196,168,130,.0) 5%,
-    var(--matcha) 20%,
-    var(--bamboo) 50%,
-    var(--matcha) 80%,
-    rgba(196,168,130,.0) 95%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity .35s;
-}
-#navbar.scrolled::after { opacity: 1; }
-
 #navbar.scrolled {
-  background: rgba(253,250,245,.99);
-  box-shadow:
-    0 1px 0 rgba(139,111,94,.15),
-    0 4px 24px rgba(28,28,28,.07),
-    0 12px 40px rgba(28,28,28,.04);
-}
-
-/* Shoji grid pattern di bg navbar (sangat halus) */
-#navbar-inner {
-  position: relative;
-}
-#navbar-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(139,111,94,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139,111,94,.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
-  z-index: 0;
+  box-shadow: 0 2px 20px rgba(42,31,20,.08);
 }
 
 /* ── BRAND ── */
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
-  transition: opacity .22s;
-  position: relative;
-  z-index: 1;
+  transition: opacity .2s;
 }
-.nav-brand:hover { opacity: .82; text-decoration: none; }
+.nav-brand:hover { opacity: .82; }
 
-/* Hanko ring — lingkaran segel Jepang */
-.nav-hanko {
-  position: relative;
-  width: 44px; height: 44px;
-  flex-shrink: 0;
-}
-.nav-hanko-ring {
-  width: 44px; height: 44px;
+.nav-logo-ring {
+  width: 40px; height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--torii);
-  box-shadow:
-    0 0 0 1px rgba(139,32,32,.12),
-    0 0 0 3px rgba(253,250,245,.6),
-    0 0 0 4px rgba(139,32,32,.08),
-    0 4px 14px rgba(139,32,32,.2);
+  border: 1.5px solid var(--manila-dd);
   overflow: hidden;
-  transition: box-shadow .3s;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(42,31,20,.1);
 }
-.nav-brand:hover .nav-hanko-ring {
-  box-shadow:
-    0 0 0 1px rgba(139,32,32,.2),
-    0 0 0 3px rgba(253,250,245,.8),
-    0 0 0 5px rgba(139,32,32,.15),
-    0 6px 20px rgba(139,32,32,.3);
-}
-.nav-hanko-ring img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-/* Titik merah hanko kecil */
-.nav-hanko-dot {
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 11px; height: 11px;
-  background: var(--torii);
-  border-radius: 50%;
-  border: 2px solid rgba(253,250,245,.9);
-  box-shadow: 0 1px 4px rgba(139,32,32,.4);
-}
+.nav-logo-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.nav-brand-text { display: flex; flex-direction: column; gap: 1px; }
 .nav-brand-name {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 17px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
   font-weight: 600;
   color: var(--ink);
+  letter-spacing: .02em;
   line-height: 1.15;
-  letter-spacing: .04em;
 }
-.nav-brand-sub {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.nav-brand-tagline {
+  font-family: 'Jost', sans-serif;
   font-size: 9px;
-  font-weight: 400;
-  letter-spacing: .2em;
+  font-weight: 500;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(139,111,94,.6);
-}
-.nav-brand-sub-kanji {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 11px;
-  color: rgba(196,168,130,.55);
-  font-weight: 300;
-  letter-spacing: 0;
+  color: var(--muted);
+  line-height: 1;
+  margin-top: 2px;
 }
 
-/* ── DESKTOP NAV LINKS dengan kanji sub-label ── */
+/* ── DESKTOP NAV LINKS ── */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 2px;
-  position: relative;
-  z-index: 1;
 }
 
 .nav-link {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  gap: 1px;
-  padding: 6px 12px 5px;
-  border-radius: 3px;
-  text-decoration: none;
-  cursor: pointer;
-  background: none;
-  border: none;
-  position: relative;
-  transition: background .22s;
-  outline: none;
-}
-.nav-link:hover  { background: rgba(122,140,110,.08); }
-.nav-link.active { background: rgba(122,140,110,.1); }
-
-/* Garis bawah aktif */
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 20%; right: 20%;
-  height: 1.5px;
-  background: linear-gradient(to right, transparent, var(--matcha), transparent);
-  transform: scaleX(0);
-  transition: transform .3s ease;
-}
-.nav-link:hover::after,
-.nav-link.active::after { transform: scaleX(1); }
-
-.nav-link-label {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-size: 12.5px;
+  gap: 4px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
   font-weight: 500;
   color: var(--ink);
   letter-spacing: .02em;
   white-space: nowrap;
-  transition: color .22s;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  position: relative;
+  transition: background .2s, color .2s;
 }
-.nav-link:hover  .nav-link-label,
-.nav-link.active .nav-link-label { color: var(--matcha); }
+.nav-link:hover,
+.nav-link.active { color: var(--rose); background: rgba(192,123,96,.07); }
 
-/* Kanji kecil di bawah label */
-.nav-link-kanji {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 8px;
-  color: rgba(139,111,94,.38);
-  font-weight: 300;
-  letter-spacing: .05em;
-  transition: color .22s;
-  line-height: 1;
+/* garis bawah aktif */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 3px; left: 30%; right: 30%;
+  height: 1px;
+  background: var(--rose);
+  transform: scaleX(0);
+  transition: transform .25s ease;
 }
-.nav-link:hover  .nav-link-kanji,
-.nav-link.active .nav-link-kanji { color: rgba(122,140,110,.65); }
+.nav-link:hover::after,
+.nav-link.active::after { transform: scaleX(1); }
 
-/* Chevron di link dropdown */
-.nav-link-chevron {
+/* chevron dropdown */
+.nav-chevron {
   width: 10px; height: 10px;
-  opacity: .4;
-  transition: transform .22s, opacity .22s;
+  stroke: currentColor;
+  fill: none;
   flex-shrink: 0;
-  margin-left: 3px;
-  align-self: center;
+  opacity: .5;
+  transition: transform .2s, opacity .2s;
 }
-.nav-dropdown:hover .nav-link-chevron,
-.nav-dropdown:focus-within .nav-link-chevron {
+.nav-dropdown.is-open > button .nav-chevron {
   transform: rotate(180deg);
-  opacity: .75;
+  opacity: .8;
 }
 
-/* ── DROPDOWN MENU ── */
+/* ── DROPDOWN LEVEL 1 ── */
 .nav-dropdown { position: relative; }
 
-.nav-dropdown-menu {
+.nav-dd-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  min-width: 230px;
-  background: rgba(253,250,245,.98);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(139,111,94,.16);
-  border-radius: 4px;
-  box-shadow:
-    0 4px 0 rgba(139,111,94,.08),
-    0 16px 48px rgba(28,28,28,.1);
-  padding: 8px;
-  z-index: 999;
-  animation: ddSlideIn .18s ease;
-
-  /* Shoji grid halus di dalam dropdown */
-  background-image:
-    linear-gradient(rgba(139,111,94,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139,111,94,.03) 1px, transparent 1px);
-  background-size: 36px 36px;
-  background-color: rgba(253,250,245,.98);
+  min-width: 210px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(42,31,20,.11);
+  padding: 5px;
+  z-index: 500;
+  animation: ddFade .14s ease;
 }
-
-/* Arrow kecil ke atas */
-.nav-dropdown-menu::before {
+/* Arrow caret */
+.nav-dd-menu::before {
   content: '';
   position: absolute;
   top: -5px; left: 50%;
   transform: translateX(-50%) rotate(45deg);
-  width: 9px; height: 9px;
-  background: rgba(253,250,245,.98);
-  border-left: 1px solid rgba(139,111,94,.16);
-  border-top: 1px solid rgba(139,111,94,.16);
+  width: 8px; height: 8px;
+  background: var(--paper);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
 }
+.nav-dropdown.is-open > .nav-dd-menu { display: block; }
 
-.nav-dropdown:hover .nav-dropdown-menu,
-.nav-dropdown:focus-within .nav-dropdown-menu { display: block; }
-
-/* Nested sub-menu */
-.nav-sub-dropdown { position: relative; }
+/* ── DROPDOWN LEVEL 2 (sub-menu) — hover CSS ── */
+.nav-sub-wrap {
+  position: relative;
+}
 .nav-sub-menu {
   display: none;
   position: absolute;
-  top: -8px;
-  left: calc(100% + 8px);
-  min-width: 220px;
-  background: rgba(253,250,245,.98);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(139,111,94,.16);
-  border-radius: 4px;
-  box-shadow: 0 16px 48px rgba(28,28,28,.1);
-  padding: 8px;
-  z-index: 1000;
-  animation: ddSlideIn .18s ease;
+  top: 0;
+  left: calc(100% + 4px);
+  min-width: 195px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(42,31,20,.11);
+  padding: 5px;
+  z-index: 501;
+  animation: ddFade .14s ease;
 }
-@media (max-width: 1100px) {
-  .nav-sub-menu { left: auto; right: calc(100% + 8px); }
-}
-.nav-sub-dropdown:hover .nav-sub-menu,
-.nav-sub-dropdown:focus-within .nav-sub-menu { display: block; }
+/* Hover CSS saja — lebih responsif untuk level 2 */
+.nav-sub-wrap:hover > .nav-sub-menu { display: block; }
 
-/* Dropdown item */
+/* Layar sempit — sub-menu ke kiri */
+@media (max-width: 1200px) {
+  .nav-sub-menu {
+    left: auto;
+    right: calc(100% + 4px);
+  }
+}
+
+/* ── DROPDOWN ITEMS ── */
 .dd-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  padding: 9px 12px;
-  border-radius: 3px;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
   font-size: 12.5px;
   font-weight: 400;
-  color: var(--ink);
+  color: var(--ink-l);
   text-decoration: none;
   white-space: nowrap;
-  transition: background .15s, color .15s;
   cursor: pointer;
-  position: relative;
+  transition: background .15s, color .15s;
 }
-.dd-item::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 20%; bottom: 20%;
-  width: 2px;
-  background: var(--matcha);
-  border-radius: 1px;
-  transform: scaleY(0);
-  transition: transform .2s;
-}
-.dd-item:hover::before,
-.dd-item.active::before { transform: scaleY(1); }
-.dd-item:hover  { background: rgba(122,140,110,.07); color: var(--moss); }
-.dd-item.active { color: var(--moss); font-weight: 500; }
-.dd-item .sub-arrow { margin-left: auto; opacity: .35; transition: opacity .15s; }
-.dd-item:hover .sub-arrow { opacity: .8; }
+.dd-item:hover,
+.dd-item.active { background: rgba(192,123,96,.07); color: var(--rose); }
+.dd-item.active { font-weight: 500; }
 
-/* Divider dalam dropdown */
-.dd-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(139,111,94,.15), transparent);
-  margin: 5px 8px;
+.dd-arrow {
+  width: 12px; height: 12px;
+  stroke: currentColor; fill: none;
+  flex-shrink: 0; opacity: .4;
+}
+.dd-item:hover .dd-arrow { opacity: .8; }
+
+.dd-header {
+  padding: 5px 12px 7px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3px;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* ── CTA BUTTON — matcha + torii style ── */
+/* ── CTA BUTTON ── */
 .nav-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  color: #fff;
-
-  /* Gradien matcha-moss */
-  background: linear-gradient(135deg, var(--matcha) 0%, var(--moss) 100%);
-  padding: 10px 20px;
-  border-radius: 2px; /* persegi ala shoji, bukan pill */
+  font-family: 'Jost', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 9px 18px;
+  border-radius: 100px;
   text-decoration: none;
   flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-  box-shadow:
-    0 4px 14px rgba(74,94,58,.35),
-    0 1px 0 rgba(255,255,255,.1) inset;
-  transition: transform .25s, box-shadow .25s, background .25s;
-}
-/* Shimmer overlay */
-.nav-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
-  pointer-events: none;
-}
-/* Torii gate mini ornamen kiri */
-.nav-cta::after {
-  content: '⛩';
-  position: absolute;
-  left: -22px;
-  font-size: 14px;
-  opacity: 0;
-  transition: left .25s, opacity .25s;
+  transition: background .2s, transform .2s;
 }
 .nav-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(74,94,58,.5);
-  color: #fff;
+  background: var(--ink-l);
+  transform: translateY(-1px);
+  color: var(--paper);
   text-decoration: none;
 }
-.nav-cta:hover::after {
-  left: 8px;
-  opacity: .6;
-}
-
-/* Kanji kecil di CTA */
-.nav-cta-kanji {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 10px;
-  opacity: .65;
-  font-weight: 300;
-}
-
-/* ── HAMBURGER 三 (san) — mobile ── */
-#menu-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px; height: 40px;
-  border-radius: 3px;
-  border: 1px solid rgba(139,111,94,.22);
-  background: rgba(245,240,232,.6);
-  cursor: pointer;
-  transition: background .2s, border-color .2s;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-#menu-btn:hover {
-  background: rgba(122,140,110,.1);
-  border-color: rgba(122,140,110,.35);
-}
-/* Ikon 三 sebagai text Kanji */
-.menu-san-open {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 19px;
-  color: var(--ink);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: 0;
-  transition: opacity .18s, transform .18s;
-}
-.menu-san-close {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 16px;
-  color: var(--ink);
-  font-weight: 400;
-  line-height: 1;
-  position: absolute;
-  opacity: 0;
-  transform: rotate(-90deg);
-  transition: opacity .18s, transform .18s;
-}
-#menu-btn.open .menu-san-open  { opacity: 0; transform: rotate(90deg); }
-#menu-btn.open .menu-san-close { opacity: 1; transform: rotate(0deg); }
-
-@media (min-width: 768px) {
-  #menu-btn { display: none !important; }
-}
+.nav-cta svg { flex-shrink: 0; }
 
 /* ══════════════════════════════════════════
-   MOBILE MENU — Shoji drawer
+   HAMBURGER — hanya muncul di mobile
+══════════════════════════════════════════ */
+#menu-btn {
+  display: none; /* hidden by default */
+  width: 38px; height: 38px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, border-color .2s;
+  position: relative;
+  flex-shrink: 0;
+}
+#menu-btn:hover {
+  background: rgba(192,123,96,.08);
+  border-color: rgba(192,123,96,.3);
+}
+/* Hanya tampil saat layar < 768px */
+@media (max-width: 767px) {
+  #menu-btn { display: flex; }
+}
+
+.ham-icon,
+.ham-close {
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1;
+  transition: opacity .15s, transform .15s;
+  position: absolute;
+}
+.ham-close { opacity: 0; transform: rotate(-90deg); }
+#menu-btn.open .ham-icon  { opacity: 0; transform: rotate(90deg); }
+#menu-btn.open .ham-close { opacity: 1; transform: rotate(0); }
+
+/* ══════════════════════════════════════════
+   MOBILE MENU
 ══════════════════════════════════════════ */
 #mobile-menu {
-  border-top: 1px solid rgba(139,111,94,.14);
-  background: rgba(253,250,245,.99);
-  padding: 10px 12px 20px;
-  /* FIX SCROLL BUG: max-height + overflow-y scroll */
-  max-height: calc(100dvh - 72px);
+  background: var(--paper);
+  border-top: 1px solid var(--border);
+  padding: 8px 12px 24px;
+  max-height: calc(100dvh - 68px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  /* Shoji grid */
-  background-image:
-    linear-gradient(rgba(139,111,94,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139,111,94,.025) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-color: rgba(253,250,245,.99);
 }
 
 .mob-link {
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 11px 14px;
-  border-radius: 3px;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-size: 13.5px;
+  border-radius: 7px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
   font-weight: 400;
   color: var(--ink);
   text-decoration: none;
@@ -654,93 +461,89 @@ section[id] { scroll-margin-top: 88px; }
   text-align: left;
   cursor: pointer;
   transition: background .15s, color .15s;
-  position: relative;
+  gap: 0;
 }
-.mob-link:hover { background: rgba(122,140,110,.08); color: var(--moss); }
-/* Kanji di kanan */
-.mob-link-kanji {
+.mob-link:hover { background: rgba(192,123,96,.07); color: var(--rose); }
+
+/* Chevron accordion — ukuran fixed agar tidak raksasa */
+.mob-chevron {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
   margin-left: auto;
-  font-family: 'Noto Serif JP', serif;
-  font-size: 14px;
-  color: rgba(196,168,130,.4);
-  font-weight: 300;
+  flex-shrink: 0;
+  opacity: .4;
+  transition: transform .25s, opacity .2s;
+}
+.mob-acc-btn.open .mob-chevron {
+  transform: rotate(180deg);
+  opacity: .75;
 }
 
-/* Mobile accordion */
+/* Accordion content */
 .mob-acc-content {
   max-height: 0;
   overflow: hidden;
   transition: max-height .32s ease;
 }
 .mob-acc-content.open { max-height: 900px; }
-.mob-acc-btn .acc-chevron {
-  width: 14px; height: 14px;
-  opacity: .38;
-  transition: transform .25s, opacity .2s;
-}
-.mob-acc-btn.open .acc-chevron { transform: rotate(180deg); opacity: .75; }
 
 .mob-sub-link {
-  display: flex;
-  align-items: center;
-  padding: 8px 14px 8px 16px;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  font-size: 12.5px;
-  color: rgba(61,43,31,.6);
+  display: block;
+  padding: 8px 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
   text-decoration: none;
-  border-radius: 3px;
+  border-radius: 6px;
   transition: background .15s, color .15s;
 }
-.mob-sub-link:hover { background: rgba(122,140,110,.07); color: var(--moss); }
+.mob-sub-link:hover { background: rgba(192,123,96,.07); color: var(--rose); }
 .mob-sub-link.see-all {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--matcha);
+  color: var(--rose);
   padding-top: 10px;
 }
 
 .mob-divider {
-  border: none;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(139,111,94,.15), transparent);
+  background: var(--border);
   margin: 8px 4px;
+  border: none;
 }
 
 /* ══════════════════════════════════════════
-   UTILITIES — dipakai di seluruh halaman
+   UTILITIES
 ══════════════════════════════════════════ */
 .line-clamp-2 {
   display: -webkit-box;
-  display: box; /* future compatibility */
-
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-
   -webkit-line-clamp: 2;
-  line-clamp: 2;
-
   overflow: hidden;
 }
 .prose p  { margin-bottom: 1rem; line-height: 1.75; }
 .prose ul { padding-left: 1.25rem; margin-bottom: 1rem; }
 .prose li { margin-bottom: .5rem; }
-.prose a  { color: var(--matcha); text-decoration: underline; }
+.prose a  { color: var(--sage); text-decoration: underline; }
 
-/* Form elements */
 .form-input, .form-select, .form-textarea {
   width: 100%; padding: .6rem .85rem;
-  border: 1px solid rgba(139,111,94,.25);
-  border-radius: 3px;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  border: 1px solid rgba(90,70,45,.2);
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
   font-size: .875rem; outline: none;
-  background: rgba(253,250,245,.8);
+  background: rgba(251,246,238,.8);
+  color: var(--ink);
   transition: border-color .18s, box-shadow .18s;
 }
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--matcha);
-  box-shadow: 0 0 0 3px rgba(122,140,110,.12);
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(107,140,106,.12);
 }
 .form-label {
   display: block;
@@ -751,201 +554,188 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: .04em;
 }
 
-/* Card hover */
 .card-hover { transition: transform .22s ease, box-shadow .22s ease; }
 .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,28,28,.09); }
 </style>
 
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org","@type":"LocalBusiness",
-  "name":"<?= e($site_name) ?>","description":"<?= e($meta_desc) ?>",
-  "url":"<?= BASE_URL ?>","telephone":"<?= e(setting('phone_display')) ?>",
-  "address":{
-    "@type":"PostalAddress",
-    "streetAddress":"<?= e(setting('address')) ?>",
-    "addressLocality":"Jakarta Pusat",
-    "addressRegion":"DKI Jakarta",
-    "addressCountry":"ID"
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "<?= e($site_name) ?>",
+  "description": "<?= e($meta_desc) ?>",
+  "url": "<?= BASE_URL ?>",
+  "telephone": "<?= e(setting('phone_display')) ?>",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "<?= e(setting('address')) ?>",
+    "addressLocality": "Jakarta Pusat",
+    "addressRegion": "DKI Jakarta",
+    "addressCountry": "ID"
   },
-  "openingHours":"Mo-Su 00:00-24:00",
-  "priceRange":"Rp300.000 - Rp1.500.000"
+  "openingHours": "Mo-Su 00:00-24:00",
+  "priceRange": "Rp300.000 - Rp1.500.000"
 }
 </script>
 </head>
 <body>
 
 <!-- ══════════════════════════════════
-     TOP BAR
+     TOP BAR — desktop only
 ══════════════════════════════════ -->
 <div id="topbar" class="hidden md:block">
-  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-    <span>
-      <span class="topbar-kanji">地</span>
-      <?= e(setting('address')) ?>
-    </span>
-    <span>
-      <span class="topbar-kanji">時</span>
+  <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <span><?= e(setting('address')) ?></span>
+    <span style="display:flex;align-items:center;">
       <?= e(setting('jam_buka')) ?>
-      <span class="topbar-sep">·</span>
-      <span class="topbar-kanji">話</span>
+      <span class="topbar-sep">✦</span>
       <a href="tel:<?= e(setting('whatsapp_number')) ?>"><?= e($phone) ?></a>
     </span>
   </div>
 </div>
 
 <!-- ══════════════════════════════════
-     NAVBAR — Shoji Screen
+     NAVBAR
 ══════════════════════════════════ -->
 <nav id="navbar" role="navigation" aria-label="Navigasi utama">
-  <div class="max-w-7xl mx-auto px-4" id="navbar-inner">
-    <div class="flex items-center justify-between h-16 md:h-[72px]">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16 md:h-[68px]">
 
-      <!-- ── BRAND / HANKO ── -->
+      <!-- BRAND -->
       <a href="<?= BASE_URL ?>/" class="nav-brand">
-        <div class="nav-hanko">
-          <div class="nav-hanko-ring">
-            <img src="<?= BASE_URL ?>/assets/images/icon.png" alt="Logo <?= e($site_name) ?>">
-          </div>
-          <div class="nav-hanko-dot"></div>
+        <div class="nav-logo-ring">
+          <img src="<?= BASE_URL ?>/assets/images/icon.png" alt="Logo <?= e($site_name) ?>">
         </div>
-        <div class="nav-brand-text">
-          <span class="nav-brand-name"><?= e($site_name) ?></span>
-          <span class="nav-brand-sub hidden sm:flex">
-            <span class="nav-brand-sub-kanji">花屋</span>
+        <div>
+          <div class="nav-brand-name"><?= e($site_name) ?></div>
+          <div class="nav-brand-tagline hidden sm:block">
             <?= e(setting('site_tagline') ?: 'Florist Jakarta Pusat') ?>
-          </span>
+          </div>
         </div>
       </a>
 
-      <!-- ── DESKTOP LINKS ── -->
+      <!-- DESKTOP LINKS — hidden di mobile -->
       <div class="nav-links hidden md:flex">
 
         <?php foreach ($nav_items_before as $item): ?>
         <a href="<?= $item['href'] ?>"
            class="nav-link <?= ($current_slug === '' && $item['href'] === BASE_URL.'/') ? 'active' : '' ?>">
-          <span class="nav-link-label"><?= $item['label'] ?></span>
-          <span class="nav-link-kanji"><?= $item['kanji'] ?></span>
+          <?= $item['label'] ?>
         </a>
         <?php endforeach; ?>
 
-        <!-- Produk dropdown — disisip antara Layanan & Area -->
+        <!-- Produk dropdown -->
         <div class="nav-dropdown">
-          <button class="nav-link flex-row gap-1" aria-haspopup="true" style="flex-direction:row;gap:4px;align-items:center;">
-            <span style="display:flex;flex-direction:column;align-items:center;gap:1px;">
-              <span class="nav-link-label">Produk</span>
-              <span class="nav-link-kanji">品</span>
-            </span>
-            <svg class="nav-link-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+          <button class="nav-link" id="btn-produk" aria-haspopup="true" aria-expanded="false">
+            Produk
+            <svg class="nav-chevron" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
             </svg>
           </button>
 
-          <div class="nav-dropdown-menu" role="menu">
-            <!-- Header dropdown -->
-            <div style="padding:6px 12px 8px;border-bottom:1px solid rgba(139,111,94,.1);margin-bottom:4px;">
-              <span style="font-family:'Noto Serif JP',serif;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(139,111,94,.5);">品揃え · Koleksi</span>
-            </div>
+          <div class="nav-dd-menu" role="menu">
+            <div class="dd-header">Koleksi</div>
 
             <?php foreach ($desktop_tree as $node):
               $hasKids = !empty($node['children']); ?>
+
               <?php if ($hasKids): ?>
-              <div class="nav-sub-dropdown">
-                <div class="dd-item <?= $current_slug===$node['slug']?'active':'' ?>">
+              <div class="nav-sub-wrap">
+                <div class="dd-item <?= $current_slug === $node['slug'] ? 'active' : '' ?>">
                   <a href="<?= BASE_URL ?>/<?= e($node['slug']) ?>/"
-                     style="text-decoration:none;color:inherit;flex:1">
+                     style="flex:1;text-decoration:none;color:inherit;">
                     <?= e($node['name']) ?>
                   </a>
-                  <svg class="sub-arrow w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  <svg class="dd-arrow" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                   </svg>
                 </div>
                 <div class="nav-sub-menu" role="menu">
                   <?php foreach ($node['children'] as $ch): ?>
                   <a href="<?= BASE_URL ?>/<?= e($ch['slug']) ?>/"
-                     class="dd-item <?= $current_slug===$ch['slug']?'active':'' ?>" role="menuitem">
+                     class="dd-item <?= $current_slug === $ch['slug'] ? 'active' : '' ?>"
+                     role="menuitem">
                     <?= e($ch['name']) ?>
                   </a>
                   <?php endforeach; ?>
                 </div>
               </div>
+
               <?php else: ?>
               <a href="<?= BASE_URL ?>/<?= e($node['slug']) ?>/"
-                 class="dd-item <?= $current_slug===$node['slug']?'active':'' ?>" role="menuitem">
+                 class="dd-item <?= $current_slug === $node['slug'] ? 'active' : '' ?>"
+                 role="menuitem">
                 <?= e($node['name']) ?>
               </a>
               <?php endif; ?>
+
             <?php endforeach; ?>
           </div>
-        </div><!-- /nav-dropdown Produk -->
+        </div><!-- /dropdown Produk -->
 
         <?php foreach ($nav_items_after as $item): ?>
-        <a href="<?= $item['href'] ?>"
-           class="nav-link">
-          <span class="nav-link-label"><?= $item['label'] ?></span>
-          <span class="nav-link-kanji"><?= $item['kanji'] ?></span>
+        <a href="<?= $item['href'] ?>" class="nav-link">
+          <?= $item['label'] ?>
         </a>
         <?php endforeach; ?>
 
       </div><!-- /nav-links -->
 
-      <!-- ── CTA + HAMBURGER ── -->
+      <!-- CTA + HAMBURGER -->
       <div class="flex items-center gap-3">
 
-        <!-- CTA matcha -->
+        <!-- CTA — desktop only -->
         <a href="<?= e($wa_url) ?>" target="_blank" rel="noopener"
            class="nav-cta hidden md:inline-flex">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" style="flex-shrink:0">
+          <svg width="13" height="13" fill="white" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
             <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/>
           </svg>
           Pesan Sekarang
-          <span class="nav-cta-kanji">注文</span>
         </a>
 
-        <!-- Hamburger 三 -->
+        <!-- Hamburger — mobile only (display:none di atas 768px via CSS) -->
         <button id="menu-btn" aria-label="Buka menu" aria-expanded="false">
-          <span class="menu-san-open">三</span>
-          <span class="menu-san-close">✕</span>
+          <span class="ham-icon">☰</span>
+          <span class="ham-close">✕</span>
         </button>
 
       </div>
 
     </div><!-- /flex row -->
 
-    <!-- ── MOBILE MENU ── -->
+    <!-- MOBILE MENU — hidden by default -->
     <div id="mobile-menu" class="md:hidden hidden">
 
       <?php foreach ($nav_items_before as $item): ?>
       <a href="<?= $item['href'] ?>" class="mob-link mob-close">
-        <span><?= $item['label'] ?></span>
-        <span class="mob-link-kanji"><?= $item['kanji'] ?></span>
+        <?= $item['label'] ?>
       </a>
       <?php endforeach; ?>
 
-      <!-- Produk accordion — disisip antara Layanan & Area -->
+      <!-- Produk accordion -->
       <div>
         <button class="mob-acc-btn mob-link" onclick="toggleAcc(this)">
           <span>Produk</span>
-          <span class="mob-link-kanji" style="margin-left:0">品</span>
-          <svg class="acc-chevron ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          <svg class="mob-chevron" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
         <div class="mob-acc-content">
-          <div class="pl-3 ml-4" style="border-left:2px solid rgba(122,140,110,.2)">
+          <div class="pl-3 ml-3" style="border-left:2px solid var(--border);">
             <?php foreach ($desktop_tree as $node):
               $hasKids2 = !empty($node['children']); ?>
+
               <?php if ($hasKids2): ?>
               <div>
-                <button class="mob-acc-btn mob-link text-sm" onclick="toggleAcc(this)">
+                <button class="mob-acc-btn mob-link" style="font-size:13px;" onclick="toggleAcc(this)">
                   <?= e($node['name']) ?>
-                  <svg class="acc-chevron ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  <svg class="mob-chevron" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                   </svg>
                 </button>
                 <div class="mob-acc-content">
-                  <div class="pl-2 ml-3" style="border-left:1px solid rgba(122,140,110,.15)">
+                  <div class="pl-2 ml-3" style="border-left:1px solid var(--border);">
                     <a href="<?= BASE_URL ?>/<?= e($node['slug']) ?>/"
                        class="mob-sub-link see-all mob-close">Lihat semua →</a>
                     <?php foreach ($node['children'] as $ch): ?>
@@ -955,10 +745,12 @@ section[id] { scroll-margin-top: 88px; }
                   </div>
                 </div>
               </div>
+
               <?php else: ?>
               <a href="<?= BASE_URL ?>/<?= e($node['slug']) ?>/"
                  class="mob-sub-link mob-close"><?= e($node['name']) ?></a>
               <?php endif; ?>
+
             <?php endforeach; ?>
           </div>
         </div>
@@ -966,45 +758,39 @@ section[id] { scroll-margin-top: 88px; }
 
       <?php foreach ($nav_items_after as $item): ?>
       <a href="<?= $item['href'] ?>" class="mob-link mob-close">
-        <span><?= $item['label'] ?></span>
-        <span class="mob-link-kanji"><?= $item['kanji'] ?></span>
+        <?= $item['label'] ?>
       </a>
       <?php endforeach; ?>
 
       <div class="mob-divider"></div>
 
       <!-- CTA mobile -->
-      <a href="<?= e($wa_url) ?>" target="_blank"
-         class="nav-cta mt-1 justify-center">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+      <a href="<?= e($wa_url) ?>" target="_blank" class="nav-cta" style="width:100%;justify-content:center;margin-top:4px;">
+        <svg width="13" height="13" fill="white" viewBox="0 0 24 24">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
           <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/>
         </svg>
         Pesan via WhatsApp
-        <span class="nav-cta-kanji">注文</span>
       </a>
 
     </div><!-- /mobile-menu -->
-
-  </div><!-- /navbar-inner -->
+  </div><!-- /max-w -->
 </nav>
 
 <script>
-/* ── Navbar scroll shadow + shoji line ── */
+/* ── Scroll shadow ── */
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar')
-    .classList.toggle('scrolled', window.scrollY > 10);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
 }, { passive: true });
 
-/* ── Hamburger 三 toggle ── */
+/* ── Mobile hamburger ── */
 const menuBtn    = document.getElementById('menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 
 menuBtn.addEventListener('click', () => {
-  const isOpen = mobileMenu.classList.toggle('hidden');
-  menuBtn.classList.toggle('open', !isOpen);
-  menuBtn.setAttribute('aria-expanded', String(!isOpen));
-  // Tidak lock body — biarkan #mobile-menu scroll sendiri
+  const isNowOpen = mobileMenu.classList.toggle('hidden') === false;
+  menuBtn.classList.toggle('open', isNowOpen);
+  menuBtn.setAttribute('aria-expanded', String(isNowOpen));
 });
 
 function closeMob() {
@@ -1012,30 +798,58 @@ function closeMob() {
   menuBtn.classList.remove('open');
   menuBtn.setAttribute('aria-expanded', 'false');
 }
-document.querySelectorAll('.mob-close').forEach(el =>
-  el.addEventListener('click', closeMob)
-);
+document.querySelectorAll('.mob-close').forEach(el => el.addEventListener('click', closeMob));
 
 /* ── Mobile accordion ── */
 function toggleAcc(btn) {
   const content = btn.nextElementSibling;
   const isOpen  = content.classList.contains('open');
-  /* Tutup semua sibling */
-  const parent  = btn.closest('div');
-  if (parent) {
-    parent.parentElement.querySelectorAll(':scope > div > .mob-acc-btn').forEach(b => {
-      b.classList.remove('open');
-      const c = b.nextElementSibling;
-      if (c) c.classList.remove('open');
-    });
-  }
+
+  // Tutup semua sibling di level yang sama
+  const siblings = btn.closest('div').parentElement.querySelectorAll(':scope > div > .mob-acc-btn');
+  siblings.forEach(b => {
+    b.classList.remove('open');
+    const c = b.nextElementSibling;
+    if (c) c.classList.remove('open');
+  });
+
   if (!isOpen) {
     btn.classList.add('open');
     content.classList.add('open');
   }
 }
 
-/* ── Smooth scroll untuk anchor ── */
+/* ── Desktop dropdown — click toggle level 1 ── */
+function closeAllDropdowns() {
+  document.querySelectorAll('.nav-dropdown.is-open').forEach(el => {
+    el.classList.remove('is-open');
+    const btn = el.querySelector('button');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+}
+
+document.querySelectorAll('.nav-dropdown > button').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const dd     = this.closest('.nav-dropdown');
+    const isOpen = dd.classList.contains('is-open');
+    closeAllDropdowns();
+    if (!isOpen) {
+      dd.classList.add('is-open');
+      this.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+// Klik luar → tutup
+document.addEventListener('click', closeAllDropdowns);
+
+// Klik dalam dropdown → jangan tutup
+document.querySelectorAll('.nav-dd-menu').forEach(menu => {
+  menu.addEventListener('click', e => e.stopPropagation());
+});
+
+/* ── Smooth scroll anchor ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const href = a.getAttribute('href');
@@ -1044,14 +858,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) {
       e.preventDefault();
       closeMob();
-      setTimeout(() => target.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     }
   });
 });
 
-/* ── Image error fallback ── */
+/* ── Image fallback ── */
 document.querySelectorAll('img').forEach(img => {
-  img.addEventListener('error', function() {
+  img.addEventListener('error', function () {
     if (!this.dataset.fallback) {
       this.dataset.fallback = '1';
       this.src = '<?= BASE_URL ?>/assets/images/placeholder.jpg';

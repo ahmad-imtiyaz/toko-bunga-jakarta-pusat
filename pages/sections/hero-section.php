@@ -50,20 +50,43 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 
 /* ─── TOPBAR ─── */
 .hjp-top {
-  position: relative; z-index: 20;
+  position: relative;
+  z-index: 20;
   background: var(--ink);
-  display: flex; align-items: center; justify-content: center;
-  gap: 32px;
-  padding: 10px 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 26px;              /* jarak antar item */
+  padding: 12px 40px;     /* ruang atas bawah lebih lega */
 }
+
 .hjp-top-item {
-  font-size: 10.5px; font-weight: 400;
-  color: rgba(251,246,238,.55);
-  letter-spacing: .1em;
-  display: flex; align-items: center; gap: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;               /* jarak icon dan teks */
+
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+
+  color: rgba(251,246,238,.60);
+  letter-spacing: .08em;
 }
-.hjp-top-item b { color: rgba(251,246,238,.88); font-weight: 500; }
-.hjp-top-sep { color: var(--rose-l); opacity: .4; font-size: 8px; }
+
+.hjp-top-item b {
+  color: rgba(251,246,238,.9);
+  font-weight: 500;
+}
+
+.hjp-top-sep {
+  color: var(--rose-l);
+  opacity: .35;
+  font-size: 9px;
+
+  margin: 0 6px;          /* jarak kiri kanan separator */
+}
 
 /* ─── TICKER ─── */
 .hjp-ticker { 
@@ -237,50 +260,96 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 }
 
 /* CTA */
-.hjp-ctas {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 10px; width: 100%;
-  margin-bottom: 32px;
-  animation: hjp-up .5s .34s both;
-}
-.hjp-btn-wa {
-  display: inline-flex; align-items: center;
-  justify-content: center;
-  gap: 9px; width: 100%;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: 'Jost', sans-serif;
-  font-size: 13px; font-weight: 600;
-  letter-spacing: .04em;
-  padding: 14px 28px; border-radius: 100px;
-  text-decoration: none;
-  transition: background .2s, transform .2s;
-}
-.hjp-btn-wa:hover {
-  background: var(--ink-l);
-  transform: translateY(-2px);
-  text-decoration: none; color: var(--paper);
-}
-.hjp-btn-wa svg { width:14px; height:14px; fill:var(--paper); flex-shrink:0; }
+.hjp-ctas{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 
-.hjp-btn-outline {
-  display: inline-flex; align-items: center;
-  justify-content: center; gap: 8px;
-  width: 100%;
-  border: 1.5px solid var(--manila-dd);
-  color: var(--ink-l);
-  font-family: 'Jost', sans-serif;
-  font-size: 13px; font-weight: 500;
-  padding: 13px 24px; border-radius: 100px;
-  text-decoration: none;
-  transition: border-color .2s, color .2s, transform .2s;
+  width:100%;
+  max-width:420px;      /* lebih proporsional */
+
+  gap:16px;             /* jarak antar tombol */
+  margin:34px auto 36px;
+
+  animation:hjp-up .5s .34s both;
 }
-.hjp-btn-outline:hover {
-  border-color: var(--rose); color: var(--rose);
-  transform: translateY(-2px); text-decoration: none;
+
+/* Tombol WhatsApp */
+.hjp-btn-outline{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:100%;
+
+  border:1.5px solid var(--manila-dd);
+  color:var(--ink-l);
+
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  font-weight:500;
+
+  padding:14px 24px;
+
+  text-decoration:none;
+  border-radius:0;
+
+  transition:all .25s ease;
+}
+
+.hjp-btn-outline:hover{
+  border-color:var(--rose);
+  color:var(--rose);
+  transform:translateY(-2px);
+}
+
+.hjp-btn-wa svg{
+  width:16px;
+  height:16px;
+  fill:var(--paper);
+  flex-shrink:0;
+}
+
+.hjp-chips{
+  margin-bottom:32px;
+}
+/* Tombol Outline */
+.hjp-btn-outline{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  width:100%;
+  max-width:320px;
+
+  border:1.5px solid var(--manila-dd);
+  color:var(--ink-l);
+
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  line-height:1.4;
+
+  padding:14px 22px;
+  text-decoration:none;
+
+  border-radius:0;          /* tidak rounded */
+
+  transition:border-color .2s, color .2s, transform .2s;
+}
+
+.hjp-btn-outline:hover{
+  border-color:var(--rose);
+  color:var(--rose);
+  transform:translateY(-2px);
+  text-decoration:none;
 }
 
 /* Stats */
+.hjp-stats{
+  margin-top:10px;
+}
 .hjp-stats {
   display: flex; align-items: stretch;
   width: 100%;
