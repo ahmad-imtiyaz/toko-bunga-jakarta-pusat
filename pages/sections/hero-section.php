@@ -53,43 +53,35 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   position: relative;
   z-index: 20;
   background: var(--ink);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 26px;              /* jarak antar item */
-  padding: 12px 40px;     /* ruang atas bawah lebih lega */
+  gap: 26px;
+  padding: 12px 40px;
 }
-
 .hjp-top-item {
   display: flex;
   align-items: center;
-  gap: 8px;               /* jarak icon dan teks */
-
+  gap: 8px;
   font-size: 11px;
   font-weight: 400;
   line-height: 1.6;
-
   color: rgba(251,246,238,.60);
   letter-spacing: .08em;
 }
-
 .hjp-top-item b {
   color: rgba(251,246,238,.9);
   font-weight: 500;
 }
-
 .hjp-top-sep {
   color: var(--rose-l);
   opacity: .35;
   font-size: 9px;
-
-  margin: 0 6px;          /* jarak kiri kanan separator */
+  margin: 0 6px;
 }
 
 /* ─── TICKER ─── */
-.hjp-ticker { 
+.hjp-ticker {
   position: relative; z-index: 20;
   background: var(--manila-d);
   border-bottom: 1px solid var(--manila-dd);
@@ -110,7 +102,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 .hjp-ticker-item span { color: var(--rose); font-size: 7px; }
 
 /* ═══════════════════════════════════════
-   HERO WRAPPER — center everything
+   HERO WRAPPER
 ═══════════════════════════════════════ */
 .hjp-hero {
   position: relative; z-index: 1;
@@ -121,7 +113,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   overflow: hidden;
 }
 
-/* ─── WATERMARK TEKS BESAR (dekoratif) ─── */
+/* ─── WATERMARK ─── */
 .hjp-watermark {
   position: absolute;
   top: 50%; left: 50%;
@@ -139,7 +131,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   line-height: 1;
 }
 
-/* ─── GARIS ORNAMEN HORIZONTAL ─── */
+/* ─── ORNAMEN HORIZONTAL ─── */
 .hjp-ornament-line {
   display: flex; align-items: center;
   gap: 14px; width: 100%; max-width: 720px;
@@ -162,7 +154,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 }
 
 /* ═══════════════════════════════════════
-   KONTEN UTAMA — 3 kolom: foto kiri | teks | foto kanan
+   GRID UTAMA — 3 kolom
 ═══════════════════════════════════════ */
 .hjp-main {
   display: grid;
@@ -174,7 +166,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   margin: 0 auto;
 }
 
-/* ════ KOLOM TENGAH — TEKS ════ */
+/* ════ KOLOM TENGAH ════ */
 .hjp-center {
   display: flex; flex-direction: column;
   align-items: center; text-align: center;
@@ -227,7 +219,6 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   letter-spacing: .04em;
 }
 
-/* garis tengah dekoratif */
 .hjp-rule {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 18px;
@@ -245,140 +236,66 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   animation: hjp-up .5s .24s both;
 }
 
-/* Chips */
-.hjp-chips {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  justify-content: center; margin-bottom: 28px;
-  animation: hjp-up .5s .29s both;
-}
-.hjp-chip {
-  font-size: 10.5px; font-weight: 500;
-  color: var(--sage); letter-spacing: .04em;
-  border: 1px solid rgba(107,140,106,.3);
-  background: rgba(107,140,106,.07);
-  padding: 5px 13px; border-radius: 100px;
-}
-
-/* CTA */
-.hjp-ctas{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-
-  width:100%;
-  max-width:420px;      /* lebih proporsional */
-
-  gap:16px;             /* jarak antar tombol */
-  margin:34px auto 36px;
-
-  animation:hjp-up .5s .34s both;
-}
-
-/* Tombol WhatsApp */
-.hjp-btn-outline{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  width:100%;
-
-  border:1.5px solid var(--manila-dd);
-  color:var(--ink-l);
-
-  font-family:'Jost',sans-serif;
-  font-size:14px;
-  font-weight:500;
-
-  padding:14px 24px;
-
-  text-decoration:none;
-  border-radius:0;
-
-  transition:all .25s ease;
-}
-
-.hjp-btn-outline:hover{
-  border-color:var(--rose);
-  color:var(--rose);
-  transform:translateY(-2px);
-}
-
-.hjp-btn-wa svg{
-  width:16px;
-  height:16px;
-  fill:var(--paper);
-  flex-shrink:0;
-}
-
-.hjp-chips{
-  margin-bottom:32px;
-}
-/* Tombol Outline */
-.hjp-btn-outline{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-
-  width:100%;
-  max-width:320px;
-
-  border:1.5px solid var(--manila-dd);
-  color:var(--ink-l);
-
-  font-family:'Jost',sans-serif;
-  font-size:14px;
-  font-weight:500;
-  line-height:1.4;
-
-  padding:14px 22px;
-  text-decoration:none;
-
-  border-radius:0;          /* tidak rounded */
-
-  transition:border-color .2s, color .2s, transform .2s;
-}
-
-.hjp-btn-outline:hover{
-  border-color:var(--rose);
-  color:var(--rose);
-  transform:translateY(-2px);
-  text-decoration:none;
-}
-
-/* Stats */
-.hjp-stats{
-  margin-top:10px;
-}
-.hjp-stats {
-  display: flex; align-items: stretch;
+/* ── CTA — full width stacked ── */
+.hjp-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
-  background: var(--paper);
-  border: 1px solid var(--manila-dd);
-  border-radius: 14px; overflow: hidden;
-  animation: hjp-up .5s .4s both;
+  gap: 12px;
+  margin: 0 auto 16px;
+  animation: hjp-up .5s .34s both;
 }
-.hjp-stat {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; text-align: center;
-  padding: 14px 10px;
-  position: relative;
+
+/* Tombol WA — solid gelap */
+.hjp-btn-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 18px 28px;
+  text-decoration: none;
+  border-radius: 0;
+  letter-spacing: .05em;
+  transition: background .25s, transform .25s;
 }
-.hjp-stat + .hjp-stat::before {
-  content: ''; position: absolute;
-  left: 0; top: 20%; bottom: 20%;
-  width: 1px; background: var(--manila-dd);
+.hjp-btn-wa:hover {
+  background: #3d2d1e;
+  transform: translateY(-2px);
+  text-decoration: none;
 }
-.hjp-stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 600;
-  color: var(--ink); line-height: 1; margin-bottom: 3px;
+.hjp-btn-wa svg {
+  width: 18px; height: 18px;
+  fill: var(--paper); flex-shrink: 0;
 }
-.hjp-stat-num sup { font-size: 11px; color: var(--rose); vertical-align: super; }
-.hjp-stat-lbl {
-  font-size: 9px; font-weight: 600;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted);
+
+/* Tombol Outline */
+.hjp-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 1.5px solid var(--manila-dd);
+  color: var(--ink-l);
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 16px 22px;
+  text-decoration: none;
+  border-radius: 0;
+  transition: border-color .2s, color .2s, transform .2s;
+}
+.hjp-btn-outline:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+  transform: translateY(-2px);
+  text-decoration: none;
 }
 
 /* ════ KOLOM FOTO KIRI ════ */
@@ -398,10 +315,8 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   position: relative; overflow: hidden;
   border-radius: 12px;
   background: var(--manila-d);
-  /* Shadow kertas */
   box-shadow: 3px 5px 18px rgba(42,31,20,.14),
               0 1px 3px rgba(42,31,20,.08);
-  /* Efek kertas — border tipis */
   border: 1px solid rgba(255,255,255,.6);
   transition: transform .35s ease, box-shadow .35s ease;
 }
@@ -415,16 +330,12 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   transition: transform .45s ease;
 }
 .hjp-photo:hover img { transform: scale(1.04); }
-
-/* Overlay tipis */
 .hjp-photo::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(to bottom,
     rgba(42,31,20,.02) 0%, rgba(42,31,20,.22) 100%);
   pointer-events: none;
 }
-
-/* Tag label bawah */
 .hjp-photo-tag {
   position: absolute; bottom: 10px; left: 10px;
   background: rgba(251,246,238,.9);
@@ -434,8 +345,6 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   color: var(--ink); letter-spacing: .06em;
   z-index: 2; pointer-events: none;
 }
-
-/* Placeholder angka saat foto belum ada */
 .hjp-photo-ph {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
@@ -453,24 +362,17 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   color: var(--muted); opacity: .6;
 }
 
-/* Ukuran foto — asimetris */
-/* Kiri: foto 1 besar atas, foto 2 kecil bawah */
+/* Ukuran foto asimetris */
 .hjp-photo.kiri-1 { width: 240px; height: 300px; transform: rotate(-1.8deg); }
 .hjp-photo.kiri-1:hover { transform: rotate(-1.8deg) translateY(-5px); }
 .hjp-photo.kiri-2 { width: 190px; height: 220px; transform: rotate(.8deg); align-self: flex-end; }
 .hjp-photo.kiri-2:hover { transform: rotate(.8deg) translateY(-5px); }
-
-/* Kanan: foto 3 kecil atas, foto 4 besar bawah */
 .hjp-photo.kanan-1 { width: 195px; height: 210px; transform: rotate(-1deg); }
 .hjp-photo.kanan-1:hover { transform: rotate(-1deg) translateY(-5px); }
 .hjp-photo.kanan-2 { width: 245px; height: 295px; transform: rotate(1.5deg); }
 .hjp-photo.kanan-2:hover { transform: rotate(1.5deg) translateY(-5px); }
 
 /* ─── ORNAMEN BAWAH ─── */
-.hjp-bottom {
-  position: relative; z-index: 1;
-  width: 100%; padding: 0 40px 10px;
-}
 .hjp-ornament-line.bottom { margin-bottom: 0; }
 
 /* ═══════════════════════════════════════
@@ -480,74 +382,85 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   position: relative; z-index: 1;
   background: var(--paper);
   border-top: 1px solid var(--manila-dd);
+  padding: 56px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+.hjp-strip-heading {
+  text-align: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+.hjp-strip-heading-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 600;
+  color: var(--ink); letter-spacing: -.01em;
+  margin-bottom: 6px;
+}
+.hjp-strip-heading-sub {
+  font-size: 12px; color: var(--muted);
+  font-style: italic; letter-spacing: .06em;
+}
+
 .hjp-strip-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  max-width: 100%;
+  grid-template-columns: repeat(4, 220px);
+  gap: 20px;
+  justify-content: center;
 }
+
+/* Card — icon atas, teks bawah, centered */
 .hjp-strip-item {
-  padding: 26px 28px 24px;
-  border-right: 1px solid var(--manila-dd);
-  transition: background .2s;
+  background: var(--manila);
+  border: 1px solid var(--manila-dd);
+  border-radius: 20px;
+  padding: 32px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: background .25s, box-shadow .3s, transform .3s;
+  cursor: default;
 }
-.hjp-strip-item:last-child { border-right: none; }
-.hjp-strip-item:hover { background: rgba(90,70,45,.025); }
+.hjp-strip-item:hover {
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(42,31,20,.10);
+  transform: translateY(-6px);
+}
 
-/* Slot icon */
 .hjp-strip-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 14px;
-
+  width: 60px; height: 60px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: #f7f4ef;
-  border-radius: 12px;
+  background: var(--paper);
+  border: 1.5px solid var(--manila-dd);
+  border-radius: 50%;
+  margin-bottom: 18px;
+  transition: transform .25s, box-shadow .25s;
+}
+.hjp-strip-item:hover .hjp-strip-icon {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 10px 24px rgba(42,31,20,.10);
+}
+.hjp-strip-icon img {
+  width: 28px; height: 28px;
+  display: block;
 }
 
-.hjp-strip-item:hover .hjp-strip-icon{
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-.hjp-strip-icon img{
-  width: 24px;
-  height: 24px;
-  display:block;
-}
 .hjp-strip-title {
   font-size: 13.5px; font-weight: 600;
-  color: var(--ink); margin-bottom: 5px;
+  color: var(--ink);
   letter-spacing: -.01em;
+  line-height: 1.35;
+  margin-bottom: 8px;
 }
 .hjp-strip-sub {
   font-size: 12px; color: var(--muted);
-  font-weight: 400; line-height: 1.6;
-}
-
-/* icon */
-.feature-icon{
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f7f4ef;
-  border-radius: 12px;
-  transition: all .3s ease;
-}
-
-.feature-icon img{
-  width: 28px;
-  height: 28px;
-}
-
-.feature-icon:hover{
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  font-weight: 400; line-height: 1.7;
 }
 
 /* ═══════════════════════════════════════
@@ -578,10 +491,9 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   .hjp-photos-right { order: 3; padding: 8px 20px 0; margin-bottom: 8px; }
   .hjp-hero { padding: 40px 0 16px; }
   .hjp-watermark { display: none; }
-  .hjp-strip-grid { grid-template-columns: 1fr 1fr; }
-  .hjp-strip-item:nth-child(2) { border-right: none; }
-  .hjp-strip-item:nth-child(3),
-  .hjp-strip-item:nth-child(4) { border-top: 1px solid var(--manila-dd); }
+  .hjp-strip { padding: 36px 20px 40px; }
+  .hjp-strip-heading { margin-bottom: 28px; }
+  .hjp-strip-grid { grid-template-columns: repeat(2, 1fr); width: 100%; max-width: 540px; }
 }
 
 @media (max-width: 600px) {
@@ -595,11 +507,11 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
   .hjp-center { padding: 24px 16px 8px; }
   .hjp-top { gap: 14px; padding: 9px 16px; }
   .hjp-top-item:last-child { display: none; }
-  .hjp-strip-grid { grid-template-columns: 1fr; }
-  .hjp-strip-item { border-right: none; border-top: 1px solid var(--manila-dd); }
-  .hjp-strip-item:first-child { border-top: none; }
+  .hjp-strip { padding: 28px 16px 32px; }
+  .hjp-strip-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; gap: 10px; }
 }
 </style>
+
 <!-- ══════════════ HERO ══════════════ -->
 <div id="hjp">
   <div class="hjp-hero">
@@ -615,7 +527,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
     <!-- ═══ GRID UTAMA ═══ -->
     <div class="hjp-main">
 
-      <!-- FOTO KIRI: besar atas, kecil bawah -->
+      <!-- FOTO KIRI -->
       <div class="hjp-photos-left">
         <div class="hjp-photo kiri-1">
           <img src="<?= BASE_URL ?>/assets/images/h1.jpeg" alt="Hand Bouquet Jakarta Pusat" loading="eager">
@@ -661,13 +573,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
           Kami hadir untuk mewarnai setiap momenmu dengan bunga pilihan, segar dan artistik.
         </p>
 
-        <div class="hjp-chips">
-          <span class="hjp-chip">Antar 2–4 Jam</span>
-          <span class="hjp-chip">Bunga Segar</span>
-          <span class="hjp-chip">Custom Design</span>
-          <span class="hjp-chip">Buka 24 Jam</span>
-        </div>
-
+        <!-- CTA Buttons -->
         <div class="hjp-ctas">
           <a href="https://wa.me/<?= $wa_url ?>?text=<?= $wa_msg ?>" target="_blank" class="hjp-btn-wa">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -678,28 +584,9 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
           <a href="#produk" class="hjp-btn-outline">Lihat Koleksi Bunga ↓</a>
         </div>
 
-        <div class="hjp-stats">
-          <div class="hjp-stat">
-            <div class="hjp-stat-num" style="font-size:15px;color:var(--rose);">Rp 300rb</div>
-            <div class="hjp-stat-lbl">Mulai Dari</div>
-          </div>
-          <div class="hjp-stat">
-            <div class="hjp-stat-num">500<sup>+</sup></div>
-            <div class="hjp-stat-lbl">Pelanggan</div>
-          </div>
-          <div class="hjp-stat">
-            <div class="hjp-stat-num">24<sup>H</sup></div>
-            <div class="hjp-stat-lbl">Siap Antar</div>
-          </div>
-          <div class="hjp-stat">
-            <div class="hjp-stat-num">12</div>
-            <div class="hjp-stat-lbl">Kecamatan</div>
-          </div>
-        </div>
-
       </div><!-- /hjp-center -->
 
-      <!-- FOTO KANAN: kecil atas, besar bawah -->
+      <!-- FOTO KANAN -->
       <div class="hjp-photos-right">
         <div class="hjp-photo kanan-1">
           <img src="<?= BASE_URL ?>/assets/images/h3.jpeg" alt="Wedding Flower Jakarta Pusat" loading="eager">
@@ -728,69 +615,75 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 
   </div><!-- /hjp-hero -->
 
-  
-<!-- ── TOPBAR ── -->
-<div class="hjp-top">
-  <span class="hjp-top-item"><b>Jakarta Pusat</b></span>
-  <span class="hjp-top-sep">✦</span>
-  <span class="hjp-top-item">Buka <b>24 Jam</b></span>
-  <span class="hjp-top-sep">✦</span>
-  <span class="hjp-top-item">Antar <b>2–4 Jam</b></span>
-  <span class="hjp-top-sep">✦</span>
-  <span class="hjp-top-item">Florist Jakarta Pusat <b>Est. 2014</b></span>
-</div>
-
-<!-- ── TICKER ── -->
-<div class="hjp-ticker" aria-hidden="true">
-  <div class="hjp-ticker-track">
-    <?php
-    $tickers = ['Hand Bouquet','Bunga Papan','Wedding Decoration',
-                'Duka Cita','Buket Wisuda','Pengiriman 2–4 Jam',
-                'Custom Design','Mulai Rp 300.000','Bunga Segar Setiap Hari'];
-    for ($i = 0; $i < 3; $i++):
-      foreach ($tickers as $t): ?>
-      <span class="hjp-ticker-item"><span>✦</span><?= $t ?></span>
-    <?php endforeach; endfor; ?>
+  <!-- ── TOPBAR ── -->
+  <div class="hjp-top">
+    <span class="hjp-top-item"><b>Jakarta Pusat</b></span>
+    <span class="hjp-top-sep">✦</span>
+    <span class="hjp-top-item">Buka <b>24 Jam</b></span>
+    <span class="hjp-top-sep">✦</span>
+    <span class="hjp-top-item">Antar <b>2–4 Jam</b></span>
+    <span class="hjp-top-sep">✦</span>
+    <span class="hjp-top-item">Florist Jakarta Pusat <b>Est. 2014</b></span>
   </div>
-</div>
 
-<!-- ══ STRIP KEUNGGULAN ══ -->
-<div class="hjp-strip">
-  <div class="hjp-strip-grid">
-
-    <div class="hjp-strip-item">
-      <div class="hjp-strip-icon">
-        <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
-      </div>
-      <div class="hjp-strip-title">Kualitas Terjamin</div>
-      <div class="hjp-strip-sub">Bunga segar dipilih setiap pagi langsung dari kebun terbaik</div>
+  <!-- ── TICKER ── -->
+  <div class="hjp-ticker" aria-hidden="true">
+    <div class="hjp-ticker-track">
+      <?php
+      $tickers = ['Hand Bouquet','Bunga Papan','Wedding Decoration',
+                  'Duka Cita','Buket Wisuda','Pengiriman 2–4 Jam',
+                  'Custom Design','Mulai Rp 300.000','Bunga Segar Setiap Hari'];
+      for ($i = 0; $i < 3; $i++):
+        foreach ($tickers as $t): ?>
+        <span class="hjp-ticker-item"><span>✦</span><?= $t ?></span>
+      <?php endforeach; endfor; ?>
     </div>
-
-    <div class="hjp-strip-item">
-      <div class="hjp-strip-icon">
-        <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
-      </div>
-      <div class="hjp-strip-title">Pengiriman Cepat</div>
-      <div class="hjp-strip-sub">2–4 jam tiba, melayani 12 kecamatan di Jakarta Pusat</div>
-    </div>
-
-    <div class="hjp-strip-item">
-      <div class="hjp-strip-icon">
-        <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
-      </div>
-      <div class="hjp-strip-title">Desain Custom</div>
-      <div class="hjp-strip-sub">Rangkaian sesuai tema, warna, dan keinginan Anda</div>
-    </div>
-
-    <div class="hjp-strip-item">
-      <div class="hjp-strip-icon">
-        <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
-      </div>
-      <div class="hjp-strip-title">Konsultasi Gratis</div>
-      <div class="hjp-strip-sub">Tim kami siap membantu 24 jam via WhatsApp</div>
-    </div>
-
   </div>
-</div>
+
+  <!-- ══ STRIP KEUNGGULAN ══ -->
+  <div class="hjp-strip">
+
+    <!-- Heading section -->
+    <div class="hjp-strip-heading">
+      <div class="hjp-strip-heading-title">Mengapa Memilih Kami?</div>
+      <div class="hjp-strip-heading-sub">Kepercayaan pelanggan adalah prioritas utama kami</div>
+    </div>
+
+    <div class="hjp-strip-grid">
+
+      <div class="hjp-strip-item">
+        <div class="hjp-strip-icon">
+          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+        </div>
+        <div class="hjp-strip-title">Kualitas Terjamin</div>
+        <div class="hjp-strip-sub">Bunga segar dipilih setiap pagi langsung dari kebun terbaik</div>
+      </div>
+
+      <div class="hjp-strip-item">
+        <div class="hjp-strip-icon">
+          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+        </div>
+        <div class="hjp-strip-title">Pengiriman Cepat</div>
+        <div class="hjp-strip-sub">2–4 jam tiba, melayani 12 kecamatan di Jakarta Pusat</div>
+      </div>
+
+      <div class="hjp-strip-item">
+        <div class="hjp-strip-icon">
+          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+        </div>
+        <div class="hjp-strip-title">Desain Custom</div>
+        <div class="hjp-strip-sub">Rangkaian sesuai tema, warna, dan keinginan Anda</div>
+      </div>
+
+      <div class="hjp-strip-item">
+        <div class="hjp-strip-icon">
+          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+        </div>
+        <div class="hjp-strip-title">Konsultasi Gratis</div>
+        <div class="hjp-strip-sub">Tim kami siap membantu 24 jam via WhatsApp</div>
+      </div>
+
+    </div>
+  </div>
 
 </div><!-- /hjp -->
