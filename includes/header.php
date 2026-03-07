@@ -520,10 +520,13 @@ section[id] { scroll-margin-top: 80px; }
 /* ══════════════════════════════════════════
    UTILITIES
 ══════════════════════════════════════════ */
-.line-clamp-2 {
+.line-clamp-2{
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+
+  -webkit-line-clamp: 2; /* Chrome, Safari */
+  line-clamp: 2;         /* standard property */
+
   overflow: hidden;
 }
 .prose p  { margin-bottom: 1rem; line-height: 1.75; }
