@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 
-$meta_title    = $location['meta_title']       ?: 'Toko Bunga ' . $location['name'] . ' - Florist Grogol Terpercaya';
+$meta_title    = $location['meta_title']       ?: 'Toko Bunga ' . $location['name'] . ' - Florist Jakarta Pusat Terpercaya';
 $meta_desc     = $location['meta_description'] ?: '';
-$meta_keywords = 'toko bunga ' . strtolower($location['name']) . ', florist ' . strtolower($location['name']) . ', bunga Grogol';
+$meta_keywords = 'toko bunga ' . strtolower($location['name']) . ', florist ' . strtolower($location['name']) . ', bunga Jakarta Pusat';
 
 $all_cats_raw = db()->query("SELECT * FROM categories WHERE status='active' ORDER BY urutan ASC, id ASC")->fetchAll();
 $all_cats = []; $all_cats_subs = [];
@@ -35,1579 +35,1257 @@ $min_price = !empty($all_prices) ? min($all_prices) : 300000;
 require __DIR__ . '/../includes/header.php';
 ?>
 
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-
 <style>
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   TSUKIMI-EN 月見園 — MOONLIT ONSEN
-   Navy · Lavender · Silver Moonlight
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-:root {
-  --navy:    #0D1B2A;
-  --navy2:   #112236;
-  --navy3:   #162C45;
-  --indigo:  #1E3A5F;
-  --lav:     #C4B5D4;
-  --lav2:    #D8CCE8;
-  --lav3:    #EDE6F5;
-  --silver:  #E8E0F0;
-  --moon:    #F5F0FF;
-  --gold:    #C9A84C;
-  --gold2:   #E2C46A;
-  --sakura:  #FFB7C5;
-  --misty:   rgba(196,181,212,0.15);
-  --moonray: rgba(245,240,255,0.08);
-  --ink:     rgba(13,27,42,0.85);
-  --tsuki:   #F0E8FF; /* moonlight white */
-}
+/* ─── AREA/LOCATION PAGE — Manila Bunga Kertas ─── */
 
-* { box-sizing: border-box; }
-
-body { font-family: 'Zen Kaku Gothic New', sans-serif; background: var(--navy); }
-
-/* ══ FIREFLY ANIMATION ══ */
-@keyframes firefly-rise {
-  0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
-  15%  { opacity: 1; }
-  50%  { transform: translateY(-40vh) translateX(var(--fx,20px)) scale(1); opacity: 0.9; }
-  85%  { opacity: 0.4; }
-  100% { transform: translateY(-80vh) translateX(var(--fx2,−10px)) scale(0.4); opacity: 0; }
+/* Animasi ringan — hanya transform + opacity */
+@keyframes areaFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes firefly-glow {
-  0%,100% { box-shadow: 0 0 4px 2px rgba(196,181,212,0.5); }
-  50%      { box-shadow: 0 0 12px 5px rgba(245,240,255,0.9), 0 0 24px 10px rgba(196,181,212,0.3); }
+@keyframes areaPetalDrift {
+  0%   { transform: translateY(-8px) rotate(0deg)   translateX(0);   opacity: 0; }
+  8%   { opacity: .35; }
+  90%  { opacity: .2; }
+  100% { transform: translateY(108vh) rotate(500deg) translateX(36px); opacity: 0; }
 }
-.firefly {
-  position: absolute;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--tsuki);
-  pointer-events: none;
-  z-index: 1;
-  animation:
-    firefly-rise var(--dur,8s) ease-in var(--del,0s) infinite,
-    firefly-glow 2s ease-in-out var(--del,0s) infinite;
+@keyframes areaPulseRing {
+  0%   { transform: scale(1);   opacity: .6; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
-/* Wrapper untuk fireflies agar tidak meledakkan height section */
-.firefly-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ══ UKIYO-E LAYERS ══ */
-@keyframes float-layer {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-12px); }
-}
-@keyframes moon-pulse {
-  0%,100% { box-shadow: 0 0 60px 20px rgba(245,240,255,0.25), 0 0 120px 60px rgba(196,181,212,0.1); }
-  50%      { box-shadow: 0 0 80px 30px rgba(245,240,255,0.4), 0 0 160px 80px rgba(196,181,212,0.2); }
-}
-@keyframes cloud-drift {
+@keyframes areaTicker {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-@keyframes ink-reveal {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0% 0 0); }
-}
-@keyframes fade-up {
-  from { opacity:0; transform:translateY(30px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.fade-up-1 { animation: fade-up 0.8s ease both 0.1s; }
-.fade-up-2 { animation: fade-up 0.8s ease both 0.3s; }
-.fade-up-3 { animation: fade-up 0.8s ease both 0.5s; }
-.fade-up-4 { animation: fade-up 0.8s ease both 0.7s; }
 
-/* ══ SEIGAIHA PATTERN ══ */
-.seigaiha-bg {
-  background-color: var(--navy);
-  background-image:
-    radial-gradient(ellipse 30px 20px at 30px 20px, transparent 19px, rgba(196,181,212,0.06) 19px, rgba(196,181,212,0.06) 20px, transparent 20px),
-    radial-gradient(ellipse 30px 20px at 0px 20px, transparent 19px, rgba(196,181,212,0.06) 19px, rgba(196,181,212,0.06) 20px, transparent 20px);
-  background-size: 30px 20px;
+.area-rv1 { animation: areaFadeUp .5s ease both .06s; }
+.area-rv2 { animation: areaFadeUp .5s ease both .16s; }
+.area-rv3 { animation: areaFadeUp .5s ease both .28s; }
+.area-rv4 { animation: areaFadeUp .5s ease both .42s; }
+
+/* ─── KELOPAK JATUH ─── */
+.area-petal {
+  position: fixed;
+  pointer-events: none; z-index: 9998;
+  border-radius: 80% 20% 80% 20% / 60% 60% 40% 40%;
+  animation: areaPetalDrift linear infinite;
 }
 
-/* ══ SHIMMER LINE ══ */
-@keyframes shim { 0%{background-position:-200% center}100%{background-position:200% center} }
-.moon-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--lav), var(--tsuki), var(--lav), transparent);
-  background-size: 200% auto;
-  animation: shim 4s linear infinite;
-}
-
-/* ═══════════════════════════════════
-   HERO — UKIYO-E LAYERED
-═══════════════════════════════════ */
-.hero-tsukimi {
+/* ═══════════════════
+   HERO
+═══════════════════ */
+.area-hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 520px;
+  background: var(--paper, #FBF6EE);
   overflow: hidden;
-  background: var(--navy);
-  padding-top: 80px;
-  display: flex;
-  align-items: center;
+  padding-top: 88px;
 }
 
-/* Sky gradient */
-.hero-sky {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg,
-    #060D18 0%,
-    #0D1B2A 30%,
-    #112236 60%,
-    #1a2a45 80%,
-    #1E2D4A 100%);
-}
-
-/* Stars */
-.star-field {
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 28% 8%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.9) 0%, transparent 100%),
-    radial-gradient(1px 1px at 62% 5%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 78% 22%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
-    radial-gradient(1px 1px at 5% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 35% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 28%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 82% 42%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 38%, rgba(196,181,212,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 22% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 95% 30%, rgba(255,255,255,0.6) 0%, transparent 100%);
-}
-
-/* Moon */
-.ukiyo-moon {
-  position: absolute;
-  top: 12%;
-  right: 14%;
-  width: 130px; height: 130px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, var(--tsuki) 0%, var(--lav3) 50%, var(--lav2) 100%);
-  animation: moon-pulse 5s ease-in-out infinite;
-  z-index: 2;
-}
-.ukiyo-moon::after {
+/* Grain texture — static */
+.area-hero::before {
   content: '';
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(240,232,255,0.15) 0%, transparent 70%);
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
 }
 
-/* Mountain layers */
-.ukiyo-mtn-far {
-  position: absolute;
-  bottom: 28%;
-  left: 0; right: 0;
-  height: 220px;
-  background: linear-gradient(180deg, transparent 0%, #1a2d50 40%, #162540 100%);
-  clip-path: polygon(0 100%, 8% 40%, 18% 60%, 28% 20%, 40% 55%, 52% 15%, 64% 50%, 75% 25%, 85% 55%, 95% 35%, 100% 50%, 100% 100%);
-  z-index: 3;
-  animation: float-layer 12s ease-in-out infinite;
-}
-.ukiyo-mtn-near {
-  position: absolute;
-  bottom: 18%;
-  left: 0; right: 0;
-  height: 200px;
-  background: linear-gradient(180deg, #112036 0%, #0D1B2A 100%);
-  clip-path: polygon(0 100%, 0 70%, 15% 30%, 30% 65%, 45% 20%, 60% 55%, 72% 28%, 85% 58%, 100% 35%, 100% 100%);
-  z-index: 4;
-  animation: float-layer 18s ease-in-out infinite reverse;
+/* Warm glow */
+.area-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 80% at 100% 50%, rgba(242,232,213,.65) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 50% at 0% 100%,  rgba(192,123,96,.07) 0%, transparent 55%);
+  pointer-events: none; z-index: 0;
 }
 
-/* Cloud strips */
-.ukiyo-clouds {
-  position: absolute;
-  top: 35%;
-  left: 0;
-  width: 200%;
-  z-index: 3;
-  display: flex;
-  gap: 0;
-  animation: cloud-drift 40s linear infinite;
-  pointer-events: none;
+/* Foto lokasi kanan — opsional */
+.area-hero-img {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 42%; z-index: 1;
 }
-.ukiyo-cloud-strip {
-  flex-shrink: 0;
-  width: 50%;
-  height: 60px;
+.area-hero-img-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+}
+.area-hero-img-fade {
+  position: absolute; inset: 0;
   background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(196,181,212,0.06) 15%,
-    rgba(220,210,235,0.12) 35%,
-    rgba(196,181,212,0.08) 55%,
-    rgba(196,181,212,0.04) 70%,
-    transparent 85%,
-    rgba(196,181,212,0.07) 100%);
-  filter: blur(8px);
+    var(--paper,#FBF6EE) 0%,
+    rgba(251,246,238,.72) 22%,
+    rgba(251,246,238,.18) 58%,
+    rgba(251,246,238,.05) 100%
+  );
 }
-
-/* Sakura tree silhouette — pure CSS */
-.ukiyo-tree {
-  position: absolute;
-  bottom: 15%;
-  right: 8%;
-  z-index: 5;
-  pointer-events: none;
-}
-.tree-trunk {
-  width: 8px; height: 100px;
-  background: linear-gradient(180deg, #2a1a3a, #1a0e28);
-  margin: 0 auto;
-  border-radius: 4px;
-}
-.tree-branch {
-  position: absolute;
-  background: #2a1a3a;
-  border-radius: 2px;
-  transform-origin: bottom left;
-}
-.tree-blossom {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,183,197,0.6), rgba(255,183,197,0.2));
-  filter: blur(8px);
-}
-
-/* Foreground water ripple */
-.ukiyo-water {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 22%;
-  background: linear-gradient(180deg, transparent 0%, rgba(13,27,42,0.8) 40%, #080F1A 100%);
-  z-index: 6;
-}
-.water-line {
-  position: absolute;
-  left: 5%; right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.25), rgba(245,240,255,0.4), rgba(196,181,212,0.25), transparent);
-}
-
-/* Bamboo silhouettes */
-.ukiyo-bamboo {
-  position: absolute;
-  bottom: 16%;
-  left: 4%;
-  z-index: 5;
-  display: flex;
-  gap: 14px;
-  align-items: flex-end;
-  pointer-events: none;
-}
-.bamboo-stalk {
-  width: 5px;
-  background: linear-gradient(180deg, rgba(13,40,20,0.6), rgba(8,25,12,0.8));
-  border-radius: 3px;
-  position: relative;
-}
-.bamboo-stalk::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  background: rgba(255,255,255,0.08);
-  height: 1px;
-}
-@keyframes bamboo-sway {
-  0%,100% { transform: rotate(0deg); transform-origin: bottom center; }
-  33%      { transform: rotate(1.5deg); transform-origin: bottom center; }
-  66%      { transform: rotate(-1deg); transform-origin: bottom center; }
-}
-.bamboo-stalk { animation: bamboo-sway var(--bs,6s) ease-in-out infinite; }
-
-/* Hero content */
-.hero-content {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  padding: 0 2rem;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-/* Kanji watermark */
-.kanji-watermark {
-  position: absolute;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Shippori Mincho', serif;
-  font-size: clamp(120px, 18vw, 220px);
-  font-weight: 800;
-  color: rgba(196,181,212,0.04);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  letter-spacing: 0.1em;
-  pointer-events: none;
-  z-index: 1;
-  user-select: none;
-}
-
-/* ═══════════════════════════════════
-   TICKER — MOONLIT STYLE
-═══════════════════════════════════ */
-@keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.tsuki-ticker {
-  background: linear-gradient(90deg, var(--navy2), var(--indigo), var(--navy2));
-  border-top: 1px solid rgba(196,181,212,0.15);
-  border-bottom: 1px solid rgba(196,181,212,0.15);
-  overflow: hidden;
-  padding: 10px 0;
-}
-.tsuki-ticker-inner {
-  display: flex;
-  white-space: nowrap;
-  animation: ticker-scroll 28s linear infinite;
-}
-.tsuki-ticker-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 28px;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(196,181,212,0.6);
-  text-decoration: none;
-  transition: color 0.2s;
-  flex-shrink: 0;
-}
-.tsuki-ticker-item.active { color: var(--lav2); }
-.tsuki-ticker-sep {
-  display: inline-block;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: rgba(196,181,212,0.25);
-  vertical-align: middle;
-  flex-shrink: 0;
-}
-
-/* ═══════════════════════════════════
-   BYOBU FOLDING SCREEN — LAYANAN
-═══════════════════════════════════ */
-.byobu-section {
-  background: var(--navy2);
-  position: relative;
-  overflow: hidden;
-}
-.byobu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0;
-}
-@media(min-width: 768px) { .byobu-grid { grid-template-columns: repeat(3, 1fr); } }
-@media(min-width: 1100px) { .byobu-grid { grid-template-columns: repeat(4, 1fr); } }
-
-.byobu-panel {
-  position: relative;
-  overflow: hidden;
-  min-height: 340px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  text-decoration: none;
-  border-right: 1px solid rgba(196,181,212,0.08);
-  border-bottom: 1px solid rgba(196,181,212,0.08);
-  cursor: pointer;
-  transition: flex 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-
-/* Alternating panel tilt — folding screen effect */
-.byobu-panel:nth-child(even) {
-  background: linear-gradient(170deg, var(--navy3) 0%, var(--navy2) 100%);
-}
-.byobu-panel:nth-child(odd) {
-  background: linear-gradient(190deg, var(--navy2) 0%, #0e2035 100%);
-}
-
-/* Fold shadow line on right edge */
-.byobu-panel::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
+.area-hero-img-border {
+  position: absolute; right: 0; top: 0; bottom: 0;
   width: 3px;
   background: linear-gradient(180deg,
-    transparent,
-    rgba(196,181,212,0.12) 30%,
-    rgba(245,240,255,0.2) 50%,
-    rgba(196,181,212,0.12) 70%,
-    transparent);
-  z-index: 5;
-  pointer-events: none;
+    var(--manila-dd,#D6C4A0),
+    var(--rose,#C07B60),
+    var(--manila-dd,#D6C4A0)
+  );
 }
 
-/* Gold top strip */
-.byobu-panel::after {
+/* Ornamen SVG pojok kanan atas */
+.area-hero-floral {
+  position: absolute; right: 0; top: 0;
+  width: 360px; opacity: .055;
+  pointer-events: none; z-index: 0;
+}
+
+/* Inner */
+.area-hero-inner {
+  position: relative; z-index: 5;
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 24px 88px;
+}
+
+/* Breadcrumb */
+.area-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 34px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10.5px; font-weight: 400;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.area-breadcrumb a { color: var(--muted,#8A7560); text-decoration: none; transition: color .2s; }
+.area-breadcrumb a:hover { color: var(--rose,#C07B60); }
+.area-breadcrumb-sep { color: var(--rose-l,#DFA98C); font-size: 13px; }
+.area-breadcrumb-cur { color: var(--rose,#C07B60); }
+
+/* Badge lokasi */
+.area-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px 5px 10px;
+  background: var(--manila,#F2E8D5);
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-left: 3px solid var(--rose,#C07B60);
+  border-radius: 3px; margin-bottom: 16px;
+}
+.area-badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rose,#C07B60); position: relative;
+}
+.area-badge-dot::after {
   content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--gold), var(--gold2), var(--gold), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 5;
+  position: absolute; inset: -3px; border-radius: 50%;
+  border: 1px solid var(--rose,#C07B60);
+  animation: areaPulseRing 2s ease-out infinite;
 }
-.byobu-panel:hover::after { opacity: 1; }
-
-/* Panel image bg */
-.byobu-bg {
-  position: absolute; inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
-  filter: brightness(0.35) saturate(0.7);
-}
-.byobu-panel:hover .byobu-bg {
-  transform: scale(1.08);
-  filter: brightness(0.55) saturate(1.1);
+.area-badge-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--rose,#C07B60);
 }
 
-/* Gradient fallbacks */
-.byobu-grad-0 { background: linear-gradient(160deg, #1a1535, #2a2050, #1a1a35); }
-.byobu-grad-1 { background: linear-gradient(160deg, #0f1a30, #1a2840, #0f2030); }
-.byobu-grad-2 { background: linear-gradient(160deg, #1a1030, #251540, #1a1030); }
-.byobu-grad-3 { background: linear-gradient(160deg, #0d2035, #152a45, #0d2035); }
-.byobu-grad-4 { background: linear-gradient(160deg, #1a1238, #221848, #1a1238); }
-.byobu-grad-5 { background: linear-gradient(160deg, #0f2230, #182d40, #0f2230); }
+/* Judul */
+.area-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  font-weight: 600; color: var(--ink,#2A1F14);
+  line-height: 1.1; letter-spacing: -.01em;
+  margin-bottom: 8px;
+}
+.area-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 300;
+  font-size: clamp(1rem, 1.9vw, 1.3rem);
+  color: var(--rose,#C07B60); margin-bottom: 20px;
+  letter-spacing: .03em;
+}
+.area-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px; font-weight: 300;
+  line-height: 1.85; color: var(--ink-l,#5C4A35);
+  max-width: 480px; margin-bottom: 28px; opacity: .8;
+}
 
-/* Seigaiha overlay on panels */
-.byobu-seigaiha {
+/* Stat cards */
+.area-stats { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+.area-stat {
+  flex: 1; min-width: 88px;
+  background: #fff;
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 8px; padding: 13px 15px; text-align: center;
+  transition: transform .25s, box-shadow .25s;
+}
+.area-stat:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(42,31,20,.1); }
+.area-stat-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted,#8A7560); margin-bottom: 4px;
+}
+.area-stat-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 27px; font-weight: 600;
+  color: var(--rose,#C07B60); line-height: 1;
+}
+.area-stat-val span { font-size: 13px; }
+.area-stat-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; color: var(--muted,#8A7560); margin-top: 2px;
+}
+
+/* Info card kanan */
+.area-info-card {
+  background: var(--manila,#F2E8D5);
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 12px; overflow: hidden;
+}
+.area-info-card-head {
+  padding: 14px 18px;
+  background: var(--ink,#2A1F14);
+}
+.area-info-card-head-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--paper,#FBF6EE);
+}
+.area-info-card-head-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 400;
+  color: rgba(251,246,238,.4);
+  letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.area-info-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--manila-dd,#D6C4A0);
+}
+.area-info-row:last-child { border-bottom: none; }
+.area-info-icon {
+  width: 30px; height: 30px; border-radius: 7px;
+  background: var(--paper,#FBF6EE);
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.area-info-icon svg {
+  width: 14px; height: 14px;
+  stroke: var(--rose,#C07B60); fill: none;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.area-info-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted,#8A7560);
+}
+.area-info-val {
+  font-family: 'Jost', sans-serif;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--ink,#2A1F14);
+  margin-top: 1px;
+}
+.area-info-val-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--rose,#C07B60);
+}
+.area-info-card-footer { padding: 14px 16px; }
+
+/* CTA tombol */
+.area-btn-main {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 13px 24px; background: var(--ink,#2A1F14);
+  color: var(--paper,#FBF6EE);
+  font-family: 'Jost', sans-serif;
+  font-size: 13.5px; font-weight: 600;
+  letter-spacing: .04em; border-radius: 100px;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: background .25s, transform .25s, box-shadow .25s;
+  box-shadow: 0 4px 14px rgba(42,31,20,.22);
+}
+.area-btn-main:hover {
+  background: var(--ink-l,#5C4A35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(42,31,20,.28);
+  color: var(--paper,#FBF6EE);
+}
+.area-btn-sec {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 12px 20px;
+  border: 1.5px solid var(--manila-dd,#D6C4A0);
+  color: var(--ink-l,#5C4A35);
+  font-family: 'Jost', sans-serif;
+  font-size: 13px; font-weight: 500;
+  border-radius: 100px; text-decoration: none;
+  background: transparent;
+  transition: border-color .2s, color .2s, background .2s, transform .2s;
+}
+.area-btn-sec:hover {
+  border-color: var(--rose,#C07B60);
+  color: var(--rose,#C07B60);
+  background: rgba(192,123,96,.05);
+  transform: translateY(-1px);
+}
+
+/* Strip bawah hero */
+.area-hero-strip {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 5px; z-index: 6;
+  background: linear-gradient(90deg,
+    var(--manila-dd,#D6C4A0),
+    var(--rose,#C07B60),
+    var(--manila-dd,#D6C4A0)
+  );
+}
+
+/* ═══════════════════
+   TICKER
+═══════════════════ */
+.area-ticker {
+  background: var(--ink,#2A1F14);
+  overflow: hidden; padding: 9px 0;
+}
+.area-ticker-inner {
+  display: flex; white-space: nowrap;
+  animation: areaTicker 24s linear infinite;
+}
+.area-ticker-item {
+  display: inline-flex; align-items: center; gap: 9px;
+  margin: 0 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10.5px; font-weight: 400;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: rgba(251,246,238,.35);
+  text-decoration: none; flex-shrink: 0;
+  transition: color .2s;
+}
+.area-ticker-item:hover { color: var(--rose-l,#DFA98C); }
+.area-ticker-item.active { color: var(--rose-l,#DFA98C); }
+.area-ticker-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--rose,#C07B60); opacity: .5; flex-shrink: 0;
+}
+
+/* ═══════════════════
+   LAYANAN GRID
+═══════════════════ */
+.area-layanan {
+  background: var(--paper,#FBF6EE);
+  padding: 64px 0 72px; position: relative;
+}
+.area-layanan::before {
+  content: '';
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(ellipse 20px 14px at 20px 14px, transparent 12px, rgba(196,181,212,0.04) 12px, rgba(196,181,212,0.04) 13px, transparent 13px),
-    radial-gradient(ellipse 20px 14px at 0 14px, transparent 12px, rgba(196,181,212,0.04) 12px, rgba(196,181,212,0.04) 13px, transparent 13px);
-  background-size: 20px 14px;
-  opacity: 0.5;
-  z-index: 1;
-  transition: opacity 0.4s ease;
-}
-.byobu-panel:hover .byobu-seigaiha { opacity: 0; }
-
-/* Panel content */
-.byobu-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6,12,22,0.97) 0%, rgba(13,27,42,0.7) 45%, transparent 100%);
-  z-index: 2;
-  transition: background 0.4s ease;
-}
-.byobu-panel:hover .byobu-overlay {
-  background: linear-gradient(to top, rgba(6,12,22,0.99) 0%, rgba(13,27,42,0.82) 55%, rgba(196,181,212,0.05) 100%);
-}
-
-.byobu-body {
-  position: relative;
-  z-index: 3;
-  padding: 20px 22px 24px;
-}
-
-/* Vertical kanji number */
-.byobu-kanji-num {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 3;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 11px;
-  font-weight: 600;
-  writing-mode: vertical-rl;
-  color: rgba(196,181,212,0.25);
-  letter-spacing: 0.12em;
-  transition: color 0.3s ease;
-}
-.byobu-panel:hover .byobu-kanji-num { color: rgba(196,181,212,0.55); }
-
-.byobu-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -60%);
-  font-size: 40px;
-  opacity: 0.2;
-  z-index: 2;
-  pointer-events: none;
-  transition: opacity 0.35s ease, transform 0.4s ease;
-}
-.byobu-panel:hover .byobu-icon {
-  opacity: 0;
-  transform: translate(-50%, -80%);
-}
-
-/* Gold accent line */
-.byobu-goldline {
-  width: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold), var(--lav));
-  margin-bottom: 10px;
-  transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
-}
-.byobu-panel:hover .byobu-goldline { width: 36px; }
-
-.byobu-panel-name {
-  font-family: 'Shippori Mincho', serif;
-  font-size: clamp(1rem, 1.5vw, 1.3rem);
-  font-weight: 700;
-  color: var(--silver);
-  line-height: 1.3;
-  margin-bottom: 8px;
-  transition: color 0.25s ease;
-}
-.byobu-panel:hover .byobu-panel-name { color: var(--lav2); }
-
-.byobu-count-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(196,181,212,0.5);
-  margin-bottom: 10px;
-}
-.byobu-count-chip::before {
-  content: '';
-  display: inline-block;
-  width: 12px; height: 1px;
-  background: var(--gold);
-  opacity: 0.6;
-}
-
-/* Sub reveals */
-.byobu-subs {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, transform 0.35s ease;
-}
-.byobu-panel:hover .byobu-subs { max-height: 200px; opacity: 1; transform: translateY(0); }
-
-.byobu-sub-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 11.5px;
-  color: rgba(196,181,212,0.5);
-  padding: 3px 0;
-  text-decoration: none;
-  transition: color 0.15s ease;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-}
-.byobu-sub-item:hover { color: var(--lav2); }
-.byobu-sub-item::before {
-  content: '·';
-  color: var(--gold);
-  opacity: 0.5;
-  font-size: 16px;
-  line-height: 1;
-}
-
-.byobu-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 9.5px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--navy);
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  border-radius: 2px;
-  padding: 6px 14px;
-  text-decoration: none;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.byobu-panel:hover .byobu-cta { opacity: 1; transform: translateY(0); }
-
-/* Divider ornament */
-.byobu-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 0;
-}
-.byobu-divider-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.2), transparent);
-}
-.byobu-divider-kanji {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 18px;
-  color: rgba(196,181,212,0.2);
-}
-
-/* ═══════════════════════════════════
-   TANZAKU SCROLL — PRODUK CARDS
-═══════════════════════════════════ */
-.tanzaku-section {
-  background: linear-gradient(180deg, var(--navy) 0%, #080E1A 100%);
-  position: relative;
-  overflow: visible;
-}
-
-/* Per-category scroll row */
-.tanzaku-row { margin-bottom: 48px; }
-.tanzaku-row-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding: 0 2px;
-}
-.tanzaku-row-title {
-  font-family: 'Shippori Mincho', serif;
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  font-weight: 700;
-  color: var(--silver);
-}
-.tanzaku-row-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(196,181,212,0.2), transparent);
-}
-.tanzaku-row-count {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: rgba(196,181,212,0.35);
-  text-transform: uppercase;
-}
-
-/* Horizontal scroll container */
-.tanzaku-scroll-wrap {
-  position: relative;
-}
-.tanzaku-scroll-wrap::before,
-.tanzaku-scroll-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 60px;
-  z-index: 4;
+    repeating-linear-gradient(0deg,  transparent 0, transparent 47px, rgba(42,31,20,.035) 47px, rgba(42,31,20,.035) 48px),
+    repeating-linear-gradient(90deg, transparent 0, transparent 47px, rgba(42,31,20,.035) 47px, rgba(42,31,20,.035) 48px);
   pointer-events: none;
 }
-.tanzaku-scroll-wrap::before {
-  left: 0;
-  background: linear-gradient(90deg, var(--navy), transparent);
-}
-.tanzaku-scroll-wrap::after {
-  right: 0;
-  background: linear-gradient(-90deg, #080E1A, transparent);
+.area-container {
+  position: relative; z-index: 1;
+  max-width: 1280px; margin: 0 auto; padding: 0 24px;
 }
 
-.tanzaku-scroll {
-  display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  padding: 8px 4px 16px;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
+/* Section header */
+.area-section-head { margin-bottom: 40px; }
+.area-section-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--rose,#C07B60); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
 }
-.tanzaku-scroll::-webkit-scrollbar { display: none; }
+.area-section-eyebrow::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--rose,#C07B60); opacity: .5;
+}
+.area-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-weight: 600; color: var(--ink,#2A1F14);
+  line-height: 1.2;
+}
+.area-section-title em {
+  font-style: italic; font-weight: 300;
+  color: var(--rose,#C07B60);
+}
 
-/* THE TANZAKU CARD — vertical scroll/poem paper */
-.tanzaku-card {
-  flex: 0 0 165px;
-  height: 310px;
-  border-radius: 6px 6px 40px 40px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+/* Layanan grid 4 kolom */
+.area-layanan-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 10px; overflow: hidden;
+}
+
+/* Panel layanan */
+.area-layanan-panel {
+  position: relative; overflow: hidden;
+  min-height: 280px;
+  display: flex; flex-direction: column; justify-content: flex-end;
   text-decoration: none;
+  border-right: 1px solid var(--manila-dd,#D6C4A0);
+  border-bottom: 1px solid var(--manila-dd,#D6C4A0);
   cursor: pointer;
-  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
-  /* Tanzaku paper texture */
-  background: linear-gradient(180deg,
-    #1a1430 0%,
-    #14102a 40%,
-    #0f0c22 100%);
-  box-shadow:
-    0 4px 20px rgba(0,0,0,0.4),
-    inset 0 1px 0 rgba(196,181,212,0.1),
-    inset 1px 0 0 rgba(196,181,212,0.05),
-    inset -1px 0 0 rgba(196,181,212,0.05);
+  background: var(--manila,#F2E8D5);
+  transition: background .25s;
 }
-.tanzaku-card:hover {
-  transform: translateY(-10px) rotate(-1deg);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,0.6),
-    0 8px 24px rgba(196,181,212,0.15),
-    inset 0 1px 0 rgba(196,181,212,0.15);
-}
+.area-layanan-panel:nth-child(4n) { border-right: none; }
+.area-layanan-panel:hover { background: var(--paper,#FBF6EE); }
 
-/* String at top (like real tanzaku hanging from bamboo) */
-.tanzaku-string {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1.5px;
-  height: 22px;
-  background: linear-gradient(180deg, transparent, rgba(196,181,212,0.4));
-  z-index: 10;
-}
-
-/* Top hole */
-.tanzaku-hole {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,181,212,0.2);
-  background: rgba(0,0,0,0.4);
-  z-index: 6;
-}
-
-/* Gold border frame */
-.tanzaku-frame {
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 3px 3px 36px 36px;
-  z-index: 2;
-  pointer-events: none;
-  transition: border-color 0.3s ease;
-}
-.tanzaku-card:hover .tanzaku-frame {
-  border-color: rgba(201,168,76,0.5);
-}
-
-/* Product image */
-.tanzaku-img-wrap {
-  position: relative;
-  height: 180px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.tanzaku-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
-  filter: brightness(0.75) saturate(0.85);
-}
-.tanzaku-card:hover .tanzaku-img {
-  transform: scale(1.08);
-  filter: brightness(0.9) saturate(1.1);
-}
-.tanzaku-img-ov {
+/* Foto background panel */
+.area-panel-bg {
   position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(10,8,28,0.8) 100%);
+  background-size: cover; background-position: center;
+  filter: brightness(.38) saturate(.7);
+  transition: filter .5s, transform .6s;
+}
+.area-layanan-panel:hover .area-panel-bg {
+  filter: brightness(.52) saturate(.9);
+  transform: scale(1.04);
 }
 
-/* Category badge */
-.tanzaku-badge {
-  position: absolute;
-  bottom: 8px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 9px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gold2);
+/* Overlay degradasi bawah */
+.area-panel-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(42,31,20,.96) 0%,
+    rgba(42,31,20,.7) 40%,
+    rgba(42,31,20,.1) 100%
+  );
+  transition: background .3s;
+}
+.area-layanan-panel:hover .area-panel-overlay {
+  background: linear-gradient(to top,
+    rgba(42,31,20,.98) 0%,
+    rgba(42,31,20,.8) 50%,
+    rgba(42,31,20,.15) 100%
+  );
+}
+
+/* Nomor pojok */
+.area-panel-num {
+  position: absolute; top: 14px; right: 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-weight: 600;
+  color: rgba(251,246,238,.2);
+  letter-spacing: .1em; z-index: 3;
+  transition: color .25s;
+}
+.area-layanan-panel:hover .area-panel-num { color: rgba(251,246,238,.45); }
+
+/* Konten panel */
+.area-panel-body {
+  position: relative; z-index: 3;
+  padding: 18px 20px 22px;
+}
+.area-panel-line {
+  width: 0; height: 1px;
+  background: linear-gradient(90deg, var(--rose,#C07B60), var(--rose-l,#DFA98C));
+  margin-bottom: 9px;
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+}
+.area-layanan-panel:hover .area-panel-line { width: 32px; }
+.area-panel-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.95rem, 1.4vw, 1.2rem);
+  font-weight: 600; color: var(--paper,#FBF6EE);
+  line-height: 1.3; margin-bottom: 6px;
+  transition: color .2s;
+}
+.area-layanan-panel:hover .area-panel-name { color: var(--rose-l,#DFA98C); }
+.area-panel-chip {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(251,246,238,.3); margin-bottom: 9px;
+  display: flex; align-items: center; gap: 6px;
+}
+.area-panel-chip::before {
+  content: '';
+  width: 10px; height: 1px;
+  background: var(--rose,#C07B60); opacity: .5;
+}
+/* Sub items */
+.area-panel-subs {
+  max-height: 0; overflow: hidden;
+  opacity: 0; transform: translateY(6px);
+  transition: max-height .45s cubic-bezier(.4,0,.2,1), opacity .3s, transform .3s;
+}
+.area-layanan-panel:hover .area-panel-subs {
+  max-height: 180px; opacity: 1; transform: translateY(0);
+}
+.area-panel-sub {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11.5px; font-weight: 400;
+  color: rgba(251,246,238,.4); padding: 2.5px 0;
+  text-decoration: none;
+  transition: color .15s;
+}
+.area-panel-sub:hover { color: var(--rose-l,#DFA98C); }
+.area-panel-sub::before {
+  content: '';
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--rose,#C07B60); opacity: .4; flex-shrink: 0;
+}
+.area-panel-cta {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink,#2A1F14);
+  background: var(--paper,#FBF6EE);
+  border-radius: 4px; padding: 5px 12px;
+  text-decoration: none;
+  opacity: 0; transform: translateY(5px);
+  transition: opacity .25s, transform .25s;
+}
+.area-layanan-panel:hover .area-panel-cta { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════
+   PRODUK SCROLL
+═══════════════════ */
+.area-produk {
+  background: var(--manila,#F2E8D5);
+  padding: 64px 0 80px; position: relative;
+}
+.area-produk::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Separator antar kategori */
+.area-section-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--manila-dd,#D6C4A0), transparent);
+  margin: 36px 0;
+}
+.area-section-rule-diamond {
+  position: relative;
+}
+.area-section-rule-diamond::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 6px; height: 6px;
+  background: var(--rose,#C07B60); opacity: .4;
+}
+
+/* Baris per kategori */
+.area-cat-row { margin-bottom: 12px; }
+.area-cat-row-head {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 18px;
+}
+.area-cat-row-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-weight: 600; color: var(--ink,#2A1F14);
   white-space: nowrap;
-  background: rgba(10,8,28,0.8);
-  padding: 3px 10px;
-  border-radius: 2px;
-  border: 1px solid rgba(201,168,76,0.25);
-  backdrop-filter: blur(4px);
 }
-
-/* Content area */
-.tanzaku-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 10px 14px;
-  text-align: center;
-  position: relative;
-  z-index: 3;
+.area-cat-row-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--manila-dd,#D6C4A0), transparent);
 }
+.area-cat-row-count {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted,#8A7560); flex-shrink: 0;
+}
+.area-cat-row-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--rose,#C07B60);
+  text-decoration: none; flex-shrink: 0;
+  opacity: .7; transition: opacity .2s;
+}
+.area-cat-row-link:hover { opacity: 1; }
 
-/* Vertical line ornament */
-.tanzaku-body::before {
+/* Scroll container */
+.area-scroll-wrap { position: relative; }
+.area-scroll-wrap::before,
+.area-scroll-wrap::after {
   content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: linear-gradient(180deg, rgba(201,168,76,0.2), transparent);
-  pointer-events: none;
+  position: absolute; top: 0; bottom: 0;
+  width: 48px; z-index: 4; pointer-events: none;
 }
-
-.tanzaku-name {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--lav2);
-  line-height: 1.5;
-  margin-bottom: 8px;
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-
-  -webkit-line-clamp: 2; /* Chrome, Safari, Edge */
-  line-clamp: 2;         /* Standard property */
-
-  overflow: hidden;
-
-  transition: color 0.25s ease;
+.area-scroll-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--manila,#F2E8D5), transparent);
 }
-.tanzaku-card:hover .tanzaku-name { color: var(--tsuki); }
-
-.tanzaku-price {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--gold2);
-  margin-bottom: 10px;
+.area-scroll-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--manila,#F2E8D5), transparent);
 }
-
-/* Shimmer on hover */
-.tanzaku-shimmer {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(196,181,212,0.04) 50%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+.area-scroll {
+  display: flex; gap: 14px;
+  overflow-x: auto; padding: 6px 4px 14px;
+  scrollbar-width: none; scroll-behavior: smooth;
 }
-.tanzaku-card:hover .tanzaku-shimmer { opacity: 1; }
+.area-scroll::-webkit-scrollbar { display: none; }
 
-.tanzaku-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 9px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--navy);
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  border-radius: 2px;
-  padding: 5px 12px;
+/* Kartu produk — vertikal */
+.area-prod-card {
+  flex: 0 0 158px;
+  height: 300px;
+  border-radius: 8px; overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  display: flex; flex-direction: column;
   text-decoration: none;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.tanzaku-card:hover .tanzaku-btn { opacity: 1; transform: translateY(0); }
-
-/* Nav buttons */
-.tzk-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,181,212,0.2);
-  background: rgba(13,27,42,0.85);
-  backdrop-filter: blur(8px);
-  color: var(--lav);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  transition: transform .3s ease, box-shadow .3s, border-color .3s;
 }
-.tzk-nav:hover { background: rgba(196,181,212,0.15); border-color: rgba(196,181,212,0.4); }
-.tzk-nav.l { left: 8px; }
-.tzk-nav.r { right: 8px; }
-.tzk-nav.hide { opacity:0; pointer-events:none; }
-
-/* Progress bar */
-.tzk-progress-track {
-  height: 2px;
-  background: rgba(196,181,212,0.1);
-  border-radius: 2px;
-  margin-top: 8px;
+.area-prod-card:hover {
+  transform: translateY(-7px) rotate(-.6deg);
+  box-shadow: 0 16px 40px rgba(42,31,20,.14);
+  border-color: rgba(192,123,96,.4);
+}
+.area-prod-img-wrap {
+  position: relative; height: 170px; overflow: hidden;
+  background: var(--manila,#F2E8D5); flex-shrink: 0;
+}
+.area-prod-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s ease;
+}
+.area-prod-card:hover .area-prod-img { transform: scale(1.06); }
+.area-prod-img-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 45%, rgba(42,31,20,.55) 100%);
+}
+.area-prod-cat-badge {
+  position: absolute; bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--paper,#FBF6EE);
+  background: rgba(42,31,20,.75);
+  padding: 3px 9px; border-radius: 3px;
+  white-space: nowrap;
+  border: 1px solid rgba(251,246,238,.1);
+}
+.area-prod-body {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 10px 13px; text-align: center;
+  border-top: 1px solid var(--manila-dd,#D6C4A0);
+}
+.area-prod-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--ink,#2A1F14); line-height: 1.4;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.tzk-progress-bar {
+.area-prod-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--rose,#C07B60); margin-bottom: 9px;
+}
+.area-prod-btn {
+  display: flex; align-items: center; gap: 5px;
+  font-family: 'Jost', sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--paper,#FBF6EE);
+  background: var(--ink,#2A1F14);
+  border-radius: 5px; padding: 5px 11px;
+  text-decoration: none;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .25s, transform .25s;
+}
+.area-prod-card:hover .area-prod-btn { opacity: 1; transform: translateY(0); }
+
+/* Nav tombol scroll */
+.area-scroll-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 10; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  background: var(--paper,#FBF6EE);
+  color: var(--ink-l,#5C4A35);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s, border-color .2s, transform .2s;
+  box-shadow: 0 3px 12px rgba(42,31,20,.1);
+}
+.area-scroll-nav:hover {
+  background: var(--manila,#F2E8D5);
+  border-color: var(--rose,#C07B60);
+  transform: translateY(-50%) scale(1.06);
+}
+.area-scroll-nav.snav-l { left: 6px; }
+.area-scroll-nav.snav-r { right: 6px; }
+.area-scroll-nav.snav-hide { opacity: 0; pointer-events: none; }
+.area-scroll-nav svg { width: 13px; height: 13px; stroke-width: 2.5; }
+
+/* Progress track */
+.area-progress-track {
+  height: 2px; background: var(--manila-dd,#D6C4A0);
+  border-radius: 2px; margin-top: 6px; overflow: hidden;
+}
+.area-progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--gold), var(--lav));
-  border-radius: 2px;
-  width: 15%;
-  transition: width 0.15s ease;
+  background: linear-gradient(90deg, var(--rose,#C07B60), var(--rose-l,#DFA98C));
+  border-radius: 2px; width: 14%;
+  transition: width .15s ease;
 }
 
-/* Section separator — washi tape style */
-.washi-sep {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 4px 0 36px;
+/* ═══════════════════
+   FAQ + SIDEBAR
+═══════════════════ */
+.area-faq-section {
+  background: var(--paper,#FBF6EE);
+  padding: 64px 0 72px; position: relative;
 }
-.washi-sep-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196,181,212,0.15), transparent);
+.area-faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 308px;
+  gap: 48px; align-items: start;
 }
-.washi-sep-moon { font-size: 14px; opacity: 0.4; }
 
-/* ═══════════════════════════════════
-   FAQ & SIDEBAR
-═══════════════════════════════════ */
-.tsuki-faq-section {
-  background: linear-gradient(180deg, #080E1A 0%, var(--navy) 100%);
-  position: relative;
-  overflow: hidden;
+/* About */
+.area-about-box {
+  background: var(--manila,#F2E8D5);
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 10px; padding: 24px;
+  margin-bottom: 28px;
 }
+.area-about-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 600; color: var(--ink,#2A1F14);
+  line-height: 1.2; margin-bottom: 14px;
+}
+.area-about-title em {
+  font-style: italic; font-weight: 300;
+  color: var(--rose,#C07B60);
+}
+.area-about-prose {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px; font-weight: 300;
+  line-height: 1.85; color: var(--ink-l,#5C4A35);
+  margin-bottom: 12px;
+}
+.area-about-prose strong { color: var(--rose,#C07B60); font-weight: 600; }
 
 /* FAQ accordion */
-.tsuki-faq-card {
-  border: 1px solid rgba(196,181,212,0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 10px;
-  background: rgba(13,27,42,0.5);
-  transition: border-color 0.25s ease;
+.area-faq-card {
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 8px; overflow: hidden;
+  margin-bottom: 8px; background: #fff;
+  transition: border-color .2s;
 }
-.tsuki-faq-card.open {
-  border-color: rgba(196,181,212,0.25);
-  background: rgba(30,58,95,0.3);
+.area-faq-card.open {
+  border-color: rgba(192,123,96,.35);
+  background: var(--paper,#FBF6EE);
 }
-.tsuki-faq-trigger {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  cursor: pointer;
-  width: 100%;
+.area-faq-trigger {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; cursor: pointer;
+  width: 100%; text-align: left; background: transparent; border: none;
+}
+.area-faq-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--rose,#C07B60); opacity: .5;
+  flex-shrink: 0; transition: opacity .2s;
+  min-width: 24px;
+}
+.area-faq-card.open .area-faq-num { opacity: 1; }
+.area-faq-q {
+  flex: 1; font-family: 'Jost', sans-serif;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--ink,#2A1F14); line-height: 1.4;
   text-align: left;
 }
-.tsuki-faq-num {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--gold);
-  opacity: 0.6;
-  flex-shrink: 0;
-  transition: opacity 0.2s;
+.area-faq-chev {
+  flex-shrink: 0; color: var(--muted,#8A7560);
+  transition: transform .3s cubic-bezier(.4,0,.2,1), color .2s;
 }
-.tsuki-faq-card.open .tsuki-faq-num { opacity: 1; }
-.tsuki-faq-q {
-  flex: 1;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--silver);
-  line-height: 1.4;
+.area-faq-card.open .area-faq-chev {
+  transform: rotate(180deg); color: var(--rose,#C07B60);
 }
-.tsuki-faq-chevron {
-  flex-shrink: 0;
-  color: rgba(196,181,212,0.4);
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s;
+/* grid-template-rows transition — cara paling ringan */
+.area-faq-body {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows .38s ease;
 }
-.tsuki-faq-card.open .tsuki-faq-chevron {
-  transform: rotate(180deg);
-  color: var(--lav);
-}
-.tsuki-faq-body {
-  max-height: 0;
+.area-faq-body.open { grid-template-rows: 1fr; }
+.area-faq-body-inner {
   overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  padding: 0 16px 0 52px;
 }
-.tsuki-faq-body.open { max-height: 300px; opacity: 1; }
-.tsuki-faq-answer {
-  padding: 0 18px 16px 46px;
-  font-size: 13px;
-  line-height: 1.65;
-  color: rgba(196,181,212,0.6);
-  border-top: 1px solid rgba(196,181,212,0.06);
-  padding-top: 12px;
-  margin-top: 0;
+.area-faq-answer {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px; font-weight: 300;
+  line-height: 1.7; color: var(--muted,#8A7560);
+  padding: 10px 0 16px;
+  border-top: 1px solid var(--manila-dd,#D6C4A0);
 }
 
-/* Sidebar panels */
-.tsuki-sidebar-panel {
-  background: rgba(13,27,42,0.6);
-  border: 1px solid rgba(196,181,212,0.1);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  backdrop-filter: blur(8px);
+/* Sidebar */
+.area-sidebar { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 96px; }
+.area-sidebar-panel {
+  background: var(--manila,#F2E8D5);
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  border-radius: 10px; overflow: hidden;
 }
-.tsuki-panel-header {
-  padding: 14px 18px 12px;
-  border-bottom: 1px solid rgba(196,181,212,0.08);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.area-sidebar-head {
+  padding: 12px 15px;
+  background: var(--ink,#2A1F14);
+  display: flex; align-items: center; gap: 8px;
 }
-.tsuki-panel-title {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--silver);
+.area-sidebar-head-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .17em; text-transform: uppercase;
+  color: rgba(251,246,238,.45);
 }
-.tsuki-panel-icon { font-size: 16px; opacity: 0.6; }
+.area-sidebar-body { padding: 10px; }
+
+/* WA sidebar */
+.area-sidebar-wa {
+  background: var(--ink,#2A1F14);
+  border-radius: 10px; padding: 22px; text-align: center;
+}
+.area-sidebar-wa-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--paper,#FBF6EE); margin-bottom: 6px;
+}
+.area-sidebar-wa-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px; font-weight: 300;
+  color: rgba(251,246,238,.38);
+  margin-bottom: 16px; line-height: 1.7;
+}
+.area-sidebar-wa-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--paper,#FBF6EE);
+  color: var(--ink,#2A1F14);
+  font-family: 'Jost', sans-serif;
+  font-size: 12.5px; font-weight: 700;
+  padding: 10px 16px; border-radius: 100px;
+  text-decoration: none; letter-spacing: .04em;
+  transition: background .2s, transform .2s;
+}
+.area-sidebar-wa-btn:hover {
+  background: var(--manila,#F2E8D5);
+  transform: translateY(-1px);
+  color: var(--ink,#2A1F14);
+}
 
 /* Area pills */
-.tsuki-area-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
-  border-radius: 3px;
-  border: 1px solid rgba(196,181,212,0.12);
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(196,181,212,0.5);
+.area-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px; font-weight: 400;
+  border: 1px solid var(--manila-dd,#D6C4A0);
+  color: var(--ink-l,#5C4A35);
   text-decoration: none;
-  transition: all 0.2s ease;
-  background: transparent;
+  background: var(--paper,#FBF6EE);
+  transition: all .2s;
 }
-.tsuki-area-pill:hover, .tsuki-area-pill.active {
-  border-color: rgba(196,181,212,0.35);
-  color: var(--lav2);
-  background: rgba(196,181,212,0.07);
+.area-pill:hover {
+  background: var(--ink,#2A1F14);
+  color: var(--paper,#FBF6EE);
+  border-color: var(--ink,#2A1F14);
+  transform: translateY(-1px);
 }
-.tsuki-area-pill.active {
-  border-color: var(--gold);
-  color: var(--gold2);
-}
-
-/* CTA box */
-.tsuki-cta-box {
-  background: linear-gradient(135deg, rgba(30,58,95,0.6), rgba(13,27,42,0.8));
-  border: 1px solid rgba(196,181,212,0.15);
-  border-radius: 12px;
-  text-align: center;
-  padding: 24px 20px;
-  position: relative;
-  overflow: hidden;
-}
-.tsuki-cta-box::before {
-  content: '月';
-  position: absolute;
-  right: -10px;
-  top: -20px;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 100px;
-  font-weight: 800;
-  color: rgba(196,181,212,0.04);
-  pointer-events: none;
+.area-pill.active {
+  background: var(--rose,#C07B60);
+  color: var(--paper,#FBF6EE);
+  border-color: var(--rose,#C07B60);
 }
 
+/* Sidebar nav link */
+.area-snav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px; border-radius: 7px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--ink-l,#5C4A35);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background .18s, color .18s, padding-left .18s;
+  margin-bottom: 2px;
+}
+.area-snav:hover {
+  color: var(--rose,#C07B60);
+  background: rgba(192,123,96,.07);
+  border-color: rgba(192,123,96,.14);
+  padding-left: 16px;
+}
 /* Sidebar accordion */
-.tsuki-acc-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-.tsuki-acc-content.open { max-height: 600px; }
-.tsuki-acc-btn.open .tsuki-acc-chev { transform: rotate(180deg); }
-.tsuki-acc-chev { transition: transform 0.25s ease; }
+.area-sacc-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; text-align: left;
+  padding: 9px 12px; border-radius: 7px;
+  background: transparent; border: 1px solid transparent;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--ink-l,#5C4A35);
+  transition: background .18s, color .18s;
+  margin-bottom: 2px;
+}
+.area-sacc-btn:hover, .area-sacc-btn.open {
+  color: var(--rose,#C07B60);
+  background: rgba(192,123,96,.07);
+}
+.area-sacc-chev { transition: transform .3s; }
+.area-sacc-btn.open .area-sacc-chev { transform: rotate(180deg); }
+.area-sacc-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease;
+  padding-left: 10px;
+  border-left: 2px solid rgba(192,123,96,.2);
+  margin: 0 0 4px 12px;
+}
+.area-sacc-body.open { max-height: 400px; }
 
-/* Section labels */
-.tsuki-section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(196,181,212,0.5);
-  margin-bottom: 20px;
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1023px) {
+  .area-layanan-grid { grid-template-columns: repeat(2, 1fr); }
+  .area-faq-layout { grid-template-columns: 1fr; }
+  .area-sidebar { display: none; }
 }
-.tsuki-section-label::before, .tsuki-section-label::after {
-  content: '';
-  width: 20px; height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  opacity: 0.5;
+@media (max-width: 600px) {
+  .area-layanan-grid { grid-template-columns: 1fr 1fr; }
+  .area-hero { padding-top: 80px; }
+  .area-hero-img { display: none; }
 }
-
-/* Utility */
-.text-tsuki { color: var(--tsuki); }
-.text-lav { color: var(--lav); }
-.text-lav2 { color: var(--lav2); }
-.text-gold { color: var(--gold); }
-.text-gold2 { color: var(--gold2); }
-.text-silver { color: var(--silver); }
-.text-muted { color: rgba(196,181,212,0.45); }
-
-.stat-moon {
-  font-family: 'Shippori Mincho', serif;
-  background: linear-gradient(135deg, var(--gold2), var(--lav2), var(--tsuki));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Info card */
-.hero-info-card {
-  background: rgba(13,27,42,0.7);
-  border: 1px solid rgba(196,181,212,0.15);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-.hero-info-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid rgba(196,181,212,0.06);
-}
-.hero-info-row:last-child { border-bottom: none; }
-.hero-info-icon { font-size: 18px; flex-shrink: 0; }
-.hero-info-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(196,181,212,0.4); font-weight: 700; }
-.hero-info-val { font-size: 14px; font-weight: 600; color: var(--silver); margin-top: 2px; }
-
-/* WA button */
-.btn-wa-moon {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  padding: 14px 28px;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  color: var(--navy);
-  box-shadow: 0 8px 28px rgba(201,168,76,0.35);
-}
-.btn-wa-moon:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(201,168,76,0.5);
-}
-.btn-outline-moon {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  padding: 13px 24px;
-  border-radius: 4px;
-  text-decoration: none;
-  border: 1px solid rgba(196,181,212,0.3);
-  color: var(--lav2);
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-.btn-outline-moon:hover {
-  background: rgba(196,181,212,0.08);
-  border-color: rgba(196,181,212,0.5);
-}
-
-/* About section */
-.tsuki-about {
-  background: rgba(30,58,95,0.25);
-  border: 1px solid rgba(196,181,212,0.1);
-  border-radius: 12px;
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-}
-.tsuki-about::after {
-  content: '花';
-  position: absolute;
-  right: -8px; bottom: -24px;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 100px;
-  font-weight: 800;
-  color: rgba(196,181,212,0.04);
-  pointer-events: none;
-}
-
-/* Scrollbar for rail */
-@media (max-width: 767px) {
-  .byobu-grid { grid-template-columns: repeat(2, 1fr); }
-  .tanzaku-card { flex: 0 0 148px; height: 280px; }
-  .tanzaku-img-wrap { height: 155px; }
-}
-
 </style>
 
+<!-- ─── KELOPAK JATUH ─── -->
+<div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9998;" aria-hidden="true">
 <?php
-/* ── Helper: render fireflies ── */
-function renderFireflies(int $n = 18): string {
-    $inner = '';
-    for ($i = 0; $i < $n; $i++) {
-        $left = rand(3, 97);
-        $top  = rand(10, 85);
-        $dur  = rand(6, 14);
-        $del  = rand(0, 10);
-        $fx   = rand(-40, 40) . 'px';
-        $fx2  = rand(-30, 30) . 'px';
-        $inner .= "<div class=\"firefly\" style=\"left:{$left}%;top:{$top}%;--dur:{$dur}s;--del:{$del}s;--fx:{$fx};--fx2:{$fx2};\"></div>";
-    }
-    return "<div class=\"firefly-container\">{$inner}</div>";
-}
+$petal_colors = ['#C07B60','#DFA98C','#D6C4A0','#E8D9BF','#FBF6EE'];
+for ($i = 0; $i < 8; $i++):
+  $col  = $petal_colors[$i % count($petal_colors)];
+  $left = rand(2, 97); $del = rand(0, 18); $dur = rand(14, 24); $sz = rand(7, 12);
 ?>
+<div class="area-petal" style="
+  left:<?= $left ?>%; top:0;
+  width:<?= $sz ?>px; height:<?= round($sz*1.4) ?>px;
+  background:<?= $col ?>; opacity:.3;
+  animation-duration:<?= $dur ?>s; animation-delay:-<?= $del ?>s;
+"></div>
+<?php endfor; ?>
+</div>
 
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section class="area-hero">
 
-<!-- ════════════════════════════════════════
-     HERO — UKIYO-E LAYERED MOONLIT SCENE
-════════════════════════════════════════ -->
-<section class="hero-tsukimi">
-
-  <!-- Sky & atmosphere -->
-  <div class="hero-sky"></div>
-  <div class="star-field"></div>
-
-  <!-- Moon -->
-  <div class="ukiyo-moon"></div>
-
-  <!-- Drifting clouds -->
-  <div class="ukiyo-clouds">
-    <div class="ukiyo-cloud-strip"></div>
-    <div class="ukiyo-cloud-strip"></div>
+  <?php if (!empty($location['image'])): ?>
+  <div class="area-hero-img">
+    <div class="area-hero-img-bg" style="background-image:url('<?= e(imgUrl($location['image'],'location')) ?>');"></div>
+    <div class="area-hero-img-fade"></div>
+    <div class="area-hero-img-border"></div>
   </div>
+  <?php endif; ?>
 
-  <!-- Mountain silhouettes -->
-  <div class="ukiyo-mtn-far"></div>
-  <div class="ukiyo-mtn-near"></div>
+  <!-- Ornamen bunga SVG -->
+  <svg class="area-hero-floral" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="60" r="110" stroke="#C07B60" stroke-width="1"/>
+    <circle cx="300" cy="60" r="72"  stroke="#DFA98C" stroke-width="1"/>
+    <circle cx="300" cy="60" r="36"  fill="rgba(192,123,96,.15)"/>
+    <ellipse cx="300" cy="6"  rx="15" ry="54" fill="rgba(192,123,96,.18)" transform="rotate(0 300 60)"/>
+    <ellipse cx="300" cy="6"  rx="15" ry="54" fill="rgba(192,123,96,.18)" transform="rotate(60 300 60)"/>
+    <ellipse cx="300" cy="6"  rx="15" ry="54" fill="rgba(192,123,96,.12)" transform="rotate(120 300 60)"/>
+    <circle cx="360" cy="130" r="75"  stroke="#D6C4A0" stroke-width="1"/>
+  </svg>
 
-  <!-- Bamboo left -->
-  <div class="ukiyo-bamboo">
-    <div class="bamboo-stalk" style="height:180px;--bs:7s;"></div>
-    <div class="bamboo-stalk" style="height:130px;--bs:9s;animation-delay:1s;"></div>
-    <div class="bamboo-stalk" style="height:210px;--bs:6s;animation-delay:2s;"></div>
-    <div class="bamboo-stalk" style="height:100px;--bs:11s;animation-delay:0.5s;"></div>
-  </div>
+  <div class="area-hero-inner">
 
-  <!-- Sakura tree right -->
-  <div class="ukiyo-tree">
-    <div style="position:relative;width:120px;height:180px;">
-      <div class="tree-trunk" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);"></div>
-      <!-- Blossom clouds -->
-      <div class="tree-blossom" style="width:90px;height:70px;top:10px;left:10px;"></div>
-      <div class="tree-blossom" style="width:70px;height:55px;top:0;left:30px;background:radial-gradient(circle,rgba(255,183,197,0.4),rgba(220,160,180,0.15));"></div>
-      <div class="tree-blossom" style="width:55px;height:45px;top:20px;left:5px;"></div>
-      <div class="tree-blossom" style="width:45px;height:38px;top:30px;left:55px;"></div>
-    </div>
-  </div>
-
-  <!-- Water foreground -->
-  <div class="ukiyo-water">
-    <div class="water-line" style="bottom:55%;opacity:0.5;"></div>
-    <div class="water-line" style="bottom:40%;opacity:0.35;"></div>
-    <div class="water-line" style="bottom:25%;opacity:0.2;"></div>
-  </div>
-
-  <!-- Fireflies -->
-  <?= renderFireflies(20) ?>
-
-  <!-- Kanji watermark -->
-  <div class="kanji-watermark">月見花</div>
-
-  <!-- CONTENT -->
-  <div class="hero-content">
     <!-- Breadcrumb -->
-    <div class="fade-up-1 flex items-center gap-2 mb-10" style="font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;">
-      <a href="<?= BASE_URL ?>/" style="color:rgba(196,181,212,0.4);" class="hover:text-[var(--lav)] transition">Beranda</a>
-      <span style="color:rgba(196,181,212,0.2);">—</span>
-      <a href="<?= BASE_URL ?>/#area" style="color:rgba(196,181,212,0.4);" class="hover:text-[var(--lav)] transition">Area</a>
-      <span style="color:rgba(196,181,212,0.2);">—</span>
-      <span style="color:var(--gold);"><?= e($location['name']) ?></span>
-    </div>
+    <nav class="area-breadcrumb area-rv1">
+      <a href="<?= BASE_URL ?>/">Beranda</a>
+      <span class="area-breadcrumb-sep">›</span>
+      <span class="area-breadcrumb-cur"><?= e($location['name']) ?></span>
+    </nav>
 
-    <div class="grid md:grid-cols-2 gap-14 items-center">
-      <!-- Left: copy -->
-      <div>
-        <!-- Eyebrow badge -->
-        <div class="fade-up-1 inline-flex items-center gap-2 mb-7" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,0.3);padding:5px 14px;border-radius:2px;background:rgba(201,168,76,0.07);">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;animation:moon-pulse 3s infinite;"></span>
-          📍 <?= e($location['name']) ?>, Grogol
+    <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;max-width:1100px;">
+
+      <!-- Kiri -->
+      <div style="max-width:560px;">
+
+        <div class="area-badge area-rv1">
+          <div class="area-badge-dot"></div>
+          <span class="area-badge-text">Toko Bunga · <?= e($location['name']) ?></span>
         </div>
 
-        <!-- Headline -->
-        <h1 class="fade-up-2" style="font-family:'Shippori Mincho',serif;font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:800;color:var(--tsuki);line-height:1.15;margin-bottom:6px;">
-          Toko Bunga
+        <h1 class="area-h1 area-rv2">
+          Toko Bunga<br><?= e($location['name']) ?>
         </h1>
-        <h1 class="fade-up-2" style="font-family:'Shippori Mincho',serif;font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:800;line-height:1.15;margin-bottom:24px;background:linear-gradient(135deg,var(--gold2),var(--lav2),var(--tsuki));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-          <?= e($location['name']) ?>
-        </h1>
+        <p class="area-tagline area-rv2">Florist Terpercaya, Pengiriman Cepat</p>
 
-        <!-- Desc -->
-        <p class="fade-up-3" style="font-size:16px;line-height:1.75;color:rgba(196,181,212,0.65);margin-bottom:28px;max-width:420px;">
-          <?= !empty($location['meta_description']) ? e($location['meta_description']) : 'Florist ' . e($location['name']) . ' terpercaya — karangan bunga papan, hand bouquet, wedding & duka cita. Pengiriman cepat 2–4 jam ke seluruh ' . e($location['name']) . '.' ?>
+        <p class="area-desc area-rv3">
+          <?= !empty($location['meta_description'])
+            ? e($location['meta_description'])
+            : 'Florist '.e($location['name']).' terpercaya menyediakan karangan bunga papan, hand bouquet, wedding &amp; duka cita. Pengiriman 2–4 jam ke '.e($location['name']).' dan seluruh Jakarta Pusat.' ?>
         </p>
 
-        <!-- Stats -->
-        <div class="fade-up-3 flex items-center gap-7 mb-10">
-          <div>
-            <div class="stat-moon" style="font-size:2.2rem;font-weight:800;line-height:1;">10+</div>
-            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Tahun</div>
+        <div class="area-stats area-rv3">
+          <div class="area-stat">
+            <div class="area-stat-lbl">Pengalaman</div>
+            <div class="area-stat-val">10<span>+</span></div>
+            <div class="area-stat-sub">Tahun</div>
           </div>
-          <div style="width:1px;height:36px;background:rgba(196,181,212,0.15);"></div>
-          <div>
-            <div class="stat-moon" style="font-size:2.2rem;font-weight:800;line-height:1;">2–4<span style="font-size:1rem;">Jam</span></div>
-            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Pengiriman</div>
+          <div class="area-stat">
+            <div class="area-stat-lbl">Pengiriman</div>
+            <div class="area-stat-val" style="color:var(--ink,#2A1F14);">2–4<span>Jam</span></div>
+            <div class="area-stat-sub">Same Day</div>
           </div>
-          <div style="width:1px;height:36px;background:rgba(196,181,212,0.15);"></div>
-          <div>
-            <div class="stat-moon" style="font-size:1.5rem;font-weight:800;line-height:1;"><?= 'Rp '.number_format($min_price/1000,0,',','.').'rb' ?></div>
-            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(196,181,212,0.35);margin-top:3px;">Mulai dari</div>
+          <div class="area-stat">
+            <div class="area-stat-lbl">Mulai dari</div>
+            <div class="area-stat-val" style="font-size:17px;color:var(--muted,#8A7560);"><?= 'Rp '.number_format($min_price/1000,0,',','.').'rb' ?></div>
+            <div class="area-stat-sub">Harga terbaik</div>
           </div>
         </div>
 
-        <!-- CTAs -->
-        <div class="fade-up-4 flex flex-wrap gap-3">
-          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di ' . $location['name'] . ', Grogol.') ?>"
-             target="_blank" class="btn-wa-moon">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;" class="area-rv4">
+          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di '.$location['name'].', Jakarta Pusat.') ?>"
+             target="_blank" rel="noopener" class="area-btn-main">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
             Pesan Sekarang
           </a>
-          <a href="tel:<?= e(setting('whatsapp_number')) ?>" class="btn-outline-moon">
-            📞 <?= e(setting('phone_display')) ?>
+          <a href="tel:<?= e(setting('whatsapp_number')) ?>" class="area-btn-sec">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <?= e(setting('phone_display')) ?>
           </a>
         </div>
+
       </div>
 
-      <!-- Right: info card -->
-      <div class="fade-up-4 hidden md:block">
-        <div class="hero-info-card">
-          <div style="padding:16px 18px 12px;border-bottom:1px solid rgba(196,181,212,0.08);">
-            <p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--gold);opacity:0.7;">Info Pengiriman 月見</p>
-            <p style="font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;color:var(--silver);margin-top:3px;"><?= e($location['name']) ?></p>
+      <!-- Kanan: Info card -->
+      <div class="area-rv4" style="width:260px;flex-shrink:0;">
+        <div class="area-info-card">
+          <div class="area-info-card-head">
+            <div class="area-info-card-head-sub">Info Pengiriman</div>
+            <div class="area-info-card-head-title"><?= e($location['name']) ?></div>
           </div>
-          <div class="hero-info-row">
-            <span class="hero-info-icon">📍</span>
-            <div><div class="hero-info-label">Lokasi</div><div class="hero-info-val"><?= e($location['name']) ?>, Grogol</div></div>
+          <div class="area-info-row">
+            <div class="area-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            </div>
+            <div>
+              <div class="area-info-lbl">Lokasi</div>
+              <div class="area-info-val"><?= e($location['name']) ?>, Jakarta Pusat</div>
+            </div>
           </div>
-          <div class="hero-info-row">
-            <span class="hero-info-icon">⚡</span>
-            <div><div class="hero-info-label">Estimasi</div><div class="hero-info-val">2–4 Jam</div></div>
+          <div class="area-info-row">
+            <div class="area-info-icon">
+              <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div>
+              <div class="area-info-lbl">Estimasi Pengiriman</div>
+              <div class="area-info-val">2–4 Jam</div>
+            </div>
           </div>
-          <div class="hero-info-row">
-            <span class="hero-info-icon">⏰</span>
-            <div><div class="hero-info-label">Operasional</div><div class="hero-info-val"><?= e(setting('jam_buka')) ?></div></div>
+          <div class="area-info-row">
+            <div class="area-info-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="area-info-lbl">Operasional</div>
+              <div class="area-info-val"><?= e(setting('jam_buka')) ?></div>
+            </div>
           </div>
-          <div class="hero-info-row">
-            <span class="hero-info-icon">💐</span>
-            <div><div class="hero-info-label">Mulai dari</div><div style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:800;color:var(--gold2);margin-top:2px;"><?= rupiah($min_price) ?></div></div>
+          <div class="area-info-row">
+            <div class="area-info-icon">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div>
+              <div class="area-info-lbl">Mulai dari</div>
+              <div class="area-info-val-price"><?= rupiah($min_price) ?></div>
+            </div>
           </div>
-          <div style="padding:16px 18px;">
-            <a href="<?= e($wa_url) ?>" target="_blank" class="btn-wa-moon" style="width:100%;justify-content:center;">
+          <div class="area-info-card-footer">
+            <a href="<?= e($wa_url) ?>" target="_blank" rel="noopener"
+               class="area-btn-main" style="width:100%;justify-content:center;">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
               Chat WhatsApp
             </a>
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
+  <div class="area-hero-strip" aria-hidden="true"></div>
 </section>
 
-
-<!-- ════ TICKER ════ -->
-<div class="tsuki-ticker">
-  <div class="tsuki-ticker-inner">
+<!-- ─── TICKER ─── -->
+<div class="area-ticker" aria-label="Area pengiriman">
+  <div class="area-ticker-inner" aria-hidden="true">
     <?php for ($r = 0; $r < 2; $r++): foreach ($locations as $l): ?>
-    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="tsuki-ticker-item <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
-      <span class="tsuki-ticker-sep"></span>
+    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
+       class="area-ticker-item <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
+      <span class="area-ticker-dot"></span>
       <?= e($l['name']) ?>
     </a>
     <?php endforeach; endfor; ?>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════
+     SECTION: LAYANAN
+═══════════════════════════════════ -->
+<section class="area-layanan">
+  <div class="area-container">
 
-<!-- ════════════════════════════════════════
-     BYOBU FOLDING SCREEN — LAYANAN
-════════════════════════════════════════ -->
-<section class="byobu-section py-20">
-  <div class="moon-line"></div>
-  <?= renderFireflies(10) ?>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4 mb-12">
-    <div class="tsuki-section-label">Layanan di <?= e($location['name']) ?></div>
-    <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--tsuki);line-height:1.2;margin-bottom:10px;">
-      Layanan Bunga<br>
-      <span style="background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">屏風 — Byobu Florist</span>
-    </h2>
-    <p style="font-size:15px;color:rgba(196,181,212,0.5);max-width:500px;">Semua kebutuhan bunga tersedia dan siap dikirim ke <?= e($location['name']) ?></p>
-  </div>
-
-  <!-- Byobu Grid -->
-  <div class="byobu-grid" style="max-width:1400px;margin:0 auto;">
-    <?php
-    $byobu_grads = ['byobu-grad-0','byobu-grad-1','byobu-grad-2','byobu-grad-3','byobu-grad-4','byobu-grad-5'];
-    $jp_nums = ['一','二','三','四','五','六','七','八','九','十','十一','十二'];
-    foreach ($all_cats as $i => $cat):
-      $subs    = $all_cats_subs[$cat['id']] ?? [];
-      $has_sub = !empty($subs);
-      $has_img = !empty($cat['image']);
-      $grad    = $byobu_grads[$i % count($byobu_grads)];
-      $jpnum   = $jp_nums[$i % count($jp_nums)];
-      $cat_url = BASE_URL . '/' . e($cat['slug']) . '/';
-     ?>
-    <div class="byobu-panel" <?= !$has_sub ? 'onclick="location.href=\'' . $cat_url . '\'"' : '' ?>>
-    <<?= $tag ?> <?= $href ?> class="byobu-panel">
-      <!-- Background -->
-      <?php if ($has_img): ?>
-      <div class="byobu-bg" style="background-image:url('<?= e(imgUrl($cat['image'], 'category')) ?>');"></div>
-      <?php else: ?>
-      <div class="byobu-bg <?= $grad ?>"></div>
-      <?php endif; ?>
-      <div class="byobu-seigaiha"></div>
-      <div class="byobu-overlay"></div>
-
-      <!-- Vertical kanji number -->
-      <div class="byobu-kanji-num"><?= $jpnum ?></div>
-
-      <!-- Icon for no-image -->
-      <?php if (!$has_img && !empty($cat['icon'])): ?>
-      <div class="byobu-icon"><?= e($cat['icon']) ?></div>
-      <?php endif; ?>
-
-      <!-- Content -->
-      <div class="byobu-body">
-        <div class="byobu-goldline"></div>
-        <div class="byobu-count-chip">
-          <?php if ($has_sub): ?>
-          <?= count($subs) ?> Sub Layanan
-          <?php else: ?>
-          Lihat Produk
-          <?php endif; ?>
-        </div>
-        <div class="byobu-panel-name"><?= e($cat['name']) ?></div>
-
-        <?php if ($has_sub): ?>
-        <div class="byobu-subs">
-          <a href="<?= $cat_url ?>" class="byobu-sub-item" style="color:rgba(226,196,106,0.5);font-weight:700;" onclick="event.stopPropagation()">
-            Semua <?= e($cat['name']) ?> →
-          </a>
-          <?php foreach (array_slice($subs, 0, 4) as $sub): ?>
-          <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" class="byobu-sub-item" onclick="event.stopPropagation()">
-            <?= e($sub['name']) ?>
-          </a>
-          <?php endforeach; ?>
-          <?php if (count($subs) > 4): ?>
-          <span class="byobu-sub-item" style="color:rgba(196,181,212,0.25);font-style:italic;">+<?= count($subs) - 4 ?> lainnya</span>
-          <?php endif; ?>
-        </div>
-        <?php else: ?>
-        <div class="byobu-subs">
-          <?php if (!empty($cat['description'])): ?>
-          <p style="font-size:11.5px;line-height:1.5;color:rgba(196,181,212,0.35);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;"><?= e($cat['description']) ?></p>
-          <?php endif; ?>
-          <a href="<?= $cat_url ?>" class="byobu-cta" onclick="event.stopPropagation()">
-            Lihat Produk →
-          </a>
-        </div>
-        <?php endif; ?>
-      </div>
-</div>
-    <?php endforeach; ?>
-
-    <?php
-    /* ── Phantom panels agar grid selalu penuh ── */
-    $total = count($all_cats);
-    $cols_desktop = 4;
-    $remainder = $total % $cols_desktop;
-    if ($remainder > 0):
-      $phantom_count = $cols_desktop - $remainder;
-      for ($ph = 0; $ph < $phantom_count; $ph++):
-    ?>
-    <div class="byobu-panel" style="
-      pointer-events: none;
-      visibility: hidden;
-      min-height: 340px;
-      border: none;
-      background: transparent;
-    "></div>
-    <?php endfor; endif; ?>
-
-  </div>
-
-  <div class="moon-line mt-0"></div>
-</section>
-
-
-<!-- ════════════════════════════════════════
-     TANZAKU SCROLL — PRODUK PER KATEGORI
-════════════════════════════════════════ -->
-<section id="produk" class="tanzaku-section" style="padding:60px 0 100px;overflow:hidden;">
-  <?= renderFireflies(14) ?>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4">
-    <!-- Section heading -->
-    <div class="text-center mb-16">
-      <div class="tsuki-section-label" style="justify-content:center;">短冊 Koleksi Bunga</div>
-      <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--tsuki);margin-bottom:10px;">
-        Koleksi <em style="font-style:italic;background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"><?= e($location['name']) ?></em>
+    <div class="area-section-head">
+      <div class="area-section-eyebrow">Tersedia di <?= e($location['name']) ?></div>
+      <h2 class="area-section-title">
+        Layanan Bunga
+        <em> — Semua Tersedia</em>
       </h2>
-      <p style="font-size:15px;color:rgba(196,181,212,0.45);max-width:420px;margin:0 auto;">Gulir kanan untuk melihat lebih banyak pilihan bunga indah</p>
     </div>
 
-    <?php
-    $moon_sep = ['🌙','✦','🌸','·','月','✧'];
-    foreach ($cats_with_products as $ri => $row):
+    <div class="area-layanan-grid">
+      <?php foreach ($all_cats as $i => $cat):
+        $subs    = $all_cats_subs[$cat['id']] ?? [];
+        $has_sub = !empty($subs);
+        $cat_url = BASE_URL . '/' . e($cat['slug']) . '/';
+        $has_img = !empty($cat['image']);
+        $panel_n = $i + 1;
+      ?>
+      <div class="area-layanan-panel"
+           <?= !$has_sub ? 'onclick="location.href=\''.$cat_url.'\'"' : '' ?>>
+
+        <?php if ($has_img): ?>
+        <div class="area-panel-bg" style="background-image:url('<?= e(imgUrl($cat['image'],'category')) ?>');"></div>
+        <?php else: ?>
+        <div class="area-panel-bg" style="background:linear-gradient(160deg, var(--manila-dd,#D6C4A0), var(--manila,#F2E8D5));"></div>
+        <?php endif; ?>
+        <div class="area-panel-overlay"></div>
+
+        <div class="area-panel-num"><?= str_pad($panel_n, 2, '0', STR_PAD_LEFT) ?></div>
+
+        <div class="area-panel-body">
+          <div class="area-panel-line"></div>
+          <div class="area-panel-chip">
+            <?= $has_sub ? count($subs).' Sub Layanan' : 'Lihat Produk' ?>
+          </div>
+          <div class="area-panel-name"><?= e($cat['name']) ?></div>
+
+          <?php if ($has_sub): ?>
+          <div class="area-panel-subs">
+            <a href="<?= $cat_url ?>" class="area-panel-sub"
+               style="color:rgba(223,169,140,.55);font-weight:600;"
+               onclick="event.stopPropagation()">
+              Semua <?= e($cat['name']) ?> ›
+            </a>
+            <?php foreach (array_slice($subs, 0, 4) as $sub): ?>
+            <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/"
+               class="area-panel-sub"
+               onclick="event.stopPropagation()">
+              <?= e($sub['name']) ?>
+            </a>
+            <?php endforeach; ?>
+            <?php if (count($subs) > 4): ?>
+            <span class="area-panel-sub" style="color:rgba(251,246,238,.2);font-style:italic;">
+              +<?= count($subs) - 4 ?> lainnya
+            </span>
+            <?php endif; ?>
+          </div>
+          <?php else: ?>
+          <div class="area-panel-subs">
+            <?php if (!empty($cat['description'])): ?>
+            <p style="font-family:'Jost',sans-serif;font-size:11px;font-weight:300;line-height:1.5;color:rgba(251,246,238,.3);margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+              <?= e($cat['description']) ?>
+            </p>
+            <?php endif; ?>
+            <a href="<?= $cat_url ?>" class="area-panel-cta" onclick="event.stopPropagation()">
+              Lihat Produk ›
+            </a>
+          </div>
+          <?php endif; ?>
+        </div>
+
+      </div>
+      <?php endforeach; ?>
+
+      <?php
+      /* Phantom panels — isi grid jika tidak penuh 4 kolom */
+      $remainder = count($all_cats) % 4;
+      if ($remainder > 0):
+        for ($ph = 0; $ph < (4 - $remainder); $ph++): ?>
+      <div style="min-height:280px;background:var(--manila,#F2E8D5);border-right:none;border-bottom:none;pointer-events:none;visibility:hidden;"></div>
+      <?php endfor; endif; ?>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SECTION: PRODUK SCROLL
+═══════════════════════════════════ -->
+<section id="produk" class="area-produk">
+  <div class="area-container">
+
+    <div class="area-section-head">
+      <div class="area-section-eyebrow">Koleksi Bunga</div>
+      <h2 class="area-section-title">
+        Pilihan untuk
+        <em> <?= e($location['name']) ?></em>
+      </h2>
+    </div>
+
+    <?php foreach ($cats_with_products as $ri => $row):
       $cat   = $row['cat'];
       $prods = $row['products'];
-      $sid   = 'tzk-' . $cat['id'];
-      $catUrl = BASE_URL . '/' . e($cat['slug']) . '/';
-      $msep  = $moon_sep[$ri % count($moon_sep)];
+      $sid   = 'ascroll-' . $cat['id'];
     ?>
-    <div class="tanzaku-row">
-      <!-- Row header -->
-      <div class="tanzaku-row-header">
-        <h3 class="tanzaku-row-title"><?= e($cat['name']) ?></h3>
-        <div class="tanzaku-row-line"></div>
-        <span class="tanzaku-row-count"><?= count($prods) ?> produk</span>
-        <a href="<?= $catUrl ?>" style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;flex-shrink:0;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-          Lihat Semua →
+    <div class="area-cat-row">
+      <div class="area-cat-row-head">
+        <h3 class="area-cat-row-title"><?= e($cat['name']) ?></h3>
+        <div class="area-cat-row-line"></div>
+        <span class="area-cat-row-count"><?= count($prods) ?> produk</span>
+        <a href="<?= BASE_URL ?>/<?= e($cat['slug']) ?>/" class="area-cat-row-link" rel="noopener">
+          Lihat Semua ›
         </a>
       </div>
 
-      <!-- Scroll rail -->
-      <div class="tanzaku-scroll-wrap" style="position:relative;">
-        <button class="tzk-nav l hide" onclick="tzkNav('<?= $sid ?>',this,-1)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      <div class="area-scroll-wrap">
+        <button class="area-scroll-nav snav-l snav-hide" onclick="areaSnavClick('<?= $sid ?>',this,-1)" aria-label="Scroll kiri">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <button class="tzk-nav r" onclick="tzkNav('<?= $sid ?>',this,1)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+        <button class="area-scroll-nav snav-r" onclick="areaSnavClick('<?= $sid ?>',this,1)" aria-label="Scroll kanan">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
         </button>
 
-        <div id="<?= $sid ?>" class="tanzaku-scroll" onscroll="tzkScrollEvt(this,'<?= $sid ?>-bar')">
+        <div id="<?= $sid ?>" class="area-scroll"
+             onscroll="areaScrollEvt(this,'<?= $sid ?>-bar')">
           <?php foreach ($prods as $prod):
             $img   = imgUrl($prod['image'], 'product');
             $wamsg = urlencode("Halo, saya tertarik memesan *{$prod['name']}* untuk dikirim ke {$location['name']}. Apakah tersedia?");
           ?>
-          <a href="<?= e($wa_url) ?>?text=<?= $wamsg ?>" target="_blank" class="tanzaku-card">
-            <!-- String ornament -->
-            <div class="tanzaku-string"></div>
-            <div class="tanzaku-hole"></div>
-            <div class="tanzaku-frame"></div>
-            <div class="tanzaku-shimmer"></div>
-
-            <!-- Image -->
-            <div class="tanzaku-img-wrap">
-              <img src="<?= e($img) ?>" alt="<?= e($prod['name']) ?>" class="tanzaku-img" loading="lazy">
-              <div class="tanzaku-img-ov"></div>
-              <div class="tanzaku-badge"><?= e($cat['name']) ?></div>
+          <a href="<?= e($wa_url) ?>?text=<?= $wamsg ?>"
+             target="_blank" rel="noopener" class="area-prod-card">
+            <div class="area-prod-img-wrap">
+              <img src="<?= e($img) ?>" alt="<?= e($prod['name']) ?> <?= e($location['name']) ?>"
+                   class="area-prod-img" loading="lazy">
+              <div class="area-prod-img-ov"></div>
+              <div class="area-prod-cat-badge"><?= e($cat['name']) ?></div>
             </div>
-
-            <!-- Body -->
-            <div class="tanzaku-body">
-              <div class="tanzaku-name"><?= e($prod['name']) ?></div>
-              <div class="tanzaku-price"><?= rupiah($prod['price']) ?></div>
-              <div class="tanzaku-btn">
+            <div class="area-prod-body">
+              <div class="area-prod-name"><?= e($prod['name']) ?></div>
+              <div class="area-prod-price"><?= rupiah($prod['price']) ?></div>
+              <div class="area-prod-btn">
                 <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
                 Pesan WA
               </div>
@@ -1616,122 +1294,124 @@ function renderFireflies(int $n = 18): string {
           <?php endforeach; ?>
         </div>
 
-        <div class="tzk-progress-track">
-          <div id="<?= $sid ?>-bar" class="tzk-progress-bar"></div>
+        <div class="area-progress-track">
+          <div id="<?= $sid ?>-bar" class="area-progress-bar"></div>
         </div>
       </div>
     </div>
 
     <?php if ($ri < count($cats_with_products) - 1): ?>
-    <div class="washi-sep">
-      <div class="washi-sep-line"></div>
-      <span class="washi-sep-moon"><?= $msep ?></span>
-      <div class="washi-sep-line"></div>
-    </div>
+    <div class="area-section-rule area-section-rule-diamond"></div>
     <?php endif; ?>
 
     <?php endforeach; ?>
+
   </div>
 </section>
 
+<!-- ═══════════════════════════════════
+     SECTION: FAQ + SIDEBAR
+═══════════════════════════════════ -->
+<section class="area-faq-section">
+  <div class="area-container">
+    <div class="area-faq-layout">
 
-<!-- ════════════════════════════════════════
-     FAQ + SIDEBAR — TSUKIMI STYLE
-════════════════════════════════════════ -->
-<section class="tsuki-faq-section" style="padding:120px 0 80px;">
-  <?= renderFireflies(8) ?>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-4">
-    <div class="grid md:grid-cols-5 gap-12">
-
-      <!-- Left: About + FAQ (3 cols) -->
-      <div class="md:col-span-3 space-y-8">
+      <!-- KIRI: About + FAQ -->
+      <div>
 
         <!-- About -->
-        <div>
-          <div class="tsuki-section-label">Tentang Kami</div>
-          <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--tsuki);line-height:1.25;margin-bottom:16px;">
-            Toko Bunga <?= e($location['name']) ?><br>
-            <span style="background:linear-gradient(135deg,var(--gold2),var(--lav2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Terpercaya & Berpengalaman</span>
+        <div class="area-section-eyebrow" style="margin-bottom:14px;">Tentang Toko</div>
+        <div class="area-about-box">
+          <h2 class="area-about-title">
+            Toko Bunga <?= e($location['name']) ?>
+            <em> — Terpercaya &amp; Berpengalaman</em>
           </h2>
-        </div>
-
-        <div class="tsuki-about">
           <?php if (!empty($location['content'])): ?>
-          <div style="font-size:15px;line-height:1.75;color:rgba(196,181,212,0.6);margin-bottom:14px;"><?= $location['content'] ?></div>
+          <div class="area-about-prose"><?= $location['content'] ?></div>
           <?php endif; ?>
-          <p style="font-size:15px;line-height:1.75;color:rgba(196,181,212,0.55);">
-            Sebagai <strong style="color:var(--lav2);">toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari.
+          <p class="area-about-prose">
+            Sebagai <strong>toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari untuk pengiriman ke <?= e($location['name']) ?> dan seluruh Jakarta Pusat.
           </p>
-          <div style="margin-top:20px;">
-            <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di ' . $location['name'] . '.') ?>"
-               target="_blank" class="btn-wa-moon">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
-              Pesan via WhatsApp
-            </a>
-          </div>
+          <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di '.$location['name'].'.') ?>"
+             target="_blank" rel="noopener" class="area-btn-main" style="display:inline-flex;margin-top:4px;">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
+            Pesan via WhatsApp
+          </a>
         </div>
 
         <!-- FAQ -->
         <?php if (!empty($faqs)): ?>
-        <div>
-          <div class="tsuki-section-label">よくある質問 — FAQ</div>
-          <?php foreach ($faqs as $i => $faq): ?>
-          <div class="tsuki-faq-card <?= $i === 0 ? 'open' : '' ?>" onclick="toggleTsukiFaq(this)">
-            <div class="tsuki-faq-trigger">
-              <span class="tsuki-faq-num"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></span>
-              <span class="tsuki-faq-q"><?= e($faq['question']) ?></span>
-              <svg class="tsuki-faq-chevron w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </div>
-            <div class="tsuki-faq-body <?= $i === 0 ? 'open' : '' ?>">
-              <p class="tsuki-faq-answer"><?= e($faq['answer']) ?></p>
+        <div class="area-section-eyebrow" style="margin-bottom:14px;">Pertanyaan Umum</div>
+        <?php foreach ($faqs as $fi => $faq): ?>
+        <div class="area-faq-card <?= $fi === 0 ? 'open' : '' ?>">
+          <button class="area-faq-trigger" onclick="areaFaqToggle(this.closest('.area-faq-card'))">
+            <span class="area-faq-num"><?= str_pad($fi + 1, 2, '0', STR_PAD_LEFT) ?></span>
+            <span class="area-faq-q"><?= e($faq['question']) ?></span>
+            <svg class="area-faq-chev" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="area-faq-body <?= $fi === 0 ? 'open' : '' ?>">
+            <div class="area-faq-body-inner">
+              <p class="area-faq-answer"><?= e($faq['answer']) ?></p>
             </div>
           </div>
-          <?php endforeach; ?>
         </div>
+        <?php endforeach; ?>
         <?php endif; ?>
+
       </div>
 
-      <!-- Right: Sidebar (2 cols) -->
-      <div class="md:col-span-2 space-y-4">
+      <!-- KANAN: Sidebar -->
+      <div class="area-sidebar">
 
-        <!-- CTA Box -->
-        <div class="tsuki-cta-box">
-          <div style="font-size:2.5rem;margin-bottom:10px;">🌙</div>
-          <p style="font-family:'Shippori Mincho',serif;font-size:1.1rem;font-weight:700;color:var(--silver);margin-bottom:4px;">Siap Pesan Sekarang?</p>
-          <p style="font-size:13px;color:rgba(196,181,212,0.45);margin-bottom:18px;">Respon dalam hitungan menit — 24 jam</p>
-          <a href="<?= e($wa_url) ?>" target="_blank" class="btn-wa-moon" style="width:100%;justify-content:center;">
+        <!-- WA CTA -->
+        <div class="area-sidebar-wa">
+          <div class="area-sidebar-wa-title">Pesan Sekarang</div>
+          <p class="area-sidebar-wa-sub">Respon cepat · 24 jam · Pengiriman ke <?= e($location['name']) ?></p>
+          <a href="<?= e($wa_url) ?>" target="_blank" rel="noopener" class="area-sidebar-wa-btn">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.861L0 24l6.305-1.508A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.374l-.36-.214-3.735.893.944-3.639-.234-.374A9.818 9.818 0 1112 21.818z"/></svg>
             Chat WhatsApp
           </a>
         </div>
 
-        <!-- Info Card -->
-        <div class="tsuki-sidebar-panel">
-          <div class="tsuki-panel-header">
-            <span class="tsuki-panel-icon">📍</span>
-            <span class="tsuki-panel-title">Info Toko</span>
+        <!-- Info toko -->
+        <div class="area-sidebar-panel">
+          <div class="area-sidebar-head">
+            <svg width="13" height="13" fill="none" stroke="rgba(251,246,238,.45)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span class="area-sidebar-head-text">Info Toko</span>
           </div>
-          <div style="padding:12px 18px;font-size:13px;line-height:1.8;color:rgba(196,181,212,0.55);">
-            <div>📍 <?= e($location['name']) ?>, Grogol</div>
-            <div>⏰ <?= e(setting('jam_buka')) ?></div>
-            <div>📞 <?= e(setting('phone_display')) ?></div>
-            <div>💐 Mulai <?= rupiah($min_price) ?></div>
+          <div class="area-sidebar-body" style="padding:12px 14px;">
+            <?php $toko_info = [
+              ['jam_buka',      setting('jam_buka'),                 'Jam Buka'],
+              ['phone_display', setting('phone_display'),            'Telepon'],
+              ['address',       setting('address'),                  'Alamat'],
+            ]; ?>
+            <?php foreach ($toko_info as [$key, $val, $lbl]):
+              if (empty($val)) continue; ?>
+            <div style="padding:8px 0;border-bottom:1px solid var(--manila-dd,#D6C4A0);">
+              <div style="font-family:'Jost',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#8A7560);margin-bottom:2px;"><?= $lbl ?></div>
+              <div style="font-family:'Jost',sans-serif;font-size:13px;font-weight:400;color:var(--ink,#2A1F14);"><?= e($val) ?></div>
+            </div>
+            <?php endforeach; ?>
+            <div style="padding:8px 0;">
+              <div style="font-family:'Jost',sans-serif;font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#8A7560);margin-bottom:2px;">Mulai dari</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--rose,#C07B60);"><?= rupiah($min_price) ?></div>
+            </div>
           </div>
         </div>
 
-        <!-- Area lainnya -->
-        <div class="tsuki-sidebar-panel">
-          <div class="tsuki-panel-header">
-            <span class="tsuki-panel-icon">🗾</span>
-            <span class="tsuki-panel-title">Area Lainnya</span>
+        <!-- Area lain -->
+        <div class="area-sidebar-panel">
+          <div class="area-sidebar-head">
+            <svg width="13" height="13" fill="none" stroke="rgba(251,246,238,.45)" stroke-width="2" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            <span class="area-sidebar-head-text">Area Lainnya</span>
           </div>
-          <div style="padding:12px 16px 14px;display:flex;flex-wrap:wrap;gap:7px;">
+          <div class="area-sidebar-body" style="padding:12px;display:flex;flex-wrap:wrap;gap:6px;">
             <?php foreach ($locations as $l): ?>
             <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
-               class="tsuki-area-pill <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
-              <span style="width:5px;height:5px;border-radius:50%;background:<?= $l['id'] == $location['id'] ? 'var(--gold)' : 'rgba(196,181,212,0.25)' ?>;display:inline-block;flex-shrink:0;"></span>
+               class="area-pill <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
+              <span style="width:4px;height:4px;border-radius:50%;
+                background:<?= $l['id'] == $location['id'] ? 'var(--paper,#FBF6EE)' : 'rgba(192,123,96,.35)' ?>;
+                display:inline-block;flex-shrink:0;"></span>
               <?= e($l['name']) ?>
             </a>
             <?php endforeach; ?>
@@ -1739,36 +1419,37 @@ function renderFireflies(int $n = 18): string {
         </div>
 
         <!-- Layanan accordion -->
-        <div class="tsuki-sidebar-panel">
-          <div class="tsuki-panel-header">
-            <span class="tsuki-panel-icon">🌸</span>
-            <span class="tsuki-panel-title">Layanan Kami</span>
+        <div class="area-sidebar-panel">
+          <div class="area-sidebar-head">
+            <svg width="13" height="13" fill="none" stroke="rgba(251,246,238,.45)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span class="area-sidebar-head-text">Layanan Kami</span>
           </div>
-          <div style="padding:8px 10px 10px;">
+          <div class="area-sidebar-body">
             <?php foreach ($all_cats as $c):
               $c_subs  = $all_cats_subs[$c['id']] ?? [];
               $has_sub = !empty($c_subs);
             ?>
             <?php if ($has_sub): ?>
-            <div style="margin-bottom:2px;">
-              <button onclick="toggleTsukiAcc(this)" class="tsuki-acc-btn w-full flex items-center justify-between px-3 py-2.5 rounded-lg" style="background:transparent;border:none;cursor:pointer;text-align:left;">
-                <span style="font-size:13px;font-weight:500;color:rgba(196,181,212,0.55);"><?= e($c['name']) ?></span>
-                <svg class="tsuki-acc-chev w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(196,181,212,0.25);"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </button>
-              <div class="tsuki-acc-content pl-3 ml-3" style="border-left:1px solid rgba(201,168,76,0.2);">
-                <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" style="display:block;padding:5px 10px;font-size:11px;font-weight:700;color:rgba(201,168,76,0.5);text-decoration:none;">Lihat semua →</a>
-                <?php foreach ($c_subs as $sub): ?>
-                <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" style="display:flex;align-items:center;gap:6px;padding:5px 10px;font-size:12px;color:rgba(196,181,212,0.4);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(196,181,212,0.75)'" onmouseout="this.style.color='rgba(196,181,212,0.4)'">
-                  <span style="width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,0.4);flex-shrink:0;display:inline-block;"></span>
-                  <?= e($sub['name']) ?>
-                </a>
-                <?php endforeach; ?>
-              </div>
+            <button onclick="areaSaccToggle(this)" class="area-sacc-btn">
+              <span><?= e($c['name']) ?></span>
+              <svg class="area-sacc-chev" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="area-sacc-body">
+              <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/"
+                 style="display:block;padding:4px 10px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;color:var(--rose,#C07B60);text-decoration:none;">
+                Lihat semua ›
+              </a>
+              <?php foreach ($c_subs as $sub): ?>
+              <a href="<?= BASE_URL ?>/<?= e($sub['slug']) ?>/" class="area-snav" style="font-size:12.5px;">
+                <?= e($sub['name']) ?>
+                <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+              </a>
+              <?php endforeach; ?>
             </div>
             <?php else: ?>
-            <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;text-decoration:none;color:rgba(196,181,212,0.5);font-size:13px;font-weight:500;transition:color 0.15s,background 0.15s;" onmouseover="this.style.color='rgba(196,181,212,0.8)';this.style.background='rgba(196,181,212,0.05)'" onmouseout="this.style.color='rgba(196,181,212,0.5)';this.style.background='transparent'">
-              <span><?= e($c['name']) ?></span>
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:rgba(196,181,212,0.2);flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <a href="<?= BASE_URL ?>/<?= e($c['slug']) ?>/" class="area-snav">
+              <?= e($c['name']) ?>
+              <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
             </a>
             <?php endif; ?>
             <?php endforeach; ?>
@@ -1778,52 +1459,50 @@ function renderFireflies(int $n = 18): string {
       </div>
     </div>
   </div>
-  <div class="moon-line" style="margin-top:60px;"></div>
 </section>
-
-<?php require __DIR__ . '/../includes/footer.php'; ?>
 
 <script>
 /* ── FAQ toggle ── */
-function toggleTsukiFaq(card) {
-  const body = card.querySelector('.tsuki-faq-body');
+function areaFaqToggle(card) {
+  const body   = card.querySelector('.area-faq-body');
   const isOpen = card.classList.contains('open');
-  document.querySelectorAll('.tsuki-faq-card.open').forEach(c => {
+  document.querySelectorAll('.area-faq-card.open').forEach(c => {
     c.classList.remove('open');
-    c.querySelector('.tsuki-faq-body').classList.remove('open');
+    c.querySelector('.area-faq-body').classList.remove('open');
   });
   if (!isOpen) { card.classList.add('open'); body.classList.add('open'); }
 }
 
 /* ── Sidebar accordion ── */
-function toggleTsukiAcc(btn) {
-  const content = btn.nextElementSibling;
-  const isOpen = content.classList.contains('open');
-  document.querySelectorAll('.tsuki-acc-content.open').forEach(el => el.classList.remove('open'));
-  document.querySelectorAll('.tsuki-acc-btn.open').forEach(el => el.classList.remove('open'));
-  if (!isOpen) { btn.classList.add('open'); content.classList.add('open'); }
+function areaSaccToggle(btn) {
+  const body   = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.area-sacc-body.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.area-sacc-btn.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) { btn.classList.add('open'); body.classList.add('open'); }
 }
 
-/* ── Tanzaku scroll navigation ── */
-function tzkNav(sid, btn, dir) {
+/* ── Scroll navigation ── */
+function areaSnavClick(sid, btn, dir) {
   const el = document.getElementById(sid);
   if (!el) return;
-  el.scrollBy({ left: dir * 560, behavior: 'smooth' });
-  setTimeout(() => tzkScrollEvt(el, sid + '-bar'), 350);
+  el.scrollBy({ left: dir * 520, behavior: 'smooth' });
+  setTimeout(() => areaScrollEvt(el, sid + '-bar'), 340);
 }
-function tzkScrollEvt(el, barId) {
+function areaScrollEvt(el, barId) {
   const bar  = document.getElementById(barId);
   const maxS = el.scrollWidth - el.clientWidth;
-  const pct  = maxS > 0 ? (el.scrollLeft / maxS) * 72 + 12 : 12;
-  if (bar) bar.style.width = pct + '%';
-  const wrap = el.closest('.tanzaku-scroll-wrap');
+  if (bar) bar.style.width = (maxS > 0 ? (el.scrollLeft / maxS) * 72 + 14 : 14) + '%';
+  const wrap = el.closest('.area-scroll-wrap');
   if (!wrap) return;
-  const navL = wrap.querySelector('.tzk-nav.l');
-  const navR = wrap.querySelector('.tzk-nav.r');
-  if (navL) navL.classList.toggle('hide', el.scrollLeft < 20);
-  if (navR) navR.classList.toggle('hide', el.scrollLeft >= maxS - 20);
+  const nl = wrap.querySelector('.snav-l');
+  const nr = wrap.querySelector('.snav-r');
+  if (nl) nl.classList.toggle('snav-hide', el.scrollLeft < 20);
+  if (nr) nr.classList.toggle('snav-hide', el.scrollLeft >= maxS - 20);
 }
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.tanzaku-scroll').forEach(el => tzkScrollEvt(el, el.id + '-bar'));
+  document.querySelectorAll('.area-scroll').forEach(el => areaScrollEvt(el, el.id + '-bar'));
 });
 </script>
+
+<?php require __DIR__ . '/../includes/footer.php'; ?>
