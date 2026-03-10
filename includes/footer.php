@@ -334,8 +334,7 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   .hfooter-inner { padding: 40px 20px 0; }
   .hfooter-bottom { padding: 20px 20px 28px; flex-direction: column; text-align: center; }
   .hfooter-tagline { justify-content: center; }
-  .sticky-wa span { display: none; }
-  .sticky-wa { padding: 13px 14px; border-radius: 50%; }
+  .sticky-wa { padding: 11px 18px; border-radius: 100px; }
 }
 </style>
 
