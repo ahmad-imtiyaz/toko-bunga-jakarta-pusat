@@ -434,22 +434,6 @@ $tab_icons = [
   color: var(--muted);
 }
 
-/* Harga di foto — kotak kecil pojok kanan bawah */
-.pcard-price-tag {
-  position: absolute;
-  bottom: 10px; right: 10px;
-  z-index: 3;
-  background: rgba(42,31,20,.82);
-  color: var(--paper);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  padding: 4px 9px;
-  border-radius: 5px;
-  letter-spacing: .01em;
-  backdrop-filter: blur(4px);
-}
-
 /* Foto placeholder */
 .pcard-photo-ph {
   width: 100%; height: 100%;
@@ -797,7 +781,7 @@ $tab_icons = [
         <?php if (!empty($prod['cat_name'])): ?>
           <span class="pcard-cat"><?= e($prod['cat_name']) ?></span>
         <?php endif; ?>
-        <span class="pcard-price-tag"><?= $price ?></span>
+        
       </div>
 
       <div class="pcard-body">

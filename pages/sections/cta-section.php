@@ -379,7 +379,8 @@
     $delay = rand(0, $dur);
     $size = rand(5,11);
   ?>
-  <div class="cta-petal" aria-hidden="true" style="
+
+    <div class="cta-petal" aria-hidden="true" style="
     left: <?= $left ?>%;
     top: 0;
     width: <?= $size ?>px;
