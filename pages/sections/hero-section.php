@@ -661,7 +661,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 
       <div class="hjp-strip-item">
         <div class="hjp-strip-icon">
-          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+          <img src="<?= BASE_URL ?>/assets/svg/delivery.svg" alt="delivery Icon">
         </div>
         <div class="hjp-strip-title">Pengiriman Cepat</div>
         <div class="hjp-strip-sub">2–4 jam tiba, melayani 12 kecamatan di Jakarta Pusat</div>
@@ -669,7 +669,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 
       <div class="hjp-strip-item">
         <div class="hjp-strip-icon">
-          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+          <img src="<?= BASE_URL ?>/assets/svg/brush-2.svg" alt="brush Icon">
         </div>
         <div class="hjp-strip-title">Desain Custom</div>
         <div class="hjp-strip-sub">Rangkaian sesuai tema, warna, dan keinginan Anda</div>
@@ -677,7 +677,7 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
 
       <div class="hjp-strip-item">
         <div class="hjp-strip-icon">
-          <img src="<?= BASE_URL ?>/assets/svg/flower.svg" alt="Flower Icon">
+          <img src="<?= BASE_URL ?>/assets/svg/envelope.svg" alt="envelope Icon">
         </div>
         <div class="hjp-strip-title">Konsultasi Gratis</div>
         <div class="hjp-strip-sub">Tim kami siap membantu 24 jam via WhatsApp</div>
