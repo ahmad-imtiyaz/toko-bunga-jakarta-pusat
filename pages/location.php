@@ -954,15 +954,45 @@ require __DIR__ . '/../includes/header.php';
 .area-sacc-body.open { max-height: 400px; }
 
 /* ─── RESPONSIVE ─── */
+
+/* Tablet */
 @media (max-width: 1023px) {
   .area-layanan-grid { grid-template-columns: repeat(2, 1fr); }
   .area-faq-layout { grid-template-columns: 1fr; }
   .area-sidebar { display: none; }
+  .area-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .area-hero-info-card {
+    display: none !important;
+  }
 }
+
+/* Mobile */
 @media (max-width: 600px) {
   .area-layanan-grid { grid-template-columns: 1fr 1fr; }
   .area-hero { padding-top: 80px; }
   .area-hero-img { display: none; }
+  .area-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .area-hero-info-card {
+    display: none !important;
+  }
+  .area-stats {
+    gap: 8px;
+  }
+  .area-stat {
+    min-width: 72px;
+    padding: 10px 10px;
+  }
+  .area-stat-val {
+    font-size: 22px;
+  }
+  .area-hero-inner {
+    padding: 0 16px 64px;
+  }
 }
 </style>
 
@@ -1016,7 +1046,7 @@ for ($i = 0; $i < 8; $i++):
       <span class="area-breadcrumb-cur"><?= e($location['name']) ?></span>
     </nav>
 
-    <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;max-width:1100px;">
+    <div class="area-hero-grid" style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;max-width:1100px;">
 
       <!-- Kiri -->
       <div style="max-width:560px;">
@@ -1070,7 +1100,7 @@ for ($i = 0; $i < 8; $i++):
       </div>
 
       <!-- Kanan: Info card -->
-      <div class="area-rv4" style="width:260px;flex-shrink:0;">
+      <div class="area-rv4 area-hero-info-card" style="width:260px;flex-shrink:0;">
         <div class="area-info-card">
           <div class="area-info-card-head">
             <div class="area-info-card-head-sub">Info Pengiriman</div>
