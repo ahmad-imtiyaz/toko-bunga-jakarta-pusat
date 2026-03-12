@@ -506,11 +506,9 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
       <div class="hjp-photos-left">
         <div class="hjp-photo kiri-1">
           <img src="<?= BASE_URL ?>/assets/images/h1.jpeg" alt="Hand Bouquet Jakarta Pusat" loading="eager">
-          <div class="hjp-photo-tag">Hand Bouquet</div>
         </div>
         <div class="hjp-photo kiri-2">
           <img src="<?= BASE_URL ?>/assets/images/h2.jpeg" alt="Bunga Papan Jakarta Pusat" loading="eager">
-          <div class="hjp-photo-tag">Bunga Papan</div>
         </div>
       </div>
 
@@ -556,11 +554,9 @@ $wa_msg = urlencode(setting('whatsapp_default_message') ?? 'Halo, saya ingin mem
       <div class="hjp-photos-right">
         <div class="hjp-photo kanan-1">
           <img src="<?= BASE_URL ?>/assets/images/h3.jpeg" alt="Wedding Flower Jakarta Pusat" loading="eager">
-          <div class="hjp-photo-tag">Wedding</div>
         </div>
         <div class="hjp-photo kanan-2">
           <img src="<?= BASE_URL ?>/assets/images/h4.jpeg" alt="Buket Wisuda Jakarta Pusat" loading="eager">
-          <div class="hjp-photo-tag">Buket Wisuda</div>
         </div>
       </div>
 
