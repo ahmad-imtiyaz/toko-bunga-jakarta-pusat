@@ -14,7 +14,6 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   overflow: hidden;
 }
 
-/* Grain texture — static */
 #site-footer::before {
   content: '';
   position: absolute; inset: 0;
@@ -22,7 +21,6 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   pointer-events: none; z-index: 0;
 }
 
-/* Warm glow — subtle, static */
 #site-footer::after {
   content: '';
   position: absolute; inset: 0;
@@ -40,21 +38,18 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   padding: 68px 40px 0;
 }
 
-/* ─── ORNAMEN ATAS ─── */
 .hfooter-top-rule {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(223,169,140,.2), rgba(223,169,140,.35), rgba(223,169,140,.2), transparent);
   margin-bottom: 52px;
 }
 
-/* ─── GRID ─── */
 .hfooter-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
   gap: 48px;
 }
 
-/* ─── HEADING KOLOM ─── */
 .hfooter-heading {
   font-family: 'Jost', sans-serif;
   font-size: 10px;
@@ -73,7 +68,28 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   background: linear-gradient(90deg, rgba(223,169,140,.3), transparent);
 }
 
-/* ─── KOLOM 1 — BRAND ─── */
+/* heading area pengiriman — flex untuk badge */
+.hfooter-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--rose-l, #DFA98C);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  position: relative;
+}
+.hfooter-heading-row::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, rgba(223,169,140,.3), transparent);
+}
+
 .hfooter-brand {
   display: flex; align-items: center; gap: 12px;
   margin-bottom: 20px;
@@ -85,63 +101,46 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   overflow: hidden; flex-shrink: 0;
   border: 1.5px solid rgba(223,169,140,.25);
 }
-.hfooter-brand-logo img {
-  width: 100%; height: 100%; object-fit: cover;
-}
+.hfooter-brand-logo img { width: 100%; height: 100%; object-fit: cover; }
 .hfooter-brand-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 18px; font-weight: 600;
   color: var(--paper, #FBF6EE);
-  letter-spacing: .02em;
-  line-height: 1.2;
+  letter-spacing: .02em; line-height: 1.2;
 }
 .hfooter-brand-name span {
   display: block;
   font-family: 'Jost', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: .15em;
-  text-transform: uppercase;
+  font-size: 10px; font-weight: 400;
+  letter-spacing: .15em; text-transform: uppercase;
   color: var(--rose-l, #DFA98C);
-  opacity: .6;
-  margin-top: 3px;
+  opacity: .6; margin-top: 3px;
 }
 
 .hfooter-desc {
   font-family: 'Jost', sans-serif;
-  font-size: 13px;
-  line-height: 1.8;
+  font-size: 13px; line-height: 1.8;
   color: rgba(251,246,238,.35);
-  margin-bottom: 20px;
-  font-weight: 300;
+  margin-bottom: 20px; font-weight: 300;
 }
 
-/* Kutipan elegan */
 .hfooter-quote {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 14px;
+  font-style: italic; font-size: 14px;
   color: var(--rose-l, #DFA98C);
-  opacity: .5;
-  line-height: 1.7;
+  opacity: .5; line-height: 1.7;
   padding-left: 14px;
   border-left: 2px solid rgba(223,169,140,.2);
   margin-bottom: 20px;
 }
 
-/* Social row */
-.hfooter-social {
-  display: flex; gap: 8px;
-}
+.hfooter-social { display: flex; gap: 8px; }
 .hfooter-social-btn {
-  width: 36px; height: 36px;
-  border-radius: 8px;
+  width: 36px; height: 36px; border-radius: 8px;
   border: 1px solid rgba(251,246,238,.1);
   background: transparent;
   display: flex; align-items: center; justify-content: center;
-  color: rgba(251,246,238,.35);
-  text-decoration: none;
+  color: rgba(251,246,238,.35); text-decoration: none;
   transition: border-color .2s, color .2s, background .2s, transform .2s;
 }
 .hfooter-social-btn:hover {
@@ -151,43 +150,27 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   transform: translateY(-2px);
 }
 
-/* ─── LINK ITEMS ─── */
 .hfooter-link {
   display: flex; align-items: center; gap: 8px;
   font-family: 'Jost', sans-serif;
   font-size: 13px; font-weight: 400;
   color: rgba(251,246,238,.38);
-  text-decoration: none;
-  padding: 5px 0;
+  text-decoration: none; padding: 5px 0;
   transition: color .2s, padding-left .2s, gap .2s;
 }
 .hfooter-link-arrow {
   width: 14px; height: 14px;
   display: flex; align-items: center; justify-content: center;
   color: var(--rose, #C07B60);
-  opacity: .4;
-  transition: opacity .2s, transform .2s;
-  flex-shrink: 0;
-  font-size: 12px;
+  opacity: .4; transition: opacity .2s, transform .2s;
+  flex-shrink: 0; font-size: 12px;
 }
-.hfooter-link:hover {
-  color: var(--paper, #FBF6EE);
-  padding-left: 4px;
-  gap: 10px;
-}
-.hfooter-link:hover .hfooter-link-arrow {
-  opacity: .8;
-  transform: translateX(2px);
-}
+.hfooter-link:hover { color: var(--paper, #FBF6EE); padding-left: 4px; gap: 10px; }
+.hfooter-link:hover .hfooter-link-arrow { opacity: .8; transform: translateX(2px); }
 
-/* ─── KONTAK ITEMS ─── */
-.hfooter-contact {
-  display: flex; align-items: flex-start; gap: 12px;
-  margin-bottom: 14px;
-}
+.hfooter-contact { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
 .hfooter-contact-icon {
-  width: 30px; height: 30px;
-  border-radius: 7px;
+  width: 30px; height: 30px; border-radius: 7px;
   background: rgba(223,169,140,.07);
   border: 1px solid rgba(223,169,140,.12);
   display: flex; align-items: center; justify-content: center;
@@ -196,10 +179,8 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
 }
 .hfooter-contact-icon svg {
   width: 14px; height: 14px;
-  stroke: var(--rose-l, #DFA98C);
-  fill: none; stroke-width: 1.7;
-  stroke-linecap: round; stroke-linejoin: round;
-  opacity: .6;
+  stroke: var(--rose-l, #DFA98C); fill: none;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; opacity: .6;
 }
 .hfooter-contact:hover .hfooter-contact-icon {
   background: rgba(223,169,140,.12);
@@ -208,18 +189,14 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
 .hfooter-contact-text {
   font-family: 'Jost', sans-serif;
   font-size: 13px; font-weight: 300;
-  color: rgba(251,246,238,.38);
-  line-height: 1.6;
+  color: rgba(251,246,238,.38); line-height: 1.6;
 }
 .hfooter-contact-text a {
-  color: rgba(251,246,238,.38);
-  text-decoration: none;
-  transition: color .2s;
-  word-break: break-all;
+  color: rgba(251,246,238,.38); text-decoration: none;
+  transition: color .2s; word-break: break-all;
 }
 .hfooter-contact-text a:hover { color: var(--rose-l, #DFA98C); }
 
-/* WA button footer */
 .hfooter-wa {
   display: inline-flex; align-items: center; gap: 9px;
   background: rgba(223,169,140,.08);
@@ -239,7 +216,6 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   color: var(--paper, #FBF6EE);
 }
 
-/* ─── DIVIDER ─── */
 .hfooter-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(223,169,140,.15), rgba(223,169,140,.25), rgba(223,169,140,.15), transparent);
@@ -249,14 +225,12 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
 .hfooter-divider::before {
   content: '';
   position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
   width: 7px; height: 7px;
   background: var(--rose, #C07B60);
   transform: translate(-50%, -50%) rotate(45deg);
   opacity: .4;
 }
 
-/* ─── BOTTOM BAR ─── */
 .hfooter-bottom {
   position: relative; z-index: 1;
   max-width: 1280px; margin: 0 auto;
@@ -268,27 +242,21 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
 .hfooter-copy {
   font-family: 'Jost', sans-serif;
   font-size: 11.5px; font-weight: 300;
-  color: rgba(251,246,238,.2);
-  letter-spacing: .04em;
+  color: rgba(251,246,238,.2); letter-spacing: .04em;
 }
 .hfooter-tagline {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 13px;
-  color: rgba(223,169,140,.35);
-  letter-spacing: .06em;
+  font-style: italic; font-size: 13px;
+  color: rgba(223,169,140,.35); letter-spacing: .06em;
   display: flex; align-items: center; gap: 10px;
 }
 .hfooter-tagline-dot {
   width: 3px; height: 3px; border-radius: 50%;
-  background: rgba(223,169,140,.35);
-  flex-shrink: 0;
+  background: rgba(223,169,140,.35); flex-shrink: 0;
 }
 
-/* ─── STICKY WA ─── */
 .sticky-wa {
-  position: fixed; bottom: 20px; right: 20px;
-  z-index: 999;
+  position: fixed; bottom: 20px; right: 20px; z-index: 999;
   display: flex; align-items: center; gap: 9px;
   background: var(--ink, #2A1F14);
   color: var(--rose-l, #DFA98C);
@@ -313,8 +281,7 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   background: var(--rose, #C07B60);
 }
 .sticky-wa-ping::before {
-  content: '';
-  position: absolute; inset: 0; border-radius: 50%;
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
   background: var(--rose, #C07B60);
   animation: stWaPing 2.2s ease-out infinite;
 }
@@ -323,11 +290,143 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   100% { transform: scale(2.8); opacity: 0; }
 }
 
-/* ─── RESPONSIVE ─── */
+/* ================================================================
+   AREA PENGIRIMAN SLIDER — tema ink/rose-gold (Jakarta Pusat)
+   ================================================================ */
+.hfas-badge {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .1em;
+  background: rgba(223,169,140,.08);
+  color: var(--rose-l, #DFA98C);
+  border: 1px solid rgba(223,169,140,.18);
+  border-radius: 20px;
+  padding: 2px 10px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.hfas-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+.hfas-track {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  transition: transform .38s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.hfas-slide {
+  min-width: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-sizing: border-box;
+}
+.hfas-item { display: none !important; }
+.hfas-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: rgba(223,169,140,.04);
+  border: 1px solid rgba(223,169,140,.1);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background .18s, border-color .18s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.hfas-link:hover,
+.hfas-link:active {
+  background: rgba(223,169,140,.1);
+  border-color: rgba(223,169,140,.28);
+}
+.hfas-dot {
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--rose, #C07B60);
+  opacity: .55;
+  flex-shrink: 0;
+}
+.hfas-link-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 12.5px; font-weight: 300;
+  color: rgba(251,246,238,.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .18s;
+}
+.hfas-link:hover .hfas-link-name { color: rgba(251,246,238,.7); }
+
+/* Controls */
+.hfas-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+.hfas-dots { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.hfas-dot-btn {
+  width: 5px; height: 5px; min-width: 5px;
+  border-radius: 3px;
+  background: rgba(223,169,140,.2);
+  cursor: pointer;
+  transition: background .2s, width .25s;
+  border: none; padding: 0;
+}
+.hfas-dot-btn.active {
+  width: 18px;
+  background: var(--rose, #C07B60);
+}
+.hfas-nav { display: flex; align-items: center; gap: 6px; }
+.hfas-page-lbl {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 400;
+  color: rgba(223,169,140,.35);
+  min-width: 28px; text-align: center;
+  letter-spacing: .08em;
+}
+.hfas-btn {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(223,169,140,.15);
+  background: rgba(223,169,140,.05);
+  color: rgba(223,169,140,.5);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .18s, border-color .18s, color .18s;
+  padding: 0; flex-shrink: 0;
+}
+.hfas-btn:hover {
+  background: rgba(223,169,140,.12);
+  border-color: rgba(223,169,140,.3);
+  color: var(--rose-l, #DFA98C);
+}
+.hfas-btn:disabled { opacity: .2; cursor: default; }
+
+.hfas-hint {
+  display: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 300;
+  color: rgba(223,169,140,.25);
+  text-align: center; margin-top: 8px;
+  letter-spacing: .08em;
+}
+
 @media (max-width: 1023px) {
   .hfooter-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
   .hfooter-inner { padding: 56px 28px 0; }
   .hfooter-bottom { padding: 20px 28px 28px; }
+}
+@media (max-width: 767px) {
+  .hfas-btn  { width: 32px; height: 32px; border-radius: 8px; }
+  .hfas-hint { display: block; }
 }
 @media (max-width: 600px) {
   .hfooter-grid { grid-template-columns: 1fr; gap: 28px; }
@@ -403,17 +502,36 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
         </nav>
       </div>
 
-      <!-- ── Kolom 3: Area ── -->
+      <!-- ── Kolom 3: Area Pengiriman — SLIDER ── -->
       <div>
-        <div class="hfooter-heading">Area Pengiriman</div>
-        <nav aria-label="Area pengiriman">
-          <?php foreach ($locs as $loc): ?>
-          <a href="<?= BASE_URL ?>/<?= e($loc['slug']) ?>/" class="hfooter-link">
-            <span class="hfooter-link-arrow">›</span>
-            <?= e($loc['name']) ?>
-          </a>
-          <?php endforeach; ?>
-        </nav>
+        <div class="hfooter-heading-row">
+          <span>Area Pengiriman</span>
+          <span class="hfas-badge"><?= count($locs) ?> kota</span>
+        </div>
+
+        <div class="hfas-viewport">
+          <div class="hfas-track" id="hfasTrack">
+            <?php foreach ($locs as $loc): ?>
+            <span class="hfas-item"
+                  data-name="<?= e($loc['name']) ?>"
+                  data-href="<?= BASE_URL ?>/<?= e($loc['slug']) ?>/"></span>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <div class="hfas-controls">
+          <div class="hfas-dots" id="hfasDots"></div>
+          <div class="hfas-nav">
+            <span class="hfas-page-lbl" id="hfasLbl"></span>
+            <button class="hfas-btn" id="hfasPrev" aria-label="Sebelumnya" disabled>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2L4 6l4 4"/></svg>
+            </button>
+            <button class="hfas-btn" id="hfasNext" aria-label="Berikutnya">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 2l4 4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="hfas-hint">Geser untuk lihat area lainnya</p>
       </div>
 
       <!-- ── Kolom 4: Kontak ── -->
@@ -495,6 +613,122 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   <span>Pesan Sekarang</span>
   <div class="sticky-wa-ping" aria-hidden="true"></div>
 </a>
+
+<!-- ================================================================
+     AREA PENGIRIMAN SLIDER — JS (Jakarta Pusat, prefix: hfas)
+     ================================================================ -->
+<script>
+(function () {
+  var track   = document.getElementById('hfasTrack');
+  var dotsEl  = document.getElementById('hfasDots');
+  var lbl     = document.getElementById('hfasLbl');
+  var btnPrev = document.getElementById('hfasPrev');
+  var btnNext = document.getElementById('hfasNext');
+  if (!track) return;
+
+  var cities = Array.from(track.querySelectorAll('.hfas-item')).map(function (el) {
+    return { name: el.dataset.name, href: el.dataset.href };
+  });
+
+  var cur     = 0;
+  var perPage = 0;
+
+  function isMobile() { return window.innerWidth < 768; }
+
+  function chunk(arr, n) {
+    var r = [];
+    for (var i = 0; i < arr.length; i += n) r.push(arr.slice(i, i + n));
+    return r;
+  }
+
+  function rebuild() {
+    var pp = isMobile() ? 4 : 5;
+    if (pp === perPage && track.querySelectorAll('.hfas-slide').length > 0) return;
+    perPage = pp;
+
+    var pages = chunk(cities, perPage);
+
+    Array.from(track.querySelectorAll('.hfas-slide')).forEach(function (s) { track.removeChild(s); });
+
+    track.style.transition = 'none';
+    track.style.transform  = 'translateX(0)';
+
+    pages.forEach(function (page) {
+      var slide = document.createElement('div');
+      slide.className = 'hfas-slide';
+      page.forEach(function (city) {
+        var a = document.createElement('a');
+        a.className = 'hfas-link';
+        a.href = city.href;
+        a.innerHTML =
+          '<span class="hfas-dot"></span>' +
+          '<span class="hfas-link-name">' + city.name + '</span>';
+        slide.appendChild(a);
+      });
+      track.appendChild(slide);
+    });
+
+    dotsEl.innerHTML = '';
+    pages.forEach(function (_, i) {
+      var d = document.createElement('button');
+      d.className = 'hfas-dot-btn';
+      d.setAttribute('aria-label', 'Halaman ' + (i + 1));
+      (function (idx) {
+        d.addEventListener('click', function () { goTo(idx); });
+      })(i);
+      dotsEl.appendChild(d);
+    });
+
+    if (cur >= pages.length) cur = pages.length - 1;
+    goTo(cur, true);
+  }
+
+  function goTo(n, instant) {
+    var total = track.querySelectorAll('.hfas-slide').length;
+    cur = Math.max(0, Math.min(n, total - 1));
+
+    track.style.transition = instant ? 'none' : 'transform .38s cubic-bezier(.4,0,.2,1)';
+    track.style.transform  = 'translateX(-' + (cur * 100) + '%)';
+
+    Array.from(dotsEl.children).forEach(function (d, i) {
+      d.classList.toggle('active', i === cur);
+    });
+    lbl.textContent  = (cur + 1) + ' / ' + total;
+    btnPrev.disabled = cur === 0;
+    btnNext.disabled = cur === total - 1;
+  }
+
+  btnPrev.addEventListener('click', function () { goTo(cur - 1); });
+  btnNext.addEventListener('click', function () { goTo(cur + 1); });
+
+  var tx0 = null;
+  track.addEventListener('touchstart', function (e) {
+    tx0 = e.touches[0].clientX;
+  }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    if (tx0 === null) return;
+    var dx = e.changedTouches[0].clientX - tx0;
+    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+    tx0 = null;
+  }, { passive: true });
+
+  var lastMobile = isMobile();
+  var rTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(rTimer);
+    rTimer = setTimeout(function () {
+      var nowMobile = isMobile();
+      if (nowMobile !== lastMobile) {
+        lastMobile = nowMobile;
+        perPage    = 0;
+        rebuild();
+      }
+    }, 150);
+  });
+
+  rebuild();
+})();
+</script>
 
 <script src="<?= BASE_URL ?>/assets/js/main.js"></script>
 </body>
