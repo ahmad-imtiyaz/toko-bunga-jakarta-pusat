@@ -994,6 +994,19 @@ require __DIR__ . '/../includes/header.php';
     padding: 0 16px 64px;
   }
 }
+/* Css Huruf Konten */
+/* Konten SEO — heading styles */
+.area-content h1 { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:600; color:var(--ink,#2A1F14); margin-bottom:1rem; margin-top:1.5rem; line-height:1.2; }
+.area-content h2 { font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:600; color:var(--ink,#2A1F14); margin-bottom:0.75rem; margin-top:1.25rem; line-height:1.3; }
+.area-content h3 { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:600; color:var(--rose,#C07B60); margin-bottom:0.5rem; margin-top:1rem; }
+.area-content p  { margin-bottom:0.75rem; }
+.area-content ul { list-style:disc; padding-left:1.5rem; margin-bottom:0.75rem; }
+.area-content ol { list-style:decimal; padding-left:1.5rem; margin-bottom:0.75rem; }
+.area-content li { margin-bottom:0.25rem; }
+.area-content strong { color:var(--rose,#C07B60); font-weight:600; }
+.area-content a  { color:var(--rose,#C07B60); text-decoration:underline; }
+
+
 </style>
 
 <!-- ─── KELOPAK JATUH ─── -->
@@ -1357,7 +1370,7 @@ for ($i = 0; $i < 8; $i++):
             <em> — Terpercaya &amp; Berpengalaman</em>
           </h2>
           <?php if (!empty($location['content'])): ?>
-          <div class="area-about-prose"><?= $location['content'] ?></div>
+          <div class="area-about-prose area-content"><?= $location['content'] ?></div>
           <?php endif; ?>
           <p class="area-about-prose">
             Sebagai <strong>toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari untuk pengiriman ke <?= e($location['name']) ?> dan seluruh Jakarta Pusat.
