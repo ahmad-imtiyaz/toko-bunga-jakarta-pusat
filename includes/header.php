@@ -682,6 +682,11 @@ section[id] { scroll-margin-top: 80px; }
         </a>
         <?php endforeach; ?>
 
+        <a href="<?= BASE_URL ?>/blog/"
+   class="nav-link <?= str_starts_with($current_slug, 'blog') ? 'active' : '' ?>">
+  Blog
+</a>
+
       </div><!-- /nav-links -->
 
       <!-- CTA + HAMBURGER -->
@@ -764,6 +769,11 @@ section[id] { scroll-margin-top: 80px; }
         <?= $item['label'] ?>
       </a>
       <?php endforeach; ?>
+
+      <a href="<?= BASE_URL ?>/blog/" class="mob-link mob-close
+   <?= str_starts_with($current_slug, 'blog') ? 'active' : '' ?>">
+  Blog
+</a>
 
       <div class="mob-divider"></div>
 
