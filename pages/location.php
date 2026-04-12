@@ -28,6 +28,12 @@ $locations = db()->query("SELECT * FROM locations WHERE status='active' ORDER BY
 $faqs      = db()->query("SELECT * FROM faqs WHERE status='active' ORDER BY urutan LIMIT 6")->fetchAll();
 $wa_url    = setting('whatsapp_url');
 
+// ── Slider kalkulasi ──
+$slider_per_page    = 10;
+$slider_total       = count($locations);
+$slider_pages       = (int)ceil($slider_total / $slider_per_page);
+$slider_active_idx  = array_search($location['id'], array_column($locations, 'id'));
+$slider_active_page = ($slider_active_idx !== false) ? (int)floor($slider_active_idx / $slider_per_page) : 0;
 $all_prices = [];
 foreach ($cats_with_products as $row) foreach ($row['products'] as $p) $all_prices[] = $p['price'];
 $min_price = !empty($all_prices) ? min($all_prices) : 300000;
@@ -1442,24 +1448,71 @@ for ($i = 0; $i < 8; $i++):
           </div>
         </div>
 
-        <!-- Area lain -->
-        <div class="area-sidebar-panel">
-          <div class="area-sidebar-head">
-            <svg width="13" height="13" fill="none" stroke="rgba(251,246,238,.45)" stroke-width="2" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-            <span class="area-sidebar-head-text">Area Lainnya</span>
-          </div>
-          <div class="area-sidebar-body" style="padding:12px;display:flex;flex-wrap:wrap;gap:6px;">
-            <?php foreach ($locations as $l): ?>
-            <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
-               class="area-pill <?= $l['id'] == $location['id'] ? 'active' : '' ?>">
-              <span style="width:4px;height:4px;border-radius:50%;
-                background:<?= $l['id'] == $location['id'] ? 'var(--paper,#FBF6EE)' : 'rgba(192,123,96,.35)' ?>;
-                display:inline-block;flex-shrink:0;"></span>
-              <?= e($l['name']) ?>
-            </a>
-            <?php endforeach; ?>
-          </div>
-        </div>
+      <!-- Area lain -->
+<div class="area-sidebar-panel">
+  <div class="area-sidebar-head">
+    <svg width="13" height="13" fill="none" stroke="rgba(251,246,238,.45)" stroke-width="2" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+    <span class="area-sidebar-head-text">Area Lainnya</span>
+  </div>
+  <div class="area-sidebar-body" style="padding:12px;">
+
+    <!-- Halaman-halaman area -->
+    <?php for ($p = 0; $p < $slider_pages; $p++): ?>
+    <div id="jpAreaPage<?= $p ?>"
+         style="display:<?= $p === $slider_active_page ? 'grid' : 'none' ?>;
+                grid-template-columns: repeat(2, 1fr);
+                gap:6px; min-height:60px;">
+      <?php
+      $slice = array_slice($locations, $p * $slider_per_page, $slider_per_page);
+      foreach ($slice as $l):
+        $is_active = $l['id'] == $location['id'];
+      ?>
+      <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
+         class="area-pill <?= $is_active ? 'active' : '' ?>"
+         style="overflow:hidden; min-width:0; justify-content:flex-start;">
+        <span style="width:4px;height:4px;border-radius:50%;flex-shrink:0;display:inline-block;
+              background:<?= $is_active ? 'var(--paper,#FBF6EE)' : 'rgba(192,123,96,.35)' ?>;"></span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;">
+          <?= e($l['name']) ?>
+        </span>
+      </a>
+      <?php endforeach; ?>
+    </div>
+    <?php endfor; ?>
+
+    <!-- Navigasi -->
+    <?php if ($slider_pages > 1): ?>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--manila-dd,#D6C4A0);">
+      <button id="jpAreaPrev" onclick="jpAreaSlider(-1)"
+              style="font-size:11px;padding:4px 11px;border-radius:7px;
+                     border:1px solid var(--manila-dd,#D6C4A0);
+                     background:var(--paper,#FBF6EE);
+                     color:var(--ink-l,#5C4A35);cursor:pointer;">
+        ‹ Prev
+      </button>
+
+      <div style="display:flex;gap:4px;align-items:center;">
+        <?php for ($p = 0; $p < $slider_pages; $p++): ?>
+        <span id="jpAreaDot<?= $p ?>" onclick="jpAreaGoPage(<?= $p ?>)"
+              style="display:inline-block;height:5px;border-radius:3px;cursor:pointer;transition:all .2s;
+                     width:<?= $p === $slider_active_page ? '16px' : '5px' ?>;
+                     background:<?= $p === $slider_active_page ? 'var(--rose,#C07B60)' : 'var(--manila-dd,#D6C4A0)' ?>;"></span>
+        <?php endfor; ?>
+      </div>
+
+      <button id="jpAreaNext" onclick="jpAreaSlider(1)"
+              style="font-size:11px;padding:4px 11px;border-radius:7px;
+                     border:1px solid var(--manila-dd,#D6C4A0);
+                     background:var(--paper,#FBF6EE);
+                     color:var(--ink-l,#5C4A35);cursor:pointer;">
+        Next ›
+      </button>
+    </div>
+    <p id="jpAreaInfo" style="text-align:center;font-size:11px;color:var(--muted,#8A7560);margin-top:5px;"></p>
+    <?php endif; ?>
+
+  </div>
+</div>
 
         <!-- Layanan accordion -->
         <div class="area-sidebar-panel">
@@ -1546,6 +1599,54 @@ function areaScrollEvt(el, barId) {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.area-scroll').forEach(el => areaScrollEvt(el, el.id + '-bar'));
 });
+/* ── Area slider ── */
+(function() {
+  var perPage = <?= $slider_per_page ?>;
+  var total   = <?= $slider_total ?>;
+  var pages   = <?= $slider_pages ?>;
+  var cur     = <?= $slider_active_page ?>;
+
+  function update() {
+    for (var i = 0; i < pages; i++) {
+      var el = document.getElementById('jpAreaPage' + i);
+      if (el) el.style.display = (i === cur) ? 'grid' : 'none';
+    }
+    for (var i = 0; i < pages; i++) {
+      var dot = document.getElementById('jpAreaDot' + i);
+      if (!dot) continue;
+      dot.style.width      = (i === cur) ? '16px' : '5px';
+      dot.style.background = (i === cur) ? 'var(--rose,#C07B60)' : 'var(--manila-dd,#D6C4A0)';
+    }
+    var prev = document.getElementById('jpAreaPrev');
+    var next = document.getElementById('jpAreaNext');
+    if (prev) {
+      prev.disabled      = (cur === 0);
+      prev.style.opacity = (cur === 0) ? '0.35' : '1';
+      prev.style.cursor  = (cur === 0) ? 'not-allowed' : 'pointer';
+      prev.onmouseenter  = function() { if (!prev.disabled) { prev.style.background='var(--manila,#F2E8D5)'; prev.style.borderColor='var(--rose,#C07B60)'; prev.style.color='var(--rose,#C07B60)'; }};
+      prev.onmouseleave  = function() { prev.style.background='var(--paper,#FBF6EE)'; prev.style.borderColor='var(--manila-dd,#D6C4A0)'; prev.style.color='var(--ink-l,#5C4A35)'; };
+    }
+    if (next) {
+      next.disabled      = (cur === pages - 1);
+      next.style.opacity = (cur === pages - 1) ? '0.35' : '1';
+      next.style.cursor  = (cur === pages - 1) ? 'not-allowed' : 'pointer';
+      next.onmouseenter  = function() { if (!next.disabled) { next.style.background='var(--manila,#F2E8D5)'; next.style.borderColor='var(--rose,#C07B60)'; next.style.color='var(--rose,#C07B60)'; }};
+      next.onmouseleave  = function() { next.style.background='var(--paper,#FBF6EE)'; next.style.borderColor='var(--manila-dd,#D6C4A0)'; next.style.color='var(--ink-l,#5C4A35)'; };
+    }
+    var info = document.getElementById('jpAreaInfo');
+    if (info) {
+      var start = cur * perPage + 1;
+      var end   = Math.min((cur + 1) * perPage, total);
+      info.textContent = start + '–' + end + ' dari ' + total + ' area';
+    }
+  }
+
+  window.jpAreaSlider  = function(dir) { cur = Math.max(0, Math.min(pages - 1, cur + dir)); update(); };
+  window.jpAreaGoPage  = function(p)   { cur = p; update(); };
+
+  update();
+})();
 </script>
+
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>

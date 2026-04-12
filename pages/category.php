@@ -18,6 +18,12 @@ foreach ($all_cats_raw as $ac) {
 }
 $locations     = db()->query("SELECT * FROM locations WHERE status='active' ORDER BY id")->fetchAll();
 $wa_url        = setting('whatsapp_url');
+
+// ── Slider kalkulasi ──
+$slider_per_page    = 10;
+$slider_total       = count($locations);
+$slider_pages       = (int)ceil($slider_total / $slider_per_page);
+$slider_active_page = 0;
 $product_count = count($products);
 $min_price     = !empty($products) ? min(array_column($products, 'price')) : 300000;
 
@@ -1195,25 +1201,73 @@ for ($i = 0; $i < 9; $i++):
       <!-- Kanan: Info cards -->
       <div class="ctg-seo-side">
 
-        <!-- Area pengiriman -->
-        <div class="ctg-info-card">
-          <div class="ctg-info-card-head">
-            <div class="ctg-info-card-head-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
-            </div>
-            <span class="ctg-info-card-head-title">Area Pengiriman</span>
-          </div>
-          <div class="ctg-info-card-body">
-            <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--muted,#8A7560);margin-bottom:10px;">Melayani seluruh kecamatan Jakarta Pusat:</p>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              <?php foreach ($locations as $l): ?>
-              <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="ctg-area-pill">
-                <?= e($l['name']) ?>
-              </a>
-              <?php endforeach; ?>
-            </div>
-          </div>
-        </div>
+       <!-- Area pengiriman -->
+<div class="ctg-info-card">
+  <div class="ctg-info-card-head">
+    <div class="ctg-info-card-head-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+    </div>
+    <span class="ctg-info-card-head-title">Area Pengiriman</span>
+  </div>
+  <div class="ctg-info-card-body">
+    <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--muted,#8A7560);margin-bottom:10px;">
+      Melayani seluruh kecamatan Jakarta Pusat:
+    </p>
+
+    <!-- Halaman-halaman area -->
+    <?php for ($p = 0; $p < $slider_pages; $p++): ?>
+    <div id="jpCatAreaPage<?= $p ?>"
+         style="display:<?= $p === $slider_active_page ? 'grid' : 'none' ?>;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px; min-height: 60px;">
+      <?php
+      $slice = array_slice($locations, $p * $slider_per_page, $slider_per_page);
+      foreach ($slice as $l):
+      ?>
+      <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/"
+         class="ctg-area-pill"
+         style="overflow:hidden; min-width:0; justify-content:flex-start;">
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;">
+          <?= e($l['name']) ?>
+        </span>
+      </a>
+      <?php endforeach; ?>
+    </div>
+    <?php endfor; ?>
+
+    <!-- Navigasi -->
+    <?php if ($slider_pages > 1): ?>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--manila-dd,#D6C4A0);">
+      <button id="jpCatAreaPrev" onclick="jpCatAreaSlider(-1)"
+              style="font-size:11px;padding:4px 11px;border-radius:7px;
+                     border:1px solid var(--manila-dd,#D6C4A0);
+                     background:var(--paper,#FBF6EE);
+                     color:var(--ink-l,#5C4A35);cursor:pointer;">
+        ‹ Prev
+      </button>
+
+      <div style="display:flex;gap:4px;align-items:center;">
+        <?php for ($p = 0; $p < $slider_pages; $p++): ?>
+        <span id="jpCatAreaDot<?= $p ?>" onclick="jpCatAreaGoPage(<?= $p ?>)"
+              style="display:inline-block;height:5px;border-radius:3px;cursor:pointer;transition:all .2s;
+                     width:<?= $p === $slider_active_page ? '16px' : '5px' ?>;
+                     background:<?= $p === $slider_active_page ? 'var(--rose,#C07B60)' : 'var(--manila-dd,#D6C4A0)' ?>;"></span>
+        <?php endfor; ?>
+      </div>
+
+      <button id="jpCatAreaNext" onclick="jpCatAreaSlider(1)"
+              style="font-size:11px;padding:4px 11px;border-radius:7px;
+                     border:1px solid var(--manila-dd,#D6C4A0);
+                     background:var(--paper,#FBF6EE);
+                     color:var(--ink-l,#5C4A35);cursor:pointer;">
+        Next ›
+      </button>
+    </div>
+    <p id="jpCatAreaInfo" style="text-align:center;font-size:11px;color:var(--muted,#8A7560);margin-top:5px;"></p>
+    <?php endif; ?>
+
+  </div>
+</div>
 
         <!-- Info pemesanan -->
         <div class="ctg-info-card">
@@ -1274,6 +1328,53 @@ document.addEventListener('DOMContentLoaded', () => {
     el.previousElementSibling?.classList.add('open');
   });
 });
+/* ── Area slider ── */
+(function() {
+  var perPage = <?= $slider_per_page ?>;
+  var total   = <?= $slider_total ?>;
+  var pages   = <?= $slider_pages ?>;
+  var cur     = <?= $slider_active_page ?>;
+
+  function update() {
+    for (var i = 0; i < pages; i++) {
+      var el = document.getElementById('jpCatAreaPage' + i);
+      if (el) el.style.display = (i === cur) ? 'grid' : 'none';
+    }
+    for (var i = 0; i < pages; i++) {
+      var dot = document.getElementById('jpCatAreaDot' + i);
+      if (!dot) continue;
+      dot.style.width      = (i === cur) ? '16px' : '5px';
+      dot.style.background = (i === cur) ? 'var(--rose,#C07B60)' : 'var(--manila-dd,#D6C4A0)';
+    }
+    var prev = document.getElementById('jpCatAreaPrev');
+    var next = document.getElementById('jpCatAreaNext');
+    if (prev) {
+      prev.disabled      = (cur === 0);
+      prev.style.opacity = (cur === 0) ? '0.35' : '1';
+      prev.style.cursor  = (cur === 0) ? 'not-allowed' : 'pointer';
+      prev.onmouseenter  = function() { if (!prev.disabled) { prev.style.background='var(--manila,#F2E8D5)'; prev.style.borderColor='var(--rose,#C07B60)'; prev.style.color='var(--rose,#C07B60)'; }};
+      prev.onmouseleave  = function() { prev.style.background='var(--paper,#FBF6EE)'; prev.style.borderColor='var(--manila-dd,#D6C4A0)'; prev.style.color='var(--ink-l,#5C4A35)'; };
+    }
+    if (next) {
+      next.disabled      = (cur === pages - 1);
+      next.style.opacity = (cur === pages - 1) ? '0.35' : '1';
+      next.style.cursor  = (cur === pages - 1) ? 'not-allowed' : 'pointer';
+      next.onmouseenter  = function() { if (!next.disabled) { next.style.background='var(--manila,#F2E8D5)'; next.style.borderColor='var(--rose,#C07B60)'; next.style.color='var(--rose,#C07B60)'; }};
+      next.onmouseleave  = function() { next.style.background='var(--paper,#FBF6EE)'; next.style.borderColor='var(--manila-dd,#D6C4A0)'; next.style.color='var(--ink-l,#5C4A35)'; };
+    }
+    var info = document.getElementById('jpCatAreaInfo');
+    if (info) {
+      var start = cur * perPage + 1;
+      var end   = Math.min((cur + 1) * perPage, total);
+      info.textContent = start + '–' + end + ' dari ' + total + ' area';
+    }
+  }
+
+  window.jpCatAreaSlider  = function(dir) { cur = Math.max(0, Math.min(pages - 1, cur + dir)); update(); };
+  window.jpCatAreaGoPage  = function(p)   { cur = p; update(); };
+
+  update();
+})();
 </script>
 
 <?php require __DIR__ . '/../includes/footer.php'; ?>
