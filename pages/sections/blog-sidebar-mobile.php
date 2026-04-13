@@ -231,20 +231,67 @@ $mob_products = db()->query("
       </div>
     </div>
 
-    <!-- ── 5. Area Pengiriman ── -->
-    <div class="mob-sb-section" style="padding:16px 18px;">
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;
-                 color:var(--ink);margin-bottom:13px;">📍 Area Pengiriman</h3>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;">
-        <?php foreach($locations as $l): ?>
-        <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="mob-area-tag">
-          <span style="width:3px;height:3px;border-radius:50%;background:rgba(92,122,85,.45);
-                       display:inline-block;flex-shrink:0;"></span>
-          <?= e($l['name']) ?>
-        </a>
-        <?php endforeach; ?>
-      </div>
+  <!-- ── 5. Area Pengiriman ── -->
+<div class="mob-sb-section" style="padding:16px 18px;">
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;
+             color:var(--ink);margin-bottom:13px;">📍 Area Pengiriman</h3>
+
+  <?php
+  $sage_mob_per_page = 10;
+  $sage_mob_total    = count($locations);
+  $sage_mob_pages    = (int)ceil($sage_mob_total / $sage_mob_per_page);
+  ?>
+
+  <?php for ($p = 0; $p < $sage_mob_pages; $p++): ?>
+  <div id="sageMobAreaPage<?= $p ?>"
+       style="display:<?= $p === 0 ? 'grid' : 'none' ?>;
+              grid-template-columns:repeat(2,1fr);
+              gap:7px; min-height:60px;">
+    <?php
+    $slice = array_slice($locations, $p * $sage_mob_per_page, $sage_mob_per_page);
+    foreach ($slice as $l):
+    ?>
+    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="mob-area-tag"
+       style="overflow:hidden;min-width:0;">
+      <span style="width:3px;height:3px;border-radius:50%;background:rgba(92,122,85,.45);
+                   display:inline-block;flex-shrink:0;"></span>
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;">
+        <?= e($l['name']) ?>
+      </span>
+    </a>
+    <?php endforeach; ?>
+  </div>
+  <?php endfor; ?>
+
+  <?php if ($sage_mob_pages > 1): ?>
+  <div style="display:flex;align-items:center;justify-content:space-between;
+              margin-top:12px;padding-top:10px;border-top:1px solid var(--parch-dd);">
+    <button id="sageMobAreaPrev" onclick="sageMobAreaSlider(-1)"
+            class="mob-sb-nav"
+            style="width:auto;height:auto;border-radius:8px;padding:4px 12px;font-size:11px;">
+      ‹ Prev
+    </button>
+
+    <div style="display:flex;gap:4px;align-items:center;">
+      <?php for ($p = 0; $p < $sage_mob_pages; $p++): ?>
+      <span id="sageMobAreaDot<?= $p ?>" onclick="sageMobAreaGoPage(<?= $p ?>)"
+            style="display:inline-block;height:5px;border-radius:3px;cursor:pointer;transition:all .2s;
+                   width:<?= $p === 0 ? '16px' : '5px' ?>;
+                   background:<?= $p === 0 ? 'var(--sage)' : 'rgba(92,122,85,.2)' ?>;"></span>
+      <?php endfor; ?>
     </div>
+
+    <button id="sageMobAreaNext" onclick="sageMobAreaSlider(1)"
+            class="mob-sb-nav"
+            style="width:auto;height:auto;border-radius:8px;padding:4px 12px;font-size:11px;">
+      Next ›
+    </button>
+  </div>
+  <p id="sageMobAreaInfo"
+     style="text-align:center;font-family:'Jost',sans-serif;font-size:11px;
+            color:var(--muted);margin-top:5px;"></p>
+  <?php endif; ?>
+</div>
 
     <!-- ── 6. Bottom CTA strip ── -->
     <div style="background:var(--ink);border-radius:16px;padding:20px 22px;
@@ -327,5 +374,48 @@ $mob_products = db()->query("
   }
 
   window.slideCatMobTng = function(dir) { goTo(cur + dir); };
+})();
+/* ── Area Pengiriman slider — Sage mobile ── */
+(function(){
+  var perPage = <?= $sage_mob_per_page ?>;
+  var total   = <?= $sage_mob_total ?>;
+  var pages   = <?= $sage_mob_pages ?>;
+  var cur     = 0;
+
+  function update() {
+    for (var i = 0; i < pages; i++) {
+      var el = document.getElementById('sageMobAreaPage' + i);
+      if (el) el.style.display = (i === cur) ? 'grid' : 'none';
+    }
+    for (var i = 0; i < pages; i++) {
+      var dot = document.getElementById('sageMobAreaDot' + i);
+      if (!dot) continue;
+      dot.style.width      = (i === cur) ? '16px' : '5px';
+      dot.style.background = (i === cur) ? 'var(--sage)' : 'rgba(92,122,85,.2)';
+    }
+    var prev = document.getElementById('sageMobAreaPrev');
+    var next = document.getElementById('sageMobAreaNext');
+    if (prev) {
+      prev.disabled      = (cur === 0);
+      prev.style.opacity = (cur === 0) ? '0.35' : '1';
+      prev.style.cursor  = (cur === 0) ? 'not-allowed' : 'pointer';
+    }
+    if (next) {
+      next.disabled      = (cur === pages - 1);
+      next.style.opacity = (cur === pages - 1) ? '0.35' : '1';
+      next.style.cursor  = (cur === pages - 1) ? 'not-allowed' : 'pointer';
+    }
+    var info = document.getElementById('sageMobAreaInfo');
+    if (info) {
+      var start = cur * perPage + 1;
+      var end   = Math.min((cur + 1) * perPage, total);
+      info.textContent = start + '–' + end + ' dari ' + total + ' area';
+    }
+  }
+
+  window.sageMobAreaSlider = function(dir) { cur = Math.max(0, Math.min(pages - 1, cur + dir)); update(); };
+  window.sageMobAreaGoPage = function(p)   { cur = p; update(); };
+
+  update();
 })();
 </script>

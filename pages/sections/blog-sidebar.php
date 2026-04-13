@@ -315,21 +315,66 @@ $sidebar_products = db()->query("
   </div>
   <?php endif; ?>
 
-  <!-- ── 6. Area Pengiriman ── -->
-  <div class="sb-card" style="padding:16px 18px;">
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;
-               color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:7px;">
-      <span style="font-size:16px;">📍</span> Area Pengiriman
-    </h3>
-    <div style="display:flex;flex-direction:column;gap:1px;">
-      <?php foreach($locations as $l): ?>
-      <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="area-pill-sb">
-        <span class="sb-dot"></span>
-        <?= e($l['name']) ?>
-      </a>
-      <?php endforeach; ?>
-    </div>
+<!-- ── 6. Area Pengiriman ── -->
+<div class="sb-card" style="padding:16px 18px;">
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;
+             color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:7px;">
+    <span style="font-size:16px;">📍</span> Area Pengiriman
+  </h3>
+
+  <?php
+  $sage_desk_per_page = 10;
+  $sage_desk_total    = count($locations);
+  $sage_desk_pages    = (int)ceil($sage_desk_total / $sage_desk_per_page);
+  ?>
+
+  <?php for ($p = 0; $p < $sage_desk_pages; $p++): ?>
+  <div id="sageDeskAreaPage<?= $p ?>"
+       style="display:<?= $p === 0 ? 'flex' : 'none' ?>;
+              flex-direction:column;gap:1px; min-height:60px;">
+    <?php
+    $slice = array_slice($locations, $p * $sage_desk_per_page, $sage_desk_per_page);
+    foreach ($slice as $l):
+    ?>
+    <a href="<?= BASE_URL ?>/<?= e($l['slug']) ?>/" class="area-pill-sb">
+      <span class="sb-dot"></span>
+      <?= e($l['name']) ?>
+    </a>
+    <?php endforeach; ?>
   </div>
+  <?php endfor; ?>
+
+  <?php if ($sage_desk_pages > 1): ?>
+  <div style="display:flex;align-items:center;justify-content:space-between;
+              margin-top:12px;padding-top:10px;border-top:1px solid var(--parch-dd);">
+    <button id="sageDeskAreaPrev" onclick="sageDeskAreaSlider(-1)"
+            class="sb-nav-btn"
+            style="width:auto;height:auto;border-radius:8px;padding:4px 12px;
+                   font-size:11px;font-family:'Jost',sans-serif;">
+      ‹ Prev
+    </button>
+
+    <div style="display:flex;gap:4px;align-items:center;">
+      <?php for ($p = 0; $p < $sage_desk_pages; $p++): ?>
+      <span id="sageDeskAreaDot<?= $p ?>" onclick="sageDeskAreaGoPage(<?= $p ?>)"
+            style="display:inline-block;height:5px;border-radius:3px;cursor:pointer;transition:all .2s;
+                   width:<?= $p === 0 ? '16px' : '5px' ?>;
+                   background:<?= $p === 0 ? 'var(--sage)' : 'rgba(92,122,85,.2)' ?>;"></span>
+      <?php endfor; ?>
+    </div>
+
+    <button id="sageDeskAreaNext" onclick="sageDeskAreaSlider(1)"
+            class="sb-nav-btn"
+            style="width:auto;height:auto;border-radius:8px;padding:4px 12px;
+                   font-size:11px;font-family:'Jost',sans-serif;">
+      Next ›
+    </button>
+  </div>
+  <p id="sageDeskAreaInfo"
+     style="text-align:center;font-family:'Jost',sans-serif;font-size:11px;
+            color:var(--muted);margin-top:5px;"></p>
+  <?php endif; ?>
+</div>
 
 </div>
 
@@ -379,5 +424,49 @@ $sidebar_products = db()->query("
   }
 
   window.slideCatTng = function(dir) { goTo(cur + dir); };
+})();
+
+/* ── Area Pengiriman slider — Sage desktop ── */
+(function(){
+  var perPage = <?= $sage_desk_per_page ?>;
+  var total   = <?= $sage_desk_total ?>;
+  var pages   = <?= $sage_desk_pages ?>;
+  var cur     = 0;
+
+  function update() {
+    for (var i = 0; i < pages; i++) {
+      var el = document.getElementById('sageDeskAreaPage' + i);
+      if (el) el.style.display = (i === cur) ? 'flex' : 'none';
+    }
+    for (var i = 0; i < pages; i++) {
+      var dot = document.getElementById('sageDeskAreaDot' + i);
+      if (!dot) continue;
+      dot.style.width      = (i === cur) ? '16px' : '5px';
+      dot.style.background = (i === cur) ? 'var(--sage)' : 'rgba(92,122,85,.2)';
+    }
+    var prev = document.getElementById('sageDeskAreaPrev');
+    var next = document.getElementById('sageDeskAreaNext');
+    if (prev) {
+      prev.disabled      = (cur === 0);
+      prev.style.opacity = (cur === 0) ? '0.35' : '1';
+      prev.style.cursor  = (cur === 0) ? 'not-allowed' : 'pointer';
+    }
+    if (next) {
+      next.disabled      = (cur === pages - 1);
+      next.style.opacity = (cur === pages - 1) ? '0.35' : '1';
+      next.style.cursor  = (cur === pages - 1) ? 'not-allowed' : 'pointer';
+    }
+    var info = document.getElementById('sageDeskAreaInfo');
+    if (info) {
+      var start = cur * perPage + 1;
+      var end   = Math.min((cur + 1) * perPage, total);
+      info.textContent = start + '–' + end + ' dari ' + total + ' area';
+    }
+  }
+
+  window.sageDeskAreaSlider = function(dir) { cur = Math.max(0, Math.min(pages - 1, cur + dir)); update(); };
+  window.sageDeskAreaGoPage = function(p)   { cur = p; update(); };
+
+  update();
 })();
 </script>  
