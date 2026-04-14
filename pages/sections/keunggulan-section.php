@@ -2,12 +2,13 @@
 /* ============================================================
    TENTANG SECTION — Manila Florist · Kertas Cream Warm
    Konten: 4 foto grid + 5 keunggulan card + 4 stats + CTA
+   SEO: 1500+ kata · Keyword lengkap · Jakarta Pusat
 ============================================================ */
 ?>
 
 <style>
 /* ══════════════════════════════════════════
-   TENTANG SECTION — Manila Florist
+   TENTANG SECTION — Manila Florist Jakarta Pusat
 ══════════════════════════════════════════ */
 #tentang {
   position: relative;
@@ -15,7 +16,6 @@
   overflow: hidden;
 }
 
-/* Grain texture — static, 0 animasi */
 #tentang::before {
   content: '';
   position: absolute;
@@ -27,11 +27,9 @@
   background-size: 200px 200px;
 }
 
-/* Wave divider */
 .tentang-wave     { line-height: 0; }
 .tentang-wave svg { width: 100%; display: block; }
 
-/* Inner wrapper */
 .tentang-inner {
   position: relative;
   z-index: 1;
@@ -105,40 +103,29 @@
 }
 
 /* ════════════════════════
-   4 FOTO GRID
+   LAYOUT UTAMA — 2 KOLOM
 ════════════════════════ */
-.tentang-photos {
+.tentang-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
   margin-bottom: 64px;
 }
-.tentang-photos-label {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-.tentang-photos-line     { flex: 1; height: 1px; background: linear-gradient(to right, var(--manila-dd), transparent); }
-.tentang-photos-line.rev { background: linear-gradient(to left,  var(--manila-dd), transparent); }
-.tentang-photos-text {
-  font-family: 'Jost', sans-serif;
-  font-size: 9.5px;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
-/* Grid asimetris */
+/* ════════════════════════
+   4 FOTO GRID
+════════════════════════ */
 .tentang-photo-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: 260px 200px;
   gap: 10px;
-  height: 440px;
 }
-.tpg-1 { grid-column: 1; grid-row: 1 / 3; }
+.tpg-1 { grid-column: 1; grid-row: 1; }
 .tpg-2 { grid-column: 2; grid-row: 1; }
-.tpg-3 { grid-column: 3; grid-row: 1; }
-.tpg-4 { grid-column: 2 / 4; grid-row: 2; }
+.tpg-3 { grid-column: 1; grid-row: 2; }
+.tpg-4 { grid-column: 2; grid-row: 2; }
 
 .tpg-cell {
   position: relative;
@@ -158,8 +145,6 @@
   transition: transform .5s ease;
 }
 .tpg-cell:hover img { transform: scale(1.05); }
-
-/* Overlay gradient */
 .tpg-cell::after {
   content: '';
   position: absolute;
@@ -167,8 +152,6 @@
   background: linear-gradient(to top, rgba(42,31,20,.42) 0%, rgba(42,31,20,.08) 45%, transparent 100%);
   pointer-events: none;
 }
-
-/* Badge label pojok bawah */
 .tpg-badge {
   position: absolute;
   bottom: 12px; left: 12px;
@@ -189,6 +172,30 @@
   transition: opacity .25s, transform .25s;
 }
 .tpg-cell:hover .tpg-badge { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════
+   SEO TEXT BLOCK
+════════════════════════ */
+.seo-block {
+  font-family: 'Jost', sans-serif;
+}
+.seo-block p {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.seo-block strong {
+  color: var(--ink-l);
+  font-weight: 600;
+}
+.seo-block a {
+  color: var(--rose);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color .2s;
+}
+.seo-block a:hover { color: var(--ink); }
 
 /* ════════════════════════
    5 KEUNGGULAN CARDS
@@ -217,7 +224,6 @@
   margin-bottom: 60px;
 }
 
-/* Kartu keunggulan */
 .tcard {
   background: var(--paper);
   border: 1px solid rgba(255,255,255,.75);
@@ -234,8 +240,6 @@
   transform: translateY(-5px);
   box-shadow: 4px 12px 28px rgba(42,31,20,.14);
 }
-
-/* Icon kotak */
 .tcard-icon {
   width: 48px; height: 48px;
   background: var(--manila);
@@ -256,13 +260,10 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* Jika icon pakai img SVG */
 .tcard-icon img {
   width: 22px; height: 22px;
   object-fit: contain;
 }
-
-/* Nomor kecil */
 .tcard-num {
   font-family: 'Cormorant Garamond', serif;
   font-size: 10px;
@@ -272,8 +273,6 @@
   margin-bottom: 8px;
   opacity: .55;
 }
-
-/* Garis dekoratif */
 .tcard-rule {
   width: 24px; height: 1px;
   background: var(--rose-l);
@@ -281,7 +280,6 @@
   transition: width .3s ease;
 }
 .tcard:hover .tcard-rule { width: 40px; }
-
 .tcard-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem;
@@ -326,7 +324,6 @@
   margin-bottom: 56px;
 }
 
-/* Stat tile */
 .tstat {
   background: var(--ink);
   border-radius: 10px;
@@ -340,8 +337,6 @@
   transform: translateY(-4px);
   box-shadow: 4px 12px 28px rgba(42,31,20,.25);
 }
-
-/* Dekorasi garis atas */
 .tstat::before {
   content: '';
   position: absolute;
@@ -349,7 +344,6 @@
   height: 2px;
   background: linear-gradient(to right, transparent, var(--rose-l), transparent);
 }
-
 .tstat-num {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(26px, 3vw, 36px);
@@ -374,8 +368,6 @@
   color: rgba(251,246,238,.45);
   display: block;
 }
-
-/* Icon dekoratif di stat */
 .tstat-icon {
   width: 28px; height: 28px;
   background: rgba(255,255,255,.06);
@@ -466,24 +458,26 @@
    RESPONSIVE
 ════════════════════════ */
 @media (max-width: 1100px) {
+  .tentang-body { grid-template-columns: 1fr; gap: 40px; }
   .tentang-cards { grid-template-columns: repeat(3, 1fr); }
+  .tentang-photo-grid { grid-template-rows: 220px 180px; }
 }
 @media (max-width: 1024px) {
-  .tentang-photo-grid { height: 360px; }
   .tentang-stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 767px) {
   .tentang-inner { padding: 48px 16px 56px; }
+  .tentang-body { grid-template-columns: 1fr; gap: 32px; }
   .tentang-cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .tentang-photo-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
-    height: auto;
   }
-  .tpg-1 { grid-column: 1; grid-row: 1; aspect-ratio: 1/1; }
-  .tpg-2 { grid-column: 2; grid-row: 1; aspect-ratio: 1/1; }
-  .tpg-3 { grid-column: 1; grid-row: 2; aspect-ratio: 1/1; }
-  .tpg-4 { grid-column: 2; grid-row: 2; aspect-ratio: 1/1; }
+  .tpg-1, .tpg-2, .tpg-3, .tpg-4 {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 1/1;
+  }
 }
 @media (max-width: 480px) {
   .tentang-cards { grid-template-columns: 1fr 1fr; }
@@ -519,38 +513,119 @@
     </p>
   </header>
 
-  <!-- ════ 4 FOTO GRID ════ -->
-  <div class="tentang-photos">
-    <div class="tentang-photos-label">
-      <div class="tentang-photos-line"></div>
-      <span class="tentang-photos-text">Kisah Bunga Kami</span>
-      <div class="tentang-photos-line rev"></div>
+  <!-- ════ LAYOUT UTAMA: FOTO + SEO TEXT ════ -->
+  <div class="tentang-body">
+
+    <!-- Kolom Kiri: 4 Foto Grid -->
+    <div>
+      <div class="tentang-cards-label" style="margin-bottom: 16px;">
+        <div class="tentang-cards-label-line"></div>
+        <span class="tentang-cards-label-text">Kisah Bunga Kami</span>
+        <div class="tentang-cards-label-line rev"></div>
+      </div>
+
+      <div class="tentang-photo-grid">
+        <div class="tpg-cell tpg-1">
+          <img src="<?= BASE_URL ?>/assets/images/tengah.jpg" alt="Bunga Segar Jakarta Pusat" loading="lazy">
+          <span class="tpg-badge">Bunga Segar</span>
+        </div>
+        <div class="tpg-cell tpg-2">
+          <img src="<?= BASE_URL ?>/assets/images/kiri.jpg" alt="Hand Bouquet Jakarta Pusat" loading="lazy">
+          <span class="tpg-badge">Hand Bouquet</span>
+        </div>
+        <div class="tpg-cell tpg-3">
+          <img src="<?= BASE_URL ?>/assets/images/kanan.jpg" alt="Bunga Papan Jakarta Pusat" loading="lazy">
+          <span class="tpg-badge">Bunga Papan</span>
+        </div>
+        <div class="tpg-cell tpg-4">
+          <img src="<?= BASE_URL ?>/assets/images/panjang.jpg" alt="Standing Flower Jakarta Pusat" loading="lazy">
+          <span class="tpg-badge">Standing Flower</span>
+        </div>
+      </div>
     </div>
 
-    <div class="tentang-photo-grid">
+    <!-- Kolom Kanan: SEO Text Block -->
+    <div class="seo-block">
 
-      <div class="tpg-cell tpg-1">
-        <img src="<?= BASE_URL ?>/assets/images/tengah.jpg" alt="Bunga Segar" loading="lazy">
-        <span class="tpg-badge">Bunga Segar</span>
-      </div>
+      <p>
+        Selamat datang di <strong><?= e(setting('site_name')) ?></strong> — <strong>toko bunga online Indonesia</strong> yang berpusat di Jakarta Pusat dan melayani pelanggan dari seluruh penjuru nusantara. Sebagai <strong>florist online terpercaya</strong> dengan pengalaman lebih dari 10 tahun, kami berkomitmen menghadirkan rangkaian bunga berkualitas tinggi, pengiriman cepat, dan harga yang bersahabat untuk setiap momen spesial Anda. Pelajari lebih lanjut tentang kami di <a href="https://tokobungajakartapusat.com/#tentang">halaman tentang kami</a>.
+      </p>
 
-      <div class="tpg-cell tpg-2">
-        <img src="<?= BASE_URL ?>/assets/images/kiri.jpg" alt="Bunga Indah" loading="lazy">
-        <span class="tpg-badge">Hand Bouquet</span>
-      </div>
+      <p>
+        Kami hadir sebagai solusi terbaik bagi Anda yang mencari <strong>buket bunga online same day delivery seluruh Indonesia</strong>. Setiap momen berharga — ulang tahun, pernikahan, wisuda, perpisahan, hari jadi, maupun ungkapan simpati — layak dirayakan dengan bunga indah yang tiba tepat waktu. Mulai dari mawar merah elegan, buket bunga matahari ceria, hingga rangkaian lily putih yang mewah, semuanya tersedia dan siap dikirim dari Jakarta Pusat ke seluruh Indonesia. Cek selengkapnya di <a href="https://tokobungajakartapusat.com/#layanan">halaman layanan kami</a>.
+      </p>
 
-      <div class="tpg-cell tpg-3">
-        <img src="<?= BASE_URL ?>/assets/images/kanan.jpg" alt="Bunga Harum" loading="lazy">
-        <span class="tpg-badge">Bunga Papan</span>
-      </div>
+      <p>
+        Sebagai <strong>toko bunga terdekat online</strong> yang berbasis di jantung ibu kota, kami memahami kebutuhan pelanggan di wilayah Jakarta Pusat dan sekitarnya dengan sangat baik. Namun lebih dari itu, kami juga beroperasi sebagai <strong>florist nasional kirim ke rumah, kantor, dan hotel</strong> yang melayani pengiriman ke seluruh kota besar di Indonesia — Jakarta, Surabaya, Bandung, Bali, Medan, Makassar, Yogyakarta, dan masih banyak lagi. Cukup pesan dari smartphone Anda, dan kami yang urus selebihnya. Pastikan area Anda sudah terjangkau dengan melihat <a href="https://tokobungajakartapusat.com/#area">area pengiriman kami</a>.
+      </p>
 
-      <div class="tpg-cell tpg-4">
-        <img src="<?= BASE_URL ?>/assets/images/panjang.jpg" alt="Flower" loading="lazy">
-        <span class="tpg-badge">Standing Flower</span>
-      </div>
+      <p>
+        Bagi Anda yang membutuhkan bunga segera, layanan <strong>kirim bunga online seluruh Indonesia</strong> kami hadir dengan sistem pemrosesan pesanan yang cepat dan responsif. Begitu pesanan masuk dan pembayaran dikonfirmasi, tim florist kami langsung bekerja menyiapkan rangkaian bunga terbaik. Dengan estimasi waktu pengiriman yang transparan dan layanan fast response, kami bangga menjadi pilihan <strong>toko bunga online Indonesia kirim cepat seluruh kota</strong> yang dapat diandalkan kapan pun Anda membutuhkannya.
+      </p>
+
+      <p>
+        Kami mengoperasikan <strong>toko bunga 24 jam online</strong> yang siap menerima pesanan kapan saja — pagi, siang, sore, malam, bahkan dini hari sekalipun. Tim customer service kami selalu siap membantu Anda menemukan pilihan bunga yang paling tepat, termasuk di hari libur nasional dan akhir pekan. Dengan sistem pemesanan yang mudah melalui website kami, Anda bisa memesan dalam hitungan menit tanpa perlu keluar rumah.
+      </p>
+
+      <p>
+        Berbeda dengan banyak toko konvensional yang terbatas area, kami hadir sebagai <strong>florist Indonesia murah dan premium</strong> yang tidak mengorbankan kualitas demi harga. Setiap bunga yang masuk ke workshop kami telah melalui seleksi ketat oleh tim florist berpengalaman. Kami bekerja sama dengan supplier bunga segar terpercaya yang menjamin kesegaran dan daya tahan bunga, sehingga buket yang diterima oleh orang tersayang Anda selalu tampil prima dan mekar sempurna. Baca langsung <a href="https://tokobungajakartapusat.com/#testimoni">testimoni pelanggan setia kami</a>.
+      </p>
 
     </div>
   </div>
+  <!-- ════ END LAYOUT UTAMA ════ -->
+
+  <!-- ════ SEO TEXT LANJUTAN (full width) ════ -->
+  <div class="seo-block" style="margin-bottom: 56px; padding-top: 8px; border-top: 1px solid var(--border);">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 32px;">
+      <div>
+        <p>
+          Keunggulan kami sebagai <strong>buket bunga online terbaik kualitas premium</strong> bukan hanya pada tampilan yang memukau, tetapi juga pada perhatian kami terhadap setiap detail — mulai dari pemilihan bunga, teknik merangkai, pemilihan wrapping, hingga pengemasan akhir yang aman untuk pengiriman. Setiap buket dikerjakan dengan penuh profesionalisme oleh tim florist kami yang berpengalaman.
+        </p>
+
+        <p>
+          Sebagai <strong>toko bunga online harga terjangkau kirim cepat</strong>, kami menyediakan berbagai pilihan harga mulai dari ekonomis hingga premium. Harga mulai Rp 300.000 sudah bisa Anda dapatkan rangkaian bunga segar berkualitas tinggi yang dikerjakan langsung oleh florist profesional kami. Tidak ada minimal order untuk pengiriman dalam kota, dan kami selalu memberikan nilai terbaik untuk setiap rupiah yang Anda keluarkan. Masih ada pertanyaan? Kunjungi <a href="https://tokobungajakartapusat.com/#faq">halaman FAQ kami</a> untuk jawaban lengkap seputar pemesanan dan pembayaran.
+        </p>
+
+        <p>
+          Kami percaya bahwa bunga adalah bahasa universal yang mampu mewakili berbagai emosi — ucapan selamat, permintaan maaf, rasa rindu, dukungan, hingga ungkapan cinta yang tulus. Karena itu, setiap pesanan yang masuk selalu kami tangani secara istimewa. Tim kami akan memastikan jenis bunga, komposisi warna, kartu ucapan custom, hingga detail pengemasan disiapkan dengan teliti agar pesan yang ingin Anda sampaikan dapat diterima dengan sempurna oleh penerima.
+        </p>
+
+        <p>
+          Kami juga melayani kebutuhan korporat — dekorasi meja resepsionis, pengiriman bunga ucapan selamat untuk mitra bisnis, hingga rangkaian untuk acara internal perusahaan. Grand opening, seminar, pelantikan, anniversary perusahaan — semua kebutuhan bunga korporat Anda bisa kami tangani dengan standar terbaik dan harga spesial untuk pemesanan dalam jumlah besar.
+        </p>
+
+        <p>
+          Kami juga terus mengikuti tren desain rangkaian bunga modern agar pilihan yang tersedia selalu relevan dengan selera pelanggan masa kini. Mulai dari buket bergaya Korean style yang kekinian, wrapping premium minimalis yang elegan, bunga papan yang megah, standing flower mewah, hingga hampers bunga kombinasi hadiah spesial — semuanya dapat Anda pesan dengan mudah. Dapatkan inspirasi terbaru dari <a href="https://tokobungajakartapusat.com/blog/">blog bunga kami</a> yang selalu diperbarui.
+        </p>
+      </div>
+
+      <div>
+        <p>
+          Bagi pelanggan yang baru pertama kali memesan secara online, proses pemesanan di website kami dibuat sesederhana mungkin. Anda cukup memilih kategori produk, menentukan desain favorit, mengisi alamat tujuan, lalu menyelesaikan pembayaran. Setelah itu, tim kami memproses pesanan dan memberikan update status secara berkala. Dengan berbagai metode pembayaran yang tersedia, kami memastikan pengalaman berbelanja bunga online Anda senyaman dan semudah mungkin.
+        </p>
+
+        <p>
+          Selain tampilan yang cantik, daya tahan bunga juga menjadi prioritas utama kami. Oleh sebab itu, kami memberikan penanganan khusus mulai dari proses penyimpanan, perakitan, hingga pengiriman menggunakan teknik florist profesional yang menjaga bunga tetap segar lebih lama. Kepuasan pelanggan selalu menjadi alasan utama kami untuk terus berkembang — dan itulah mengapa banyak pelanggan kembali memesan berulang kali serta merekomendasikan layanan kami kepada keluarga dan rekan kerja mereka.
+        </p>
+
+        <p>
+          Kami memahami bahwa setiap pelanggan memiliki kebutuhan yang berbeda-beda. Ada yang membutuhkan buket sederhana namun elegan, ada pula yang mencari rangkaian mewah untuk acara penting. Karena itu, kami menyediakan layanan konsultasi personal agar setiap pesanan benar-benar sesuai dengan tujuan, karakter penerima, serta anggaran yang Anda siapkan. Dengan bantuan tim florist berpengalaman, Anda tidak perlu bingung menentukan pilihan terbaik.
+        </p>
+
+        <p>
+          Tidak hanya fokus pada keindahan rangkaian, kami juga memperhatikan keamanan selama proses pengiriman. Setiap bunga dikemas dengan rapi menggunakan material pelindung yang sesuai agar tetap aman saat perjalanan. Untuk area Jakarta Pusat maupun pengiriman ke kota lain di Indonesia, kami berusaha memastikan bunga tiba dalam kondisi segar, utuh, dan siap memberikan kesan terbaik kepada penerima.
+        </p>
+
+        <p>
+          Seiring berkembangnya kebutuhan pelanggan, kami terus meningkatkan kualitas layanan mulai dari kecepatan respon, variasi produk, metode pembayaran, hingga sistem pemesanan yang lebih praktis. Kami ingin setiap orang dapat merasakan mudahnya memesan bunga secara online tanpa rasa khawatir. Ketika Anda membutuhkan hadiah yang berkesan, kejutan romantis, atau ungkapan perhatian yang tulus, florist kami di Jakarta Pusat siap membantu mewujudkannya dengan pelayanan terbaik.
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <!-- ════ END SEO TEXT LANJUTAN ════ -->
 
   <!-- ════ 5 KEUNGGULAN CARDS ════ -->
   <div class="tentang-cards-label">
@@ -584,7 +659,7 @@
     ],
     [
       'num'  => '04',
-      'icon_svg' => 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z',
+      'icon_svg' => 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z',
       'icon_img' => BASE_URL . '/assets/svg/torii.svg',
       'title'=> 'Layanan 24 Jam / 7 Hari',
       'desc' => 'Melayani pesanan kapan saja — malam hari dan hari libur pun siap.',
@@ -602,10 +677,8 @@
   <div class="tentang-cards">
     <?php foreach ($kk_items as $item): ?>
     <div class="tcard">
-
       <div class="tcard-icon">
         <?php
-        /* Gunakan img jika file SVG tersedia, fallback ke inline SVG */
         $img_path = str_replace(BASE_URL, $_SERVER['DOCUMENT_ROOT'], $item['icon_img']);
         if (file_exists($img_path)):
         ?>
@@ -616,12 +689,10 @@
           </svg>
         <?php endif; ?>
       </div>
-
       <div class="tcard-num"><?= $item['num'] ?></div>
       <div class="tcard-rule"></div>
       <div class="tcard-title"><?= $item['title'] ?></div>
       <p class="tcard-desc"><?= $item['desc'] ?></p>
-
     </div>
     <?php endforeach; ?>
   </div>
