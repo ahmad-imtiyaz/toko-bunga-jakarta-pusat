@@ -129,6 +129,125 @@ require __DIR__ . '/../includes/header.php';
   animation: ctgPetalDrift linear infinite;
 }
 
+/* ─── PROSE CONTENT (dari database) ─── */
+.ctg-prose h1,
+.ctg-prose h2,
+.ctg-prose h3,
+.ctg-prose h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  color: var(--ink, #2A1F14);
+  line-height: 1.3;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+.ctg-prose h1 { font-size: 28px; }
+.ctg-prose h2 { font-size: 23px; }
+.ctg-prose h3 { font-size: 19px; }
+.ctg-prose h4 { font-size: 16px; }
+
+.ctg-prose p {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--ink-l, #5C4A35);
+  margin-bottom: 16px;
+}
+
+.ctg-prose ul,
+.ctg-prose ol {
+  margin: 0 0 18px 20px;
+  padding: 0;
+}
+.ctg-prose ul { list-style: none; }
+.ctg-prose ol { list-style: decimal; }
+
+.ctg-prose ul li {
+  position: relative;
+  padding-left: 18px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--ink-l, #5C4A35);
+  line-height: 1.85;
+  margin-bottom: 6px;
+}
+.ctg-prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rose, #C07B60);
+}
+
+.ctg-prose ol li {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  color: var(--ink-l, #5C4A35);
+  line-height: 1.85;
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+
+.ctg-prose strong,
+.ctg-prose b {
+  color: var(--rose, #C07B60);
+  font-weight: 600;
+}
+
+.ctg-prose em,
+.ctg-prose i {
+  font-style: italic;
+  color: var(--muted, #8A7560);
+}
+
+.ctg-prose a {
+  color: var(--rose, #C07B60);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .2s;
+}
+.ctg-prose a:hover { color: var(--ink, #2A1F14); }
+
+.ctg-prose blockquote {
+  border-left: 3px solid var(--rose, #C07B60);
+  margin: 20px 0;
+  padding: 12px 18px;
+  background: var(--manila, #F2E8D5);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--ink-l, #5C4A35);
+}
+
+.ctg-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13.5px;
+}
+.ctg-prose table th {
+  background: var(--ink, #2A1F14);
+  color: var(--paper, #FBF6EE);
+  padding: 9px 13px;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.ctg-prose table td {
+  padding: 8px 13px;
+  border-bottom: 1px solid var(--manila-dd, #D6C4A0);
+  color: var(--ink-l, #5C4A35);
+}
+.ctg-prose table tr:nth-child(even) td {
+  background: var(--manila, #F2E8D5);
+}
+
 /* ─── HERO CONTENT ─── */
 .ctg-hero-inner {
   position: relative; z-index: 5;
