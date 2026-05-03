@@ -419,6 +419,49 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
   letter-spacing: .08em;
 }
 
+/* ─── MARKETPLACE LINKS ─── */
+.hfooter-markets-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(223,169,140,.35);
+  margin-bottom: 10px; margin-top: 20px;
+}
+.hfooter-markets {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hfooter-market-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  background: rgba(223,169,140,.05);
+  border: 1px solid rgba(223,169,140,.13);
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgba(251,246,238,.45);
+  font-family: 'Jost', sans-serif;
+  font-size: 11.5px; font-weight: 500;
+  letter-spacing: .03em;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
+  white-space: nowrap;
+}
+.hfooter-market-btn:hover {
+  background: rgba(223,169,140,.12);
+  border-color: rgba(223,169,140,.32);
+  color: var(--paper, #FBF6EE);
+  transform: translateY(-2px);
+}
+.hfooter-market-btn img {
+  width: 16px; height: 16px;
+  object-fit: contain;
+  opacity: .7;
+  transition: opacity .2s;
+  flex-shrink: 0;
+}
+.hfooter-market-btn:hover img { opacity: 1; }
 @media (max-width: 1023px) {
   .hfooter-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
   .hfooter-inner { padding: 56px 28px 0; }
@@ -461,6 +504,29 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
         </a>
 
         <p class="hfooter-desc"><?= e(setting('footer_text')) ?></p>
+
+           <!-- ── Marketplace ── -->
+        <p class="hfooter-markets-label">Temukan Kami di</p>
+        <div class="hfooter-markets">
+          <a href="https://id.shp.ee/R1iEKrTg"
+             target="_blank" rel="noopener"
+             class="hfooter-market-btn" aria-label="Shopee">
+            <img src="<?= BASE_URL ?>/assets/svg/shopee.svg" alt="Shopee" width="16" height="16">
+            Shopee
+          </a>
+          <a href="https://vt.tiktok.com/ZS9992dcj/?page=Mall"
+             target="_blank" rel="noopener"
+             class="hfooter-market-btn" aria-label="TikTok Shop">
+            <img src="<?= BASE_URL ?>/assets/svg/tiktok.svg" alt="TikTok Shop" width="16" height="16">
+            TikTok Shop
+          </a>
+          <a href="https://tk.tokopedia.com/ZS999mNA8/"
+             target="_blank" rel="noopener"
+             class="hfooter-market-btn" aria-label="Tokopedia">
+            <img src="<?= BASE_URL ?>/assets/svg/tokopedia.svg" alt="Tokopedia" width="16" height="16">
+            Tokopedia
+          </a>
+        </div>
 
         <div class="hfooter-quote">
           Setiap bunga membawa cerita<br>yang tak terucap oleh kata
