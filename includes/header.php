@@ -66,7 +66,7 @@ if (!empty($nav_parents)) {
 <meta name="description" content="<?= e($meta_desc) ?>">
 <meta name="keywords"    content="<?= e($meta_keywords) ?>">
 <meta name="robots"      content="index, follow">
-<link rel="icon"         href="<?= BASE_URL ?>/assets/images/icon.png">
+<link rel="icon" href="<?= setting('logo') ? UPLOAD_URL . e(setting('logo')) : BASE_URL . '/assets/images/icon.png' ?>">
 <link rel="canonical"    href="<?= e(BASE_URL . '/' . trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/')) ?>">
 <meta property="og:title"       content="<?= e($meta_title) ?>">
 <meta property="og:description" content="<?= e($meta_desc) ?>">
@@ -607,7 +607,8 @@ section[id] { scroll-margin-top: 80px; }
       <!-- BRAND -->
       <a href="<?= BASE_URL ?>/" class="nav-brand">
         <div class="nav-logo-ring">
-          <img src="<?= BASE_URL ?>/assets/images/icon.png" alt="Logo <?= e($site_name) ?>">
+          <?php $logo = setting('logo'); ?>
+<img src="<?= $logo ? imgUrl($logo) : BASE_URL . '/assets/images/icon.png' ?>" alt="Logo <?= e($site_name) ?>">
         </div>
         <div>
           <div class="nav-brand-name"><?= e($site_name) ?></div>

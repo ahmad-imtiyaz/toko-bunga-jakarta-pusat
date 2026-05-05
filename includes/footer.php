@@ -493,9 +493,8 @@ $locs    = db()->query("SELECT name, slug FROM locations WHERE status='active' O
       <div>
         <a href="<?= BASE_URL ?>/" class="hfooter-brand">
           <div class="hfooter-brand-logo">
-            <img src="<?= BASE_URL ?>/assets/images/icon.png"
-                 alt="Logo <?= e(setting('site_name')) ?>"
-                 width="48" height="48">
+          <?php $logo = setting('logo'); ?>
+<img src="<?= $logo ? imgUrl($logo) : BASE_URL . '/assets/images/icon.png' ?>" alt="Logo <?= e(setting('site_name')) ?>" width="48" height="48">
           </div>
           <div class="hfooter-brand-name">
             <?= e(setting('site_name')) ?>
