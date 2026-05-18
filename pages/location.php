@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 
-$meta_title    = $location['meta_title']       ?: 'Toko Bunga ' . $location['name'] . ' - Florist Jakarta Pusat Terpercaya';
+$meta_title    = $location['meta_title']       ?: '' . $location['name'] . ' - Florist Jakarta Pusat Terpercaya';
 $meta_desc     = $location['meta_description'] ?: '';
-$meta_keywords = 'toko bunga ' . strtolower($location['name']) . ', florist ' . strtolower($location['name']) . ', bunga Jakarta Pusat';
+$meta_keywords = '' . strtolower($location['name']) . ', florist ' . strtolower($location['name']) . ', bunga Jakarta Pusat';
 
 $all_cats_raw = db()->query("SELECT * FROM categories WHERE status='active' ORDER BY urutan ASC, id ASC")->fetchAll();
 $all_cats = []; $all_cats_subs = [];
@@ -1071,14 +1071,22 @@ for ($i = 0; $i < 8; $i++):
       <div style="max-width:560px;">
 
         <div class="area-badge area-rv1">
-          <div class="area-badge-dot"></div>
-          <span class="area-badge-text">Toko Bunga · <?= e($location['name']) ?></span>
-        </div>
+  <div class="area-badge-dot"></div>
+  <span class="area-badge-text">Florist · <?= e($location['name']) ?></span>
+</div>
 
         <h1 class="area-h1 area-rv2">
-          Toko Bunga<br><?= e($location['name']) ?>
-        </h1>
-        <p class="area-tagline area-rv2">Florist Terpercaya, Pengiriman Cepat</p>
+<?php
+  $words = explode(' ', $location['name']);
+  $total = count($words);
+  $half  = (int) ceil($total / 2);
+  $first = implode(' ', array_slice($words, 0, $half));
+  $second = implode(' ', array_slice($words, $half));
+?>
+  <span style="color:var(--ink,#2A1F14);"><?= e($first) ?></span><?php if($second): ?>
+  <br><span style="color:var(--rose,#C07B60); font-style:italic; font-weight:300;"><?= e($second) ?></span><?php endif; ?>
+</h1>
+       <p class="area-tagline area-rv2">Florist Terpercaya, Pengiriman Cepat</p>
 
         <p class="area-desc area-rv3">
           <?= !empty($location['meta_description'])
@@ -1372,14 +1380,14 @@ for ($i = 0; $i < 8; $i++):
         <div class="area-section-eyebrow" style="margin-bottom:14px;">Tentang Toko</div>
         <div class="area-about-box">
           <h2 class="area-about-title">
-            Toko Bunga <?= e($location['name']) ?>
+            <?= e($location['name']) ?>
             <em> — Terpercaya &amp; Berpengalaman</em>
           </h2>
           <?php if (!empty($location['content'])): ?>
           <div class="area-about-prose area-content"><?= $location['content'] ?></div>
           <?php endif; ?>
           <p class="area-about-prose">
-            Sebagai <strong>toko bunga <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari untuk pengiriman ke <?= e($location['name']) ?> dan seluruh Jakarta Pusat.
+            Sebagai <strong> <?= e(strtolower($location['name'])) ?></strong> yang telah melayani lebih dari 10 tahun, kami memahami setiap momen memerlukan rangkaian bunga yang tepat. Tim florist profesional siap membantu 24 jam setiap hari untuk pengiriman ke <?= e($location['name']) ?> dan seluruh Jakarta Pusat.
           </p>
           <a href="<?= e($wa_url) ?>?text=<?= urlencode('Halo, saya ingin memesan bunga di '.$location['name'].'.') ?>"
              target="_blank" rel="noopener" class="area-btn-main" style="display:inline-flex;margin-top:4px;">
